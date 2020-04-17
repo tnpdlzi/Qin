@@ -46,4 +46,4 @@ export default CMP_category;
 // 귭 팍
 =======
 // 류대현입니다
->>>>>>> 0c5094f5d92a066f05cf18df7cc7d3b44efffbbe
+// 이지훈입니다.
