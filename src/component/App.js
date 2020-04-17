@@ -9,25 +9,25 @@ import {ScrollView, View, StyleSheet} from 'react-native';
 export class CMP_category extends Component {
   render() {
     return (
-        <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={true}
-            onMomentumScrollEnd={() => {
-              console.log('Scrolling is End');
-            }}>
-          <View style={styles.item}>
-            <ITEM_LOL />
-          </View>
-          <View style={styles.item}>
-            <ITEM_OW />
-          </View>
-          <View style={styles.item}>
-            <ITEM_BG />
-          </View>
-          <View style={styles.item}>
-            <ITEM_R6 />
-          </View>
-        </ScrollView>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={true}
+        onMomentumScrollEnd={() => {
+          console.log('Scrolling is End');
+        }}>
+        <View style={styles.item}>
+          <ITEM_LOL />
+        </View>
+        <View style={styles.item}>
+          <ITEM_OW />
+        </View>
+        <View style={styles.item}>
+          <ITEM_BG />
+        </View>
+        <View style={styles.item}>
+          <ITEM_R6 />
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -40,3 +40,5 @@ const styles = StyleSheet.create({
 });
 
 export default CMP_category;
+
+// 이동건입니다
