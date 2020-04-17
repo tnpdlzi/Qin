@@ -42,3 +42,4 @@ const styles = StyleSheet.create({
 export default CMP_category;
 
 // 이동건입니다
+// 귭 팍
