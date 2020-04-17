@@ -42,8 +42,6 @@ const styles = StyleSheet.create({
 export default CMP_category;
 
 // 이동건입니다
-<<<<<<< HEAD
 // 귭 팍
-=======
 // 류대현입니다
 // 이지훈입니다.
