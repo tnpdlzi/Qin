@@ -35,7 +35,7 @@ export class ITEM_tier extends Component {
             }}>
             <Image
               style={{height: 80, width: 80, resizeMode: 'cover'}}
-              source={require('../image/img_go.png')}
+              source={require('../../../image/img_go.png')}
             />
           </View>
         </TouchableOpacity>

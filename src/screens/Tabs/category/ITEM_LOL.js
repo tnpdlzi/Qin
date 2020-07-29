@@ -2,27 +2,22 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 
 type props = {};
-export class ITEM_BG extends Component<Props> {
+export class ITEM_LOL extends Component<Props> {
   constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <TouchableOpacity style={styles.gamecard}>
+      <TouchableOpacity style={styles.gamecard} onPress={() => navigation.navigate('Detail')}>
         <View style={styles.triangleCorner} />
         <View style={styles.triangleCorner1} />
-        <Text style={styles.title}>BATTLE</Text>
-        <Text style={styles.title1}>GROUNDS</Text>
+        <Text style={styles.title}>LEAGUE OF</Text>
+        <Text style={styles.title1}>LEGENDS</Text>
         <View style={styles.gameImage}>
           <Image
-            style={{
-              height: '100%',
-              width: '100%',
-              resizeMode: 'contain',
-              borderBottomRightRadius: 20,
-            }}
-            source={require('../image/img_BG.png')}
+            style={{height: '100%', width: '100%', resizeMode: 'contain'}}
+            source={require('../../../image/img_LOL.png')}
           />
         </View>
       </TouchableOpacity>
@@ -35,7 +30,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 300,
     height: 50,
-    backgroundColor: 'blue',
+    backgroundColor: 'green',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
@@ -49,13 +44,12 @@ const styles = StyleSheet.create({
     borderRightWidth: 300,
     borderTopWidth: 300,
     borderRightColor: 'white',
-    borderTopColor: 'blue',
+    borderTopColor: 'green',
   },
   gameImage: {
     width: 300,
     justifyContent: 'center',
-    paddingBottom: 24,
-    borderBottomRightRadius: 20,
+    paddingBottom: 126,
   },
   gamecard: {
     width: 300,

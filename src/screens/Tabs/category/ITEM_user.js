@@ -8,7 +8,7 @@ export class ITEM_user extends Component {
       <View style={styles.item}>
         <Image
           style={{height: 50, width: 50, resizeMode: 'contain'}}
-          source={require('../image/img_user.png')}
+          source={require('../../../image/img_user.png')}
         />
         <Text style={{padding: 20}}>등록이 필요합니다.</Text>
       </View>
