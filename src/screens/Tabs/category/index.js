@@ -1,8 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import CategoryHome from './home'
-import CategoryDetail from './detail'
-import Styles from '../../../styles';
+import tiersLOL from './tiersLOL'
 import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 
 
@@ -29,9 +28,9 @@ export default function CategoryScreen({ navigation }) {
                 }}
             />
             <Stack.Screen
-                name="Detail"
-                component={CategoryDetail}
-                options={{ title: 'category Detail' }}
+                name="tiersLOL"
+                component={tiersLOL}
+                options={{ title: 'tiersLOL' }}
             />
         </Stack.Navigator>
     );

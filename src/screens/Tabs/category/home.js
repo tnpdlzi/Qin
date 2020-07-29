@@ -11,7 +11,7 @@ function CategoryHome({ navigation }) {
                 console.log('Scrolling is End');
             }}>
             <View style={styles.item}>
-                <TouchableOpacity style={styles.gamecard} onPress={() => navigation.navigate('Detail')}>
+                <TouchableOpacity style={styles.gamecard} onPress={() => navigation.navigate('tiersLOL')}>
                     <View style={styles.LtriangleCorner} />
                     <View style={styles.LtriangleCorner1} />
                     <Text style={styles.title}>LEAGUE OF</Text>
