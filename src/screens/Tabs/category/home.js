@@ -25,7 +25,7 @@ function CategoryHome({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.item}>
-                <TouchableOpacity style={styles.gamecard}>
+                <TouchableOpacity style={styles.gamecard} onPress={() => navigation.navigate('tiersOW')}>
                     <View style={styles.OtriangleCorner} />
                     <View style={styles.OtriangleCorner1} />
                     <Text style={styles.title}>OVER</Text>
@@ -39,7 +39,7 @@ function CategoryHome({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.item}>
-                <TouchableOpacity style={styles.gamecard}>
+                <TouchableOpacity style={styles.gamecard} onPress={() => navigation.navigate('tiersBG')}>
                     <View style={styles.BtriangleCorner} />
                     <View style={styles.BtriangleCorner1} />
                     <Text style={styles.title}>BATTLE</Text>
@@ -58,7 +58,7 @@ function CategoryHome({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.item}>
-                <TouchableOpacity style={styles.gamecard}>
+                <TouchableOpacity style={styles.gamecard} onPress={() => navigation.navigate('tiersRS')}>
                     <View style={styles.RtriangleCorner} />
                     <View style={styles.RtriangleCorner1} />
                     <Text style={styles.title}>RAINBOW</Text>
