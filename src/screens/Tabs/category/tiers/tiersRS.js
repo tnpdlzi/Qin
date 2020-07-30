@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 
 const datas = [
-    {id: 'UNRANKED'},
-    {id: 'IRON'},
+    {id: 'COPPER'},
     {id: 'BRONZE'},
     {id: 'SILEVER'},
     {id: 'GOLD'},
     {id: 'PLATINUM'},
     {id: 'DIAMOND'},
-    {id: 'MASTER'},
+    {id: 'CHAMPIONS'},
 ];
-class tiersLOL extends Component {
+class tiersRS extends Component {
 
     constructor(props) {
         super(props);
@@ -31,7 +30,7 @@ class tiersLOL extends Component {
                     <View style={styles.item}>
                         <Image
                             style={{height: 50, width: 50, resizeMode: 'contain'}}
-                            source={require('../../../image/img_user.png')}
+                            source={require('../../../../image/img_user.png')}
                         />
                         <Text style={{padding: 20}}>등록이 필요합니다.</Text>
                     </View>
@@ -44,7 +43,7 @@ class tiersLOL extends Component {
                             width: '100%',
                             resizeMode: 'cover',
                         }}
-                        source={require('../../../image/img_lol_bg.png')}
+                        source={require('../../../../image/img_rs_bg.png')}
                     />
                 </View>
                 <ScrollView style={styles.sView}>
@@ -80,7 +79,7 @@ class tiersLOL extends Component {
                                             }}>
                                             <Image
                                                 style={{height: 80, width: 80, resizeMode: 'cover'}}
-                                                source={require('../../../image/img_go.png')}
+                                                source={require('../../../../image/img_go.png')}
                                             />
                                         </View>
                                     </TouchableOpacity>
@@ -140,4 +139,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default tiersLOL;
+export default tiersRS;

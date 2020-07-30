@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 
 const datas = [
-    {id: 'BEGINNER'},
-    {id: 'NOVICE'},
-    {id: 'EXPERIENCED'},
-    {id: 'SKILLED'},
-    {id: 'SPECIALIST'},
-    {id: 'EXPERT'},
-    {id: 'SURVIVOR'},
+    {id: 'UNRANKED'},
+    {id: 'IRON'},
+    {id: 'BRONZE'},
+    {id: 'SILEVER'},
+    {id: 'GOLD'},
+    {id: 'PLATINUM'},
+    {id: 'DIAMOND'},
+    {id: 'MASTER'},
 ];
-class tiersBG extends Component {
+class roomsLOL extends Component {
 
     constructor(props) {
         super(props);
@@ -30,7 +31,7 @@ class tiersBG extends Component {
                     <View style={styles.item}>
                         <Image
                             style={{height: 50, width: 50, resizeMode: 'contain'}}
-                            source={require('../../../image/img_user.png')}
+                            source={require('../../../../image/img_user.png')}
                         />
                         <Text style={{padding: 20}}>등록이 필요합니다.</Text>
                     </View>
@@ -43,47 +44,47 @@ class tiersBG extends Component {
                             width: '100%',
                             resizeMode: 'cover',
                         }}
-                        source={require('../../../image/img_bg_bg.png')}
+                        source={require('../../../../image/img_lol_bg.png')}
                     />
                 </View>
                 <ScrollView style={styles.sView}>
                     {this.state.datas.map((data, index) => {
                         return (
-                                <View style={styles.sItem} >
-                                    <TouchableOpacity
+                            <View style={styles.sItem} >
+                                <TouchableOpacity
+                                    style={{
+                                        paddingStart: 8,
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        width: '100%',
+                                    }}
+                                    onPress={this.props.link}>
+                                    <View
                                         style={{
-                                            paddingStart: 8,
                                             flexDirection: 'row',
-                                            justifyContent: 'space-between',
-                                            width: '100%',
-                                        }}
-                                        onPress={this.props.link}>
-                                        <View
-                                            style={{
-                                                flexDirection: 'row',
-                                                alignItems: 'center',
-                                                justifyContent: 'flex-start',
-                                            }}>
-                                            <Text style={{paddingEnd: 20, fontSize: 40, fontWeight: 'bold'}}>
-                                                ·
-                                            </Text>
-                                            <Text style={{fontSize: 30, fontWeight: 'bold'}}>
-                                                {data.id}
-                                            </Text>
-                                        </View>
-                                        <View
-                                            style={{
-                                                flexDirection: 'row',
-                                                justifyContent: 'flex-end',
-                                                flex: 1,
-                                            }}>
-                                            <Image
-                                                style={{height: 80, width: 80, resizeMode: 'cover'}}
-                                                source={require('../../../image/img_go.png')}
-                                            />
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
+                                            alignItems: 'center',
+                                            justifyContent: 'flex-start',
+                                        }}>
+                                        <Text style={{paddingEnd: 20, fontSize: 40, fontWeight: 'bold'}}>
+                                            ·
+                                        </Text>
+                                        <Text style={{fontSize: 30, fontWeight: 'bold'}}>
+                                            {data.id}
+                                        </Text>
+                                    </View>
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'flex-end',
+                                            flex: 1,
+                                        }}>
+                                        <Image
+                                            style={{height: 80, width: 80, resizeMode: 'cover'}}
+                                            source={require('../../../../image/img_go.png')}
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
                         );
                     })}
                 </ScrollView>
@@ -139,4 +140,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default tiersBG;
+export default roomsLOL;

@@ -2,35 +2,25 @@ import React, { Component } from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 
 const datas = [
-    {id: 'COPPER'},
+    {id: 'UNRANKED'},
+    {id: 'IRON'},
     {id: 'BRONZE'},
     {id: 'SILEVER'},
     {id: 'GOLD'},
     {id: 'PLATINUM'},
     {id: 'DIAMOND'},
-    {id: 'CHAMPIONS'},
+    {id: 'MASTER'},
 ];
-class tiersRS extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {datas: datas};
-    }
+function tiersLOL({ navigation }) {
 
-    link(idx) {
-        const newDatas = [...this.state.datas];
-
-        this.setState({datas: newDatas});
-    }
-
-    render() {
         return (
             <View style={styles.container}>
                 <View style={styles.gameImage}>
                     <View style={styles.item}>
                         <Image
                             style={{height: 50, width: 50, resizeMode: 'contain'}}
-                            source={require('../../../image/img_user.png')}
+                            source={require('../../../../image/img_user.png')}
                         />
                         <Text style={{padding: 20}}>등록이 필요합니다.</Text>
                     </View>
@@ -43,11 +33,11 @@ class tiersRS extends Component {
                             width: '100%',
                             resizeMode: 'cover',
                         }}
-                        source={require('../../../image/img_rs_bg.png')}
+                        source={require('../../../../image/img_lol_bg.png')}
                     />
                 </View>
                 <ScrollView style={styles.sView}>
-                    {this.state.datas.map((data, index) => {
+                    {datas.map((data, index) => {
                         return (
                                 <View style={styles.sItem} >
                                     <TouchableOpacity
@@ -57,7 +47,7 @@ class tiersRS extends Component {
                                             justifyContent: 'space-between',
                                             width: '100%',
                                         }}
-                                        onPress={this.props.link}>
+                                        onPress={() => navigation.navigate('roomsLOL')}>
                                         <View
                                             style={{
                                                 flexDirection: 'row',
@@ -79,7 +69,7 @@ class tiersRS extends Component {
                                             }}>
                                             <Image
                                                 style={{height: 80, width: 80, resizeMode: 'cover'}}
-                                                source={require('../../../image/img_go.png')}
+                                                source={require('../../../../image/img_go.png')}
                                             />
                                         </View>
                                     </TouchableOpacity>
@@ -89,7 +79,6 @@ class tiersRS extends Component {
                 </ScrollView>
             </View>
         );
-    }
 }
 
 const styles = StyleSheet.create({
@@ -139,4 +128,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default tiersRS;
+export default tiersLOL;

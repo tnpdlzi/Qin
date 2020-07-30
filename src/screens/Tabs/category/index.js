@@ -1,11 +1,13 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import CategoryHome from './home';
-import tiersLOL from './tiersLOL';
-import tiersOW from './tiersOW';
-import tiersBG from './tiersBG';
-import tiersRS from "./tiersRS";
 import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+
+import CategoryHome from './home';
+import tiersLOL from './tiers/tiersLOL';
+import tiersOW from './tiers/tiersOW';
+import tiersBG from './tiers/tiersBG';
+import tiersRS from "./tiers/tiersRS";
+import roomsLOL from "./rooms/roomsLOL";
 
 const Stack = createStackNavigator();
 
@@ -48,6 +50,11 @@ export default function CategoryScreen({ navigation }) {
                 name="tiersRS"
                 component={tiersRS}
                 options={{ title: 'tiersRS' }}
+            />
+            <Stack.Screen
+                name="roomsLOL"
+                component={roomsLOL}
+                options={{ title: 'roomsLOL' }}
             />
         </Stack.Navigator>
     );

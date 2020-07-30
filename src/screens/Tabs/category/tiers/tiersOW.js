@@ -30,7 +30,7 @@ class tiersOW extends Component {
                     <View style={styles.item}>
                         <Image
                             style={{height: 50, width: 50, resizeMode: 'contain'}}
-                            source={require('../../../image/img_user.png')}
+                            source={require('../../../../image/img_user.png')}
                         />
                         <Text style={{padding: 20}}>등록이 필요합니다.</Text>
                     </View>
@@ -43,7 +43,7 @@ class tiersOW extends Component {
                             width: '100%',
                             resizeMode: 'cover',
                         }}
-                        source={require('../../../image/img_ow_bg.png')}
+                        source={require('../../../../image/img_ow_bg.png')}
                     />
                 </View>
                 <ScrollView style={styles.sView}>
@@ -79,7 +79,7 @@ class tiersOW extends Component {
                                             }}>
                                             <Image
                                                 style={{height: 80, width: 80, resizeMode: 'cover'}}
-                                                source={require('../../../image/img_go.png')}
+                                                source={require('../../../../image/img_go.png')}
                                             />
                                         </View>
                                     </TouchableOpacity>
