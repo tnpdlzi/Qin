@@ -18,6 +18,19 @@ function roomsLOL({ navigation }) {
 
         return (
             <View style={styles.container}>
+                <View style={styles.gameImage}>
+                    <Image
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            height: 100,
+                            width: '100%',
+                            resizeMode: 'cover',
+                        }}
+                        source={require('../../../../image/img_lol_bg.png')}
+                    />
+                </View>
                 <View style={{
                     flexDirection: 'column',
                     backgroundColor: 'white',
@@ -30,6 +43,7 @@ function roomsLOL({ navigation }) {
                             flexDirection: 'row',
                             alignItems: 'center',
                             justifyContent: 'space-between',
+                            paddingTop: 10
                         }}>
                         <View
                             style={{
@@ -50,7 +64,7 @@ function roomsLOL({ navigation }) {
                                 justifyContent: 'flex-end',
                             }}>
                             <Image
-                                style={{height: 80, width: 80, resizeMode: 'cover'}}
+                                style={{height: 50, width: 80, resizeMode: 'cover'}}
                                 source={require('../../../../image/team.png')}
                             />
                         </View>
@@ -92,12 +106,15 @@ function roomsLOL({ navigation }) {
                             style={{
                                 flexDirection: 'row',
                                 justifyContent: 'flex-end',
+                                alignItems: 'center',
                                 flex: 1,
+                                height: 65,
+                                width: 80,
+                                paddingEnd: 40
                             }}>
-                            <Image
-                                style={{height: 80, width: 80, resizeMode: 'cover'}}
-                                source={require('../../../../image/img_go.png')}
-                            />
+                            <Text>
+                                refresh
+                            </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -106,12 +123,12 @@ function roomsLOL({ navigation }) {
                     style={{
                         flexDirection: 'row',
                         alignItems: 'center',
-                        height: 70,
+                        height: 60,
                         width: '100%',
                         backgroundColor: '#F2F2F2'
                     }}>
 
-                    <Text  style={{fontSize: 12, paddingStart: 60, color: '#5E5E5E'}}>
+                    <Text  style={{fontSize: 12, paddingStart: 70, color: '#5E5E5E'}}>
                         게시글은 설정한 시간이 지나면 자동으로 삭제됩니다.
                     </Text>
 
@@ -171,12 +188,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
     },
     gameImage: {
-        height: 200,
+        height: 50,
         width: '100%',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 140,
+        paddingTop: 100,
     },
     sView: {
         flex: 1,
