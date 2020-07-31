@@ -1,57 +1,300 @@
 import React, { Component } from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import teamLOL from "../team/teamLOL";
 
-const datas = [
-    {id: 'UNRANKED'},
-    {id: 'IRON'},
-    {id: 'BRONZE'},
-    {id: 'SILEVER'},
-    {id: 'GOLD'},
-    {id: 'PLATINUM'},
-    {id: 'DIAMOND'},
-    {id: 'MASTER'},
-];
+const room = [
+    {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
+    {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
+]
+
+const rTitle = [
+    {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
+]
 
 function joinedLOL({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <View
+                style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    height: 60,
+                    width: '100%',
+                    backgroundColor: '#F2F2F2'
+                }}>
 
-            <View style={styles.sItem} >
-                <TouchableOpacity
-                    style={{
-                        paddingStart: 8,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
+                <Text  style={{fontSize: 12, paddingStart: 70, color: '#5E5E5E'}}>
+                    게시글은 설정한 시간이 지나면 자동으로 삭제됩니다.
+                </Text>
+
+            </View>
+
+            {rTitle.map((data, index) => {
+                return(
+                    <View style={{
                         width: '100%',
-                    }}
-                    onPress={() => navigation.navigate('roomsLOL')}>
+                        height: 100,
+                        backgroundColor: '#ffffff',
+                        flexDirection: 'row',
+                        justifyContent: 'flex-start',
+                        alignItems: 'center',
+                        paddingTop: 45,
+                        paddingBottom: 10,
+                        paddingHorizontal: 30
+                    }} >
+                        <View
+                            style={{
+                                paddingStart: 8,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                width: '100%',
+                            }}>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'flex-start',
+                                    paddingStart: 5
+                                }}>
+
+                                <Text style={{fontSize: 24}}>
+                                    {data.roomIntro}
+                                </Text>
+
+
+                            </View>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'flex-end',
+                                    flex: 1,
+                                    padding: 20
+                                }}>
+
+                                <Text style={{fontSize: 16}}>
+                                    {data.join} | {data.total} 명
+                                </Text>
+
+                            </View>
+                        </View>
+                    </View>
+                );
+            })}
+
+
+            <ScrollView style={styles.sView}>
+                {room.map((data, index) => {
+                    return (
+                        <View style={{
+                            width: '100%',
+                            height: 60,
+                            backgroundColor: '#ffffff',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            borderBottomWidth: 0.5,
+                            borderBottomColor: 'gray',
+                            justifyContent: 'space-between',
+                        }} >
+                            <View style={{
+                                width: '100%',
+                                height: '100%',
+                                backgroundColor: '#ffffff',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                            }} >
+                                <View
+                                    style={{
+                                        paddingStart: 8,
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        width: '100%',
+                                    }}>
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            alignItems: 'center',
+                                            justifyContent: 'flex-start',
+                                            paddingStart: 5
+                                        }}>
+
+                                        <Text style={{fontSize: 14}}>
+                                            {data.ruID}
+                                        </Text>
+
+
+                                    </View>
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'flex-end',
+                                            flex: 1,
+                                            padding: 20
+                                        }}>
+
+                                        <Text style={{fontSize: 14}}>
+                                            {data.endtime}
+                                        </Text>
+
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    );
+                })}
+                <View style={{width: '100%',
+                    height: 150,
+                    backgroundColor: '#ffffff',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    padding: 0,
+                    }}>
                     <View
                         style={{
                             flexDirection: 'row',
-                            alignItems: 'center',
                             justifyContent: 'flex-start',
+                            alignItems: 'center'
                         }}>
-                        <Text style={{paddingEnd: 20, fontSize: 40, fontWeight: 'bold'}}>
+                        <Text style={{
+                            paddingStart: 10,
+                            paddingEnd: 10,
+                            fontSize: 30,
+                            fontWeight: 'bold',
+                            color: '#ffc81a'
+                        }}>
                             ·
                         </Text>
-                        <Text style={{fontSize: 30, fontWeight: 'bold'}}>
-                            joinedLOL
+                        <Text style={{paddingStart: 10, paddingEnd: 20, fontSize: 14, fontWeight: 'bold'}}>
+                            포지션
                         </Text>
+                        <View
+                            style={{
+                                flexDirection: 'column',
+                            }}>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'flex-start',
+                                    alignItems: 'center',
+                                    width: '75%',
+                                    padding: 8
+                                }}>
+                                <View
+                                    style={{
+                                        paddingHorizontal: 8
+                                    }}>
+
+                                    <TouchableOpacity style={{
+                                        height: 35,
+                                        width: 53,
+                                        flexDirection: 'row',
+                                        borderStyle: 'solid',
+                                        borderRadius: 14,
+                                        borderColor: '#000000',
+                                        borderWidth: 1,
+                                        borderTopWidth: 1,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}>
+                                        <Text style={{fontSize: 14, padding: 5}}>
+                                            탑
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View
+                                    style={{
+                                        paddingHorizontal: 8
+                                    }}>
+                                    <TouchableOpacity style={styles.position}>
+                                        <Text style={{fontSize: 14, padding: 5}}>
+                                            미드
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View
+                                    style={{
+                                        paddingHorizontal: 8
+                                    }}>
+                                    <TouchableOpacity style={styles.position}>
+                                        <Text style={{fontSize: 14, padding: 5}}>
+                                            정글
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'flex-start',
+                                    alignItems: 'center',
+                                    width: '75%',
+                                    padding: 8
+                                }}>
+
+                                <View
+                                    style={{
+                                        paddingHorizontal: 8
+                                    }}>
+                                    <TouchableOpacity style={styles.position}>
+                                        <Text style={{fontSize: 14, padding: 5}}>
+                                            원딜
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View
+                                    style={{
+                                        paddingHorizontal: 8
+                                    }}>
+                                    <TouchableOpacity style={{height: 35,
+                                        width: 73,
+                                        flexDirection: 'row',
+                                        borderStyle: 'solid',
+                                        borderRadius: 14,
+                                        borderColor: '#000000',
+                                        borderWidth: 1,
+                                        borderTopWidth: 1,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',}}>
+                                        <Text style={{fontSize: 14, padding: 5}}>
+                                            서포터
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
                     </View>
-                    <View
+                </View>
+
+                <View
+                    style={{alignItems: 'center', paddingBottom: 30, paddingTop: 20}}>
+                    <TouchableOpacity
                         style={{
+                            height: 50,
+                            width: 180,
                             flexDirection: 'row',
-                            justifyContent: 'flex-end',
-                            flex: 1,
+                            borderStyle: 'solid',
+                            borderRadius: 100,
+                            borderColor: '#00255a',
+                            borderWidth: 1,
+                            borderTopWidth: 1,
+                            backgroundColor: '#00255a',
+                            alignItems: 'center',
+                            justifyContent: 'center'
                         }}>
-                        <Image
-                            style={{height: 80, width: 80, resizeMode: 'cover'}}
-                            source={require('../../../../image/img_go.png')}
-                        />
-                    </View>
-                </TouchableOpacity>
-            </View>
+
+                        <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
+                            참여하기
+                        </Text>
+
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+
         </View>
     );
 }
@@ -101,6 +344,18 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         borderBottomColor: 'gray',
     },
+    position: {
+        height: 35,
+        width: 63,
+        flexDirection: 'row',
+        borderStyle: 'solid',
+        borderRadius: 14,
+        borderColor: '#000000',
+        borderWidth: 1,
+        borderTopWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
 });
 
 export default joinedLOL;
