@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import joinedLOL from "../join/joinedLOL";
+import teamLOL from "../team/teamLOL";
 
 // 서버로부터 받을 id값, 방장 이름, 방 제목, 참여중 인원수, 총원, 모집 종료 시간
 const datas = [
@@ -58,7 +59,8 @@ function roomsLOL({ navigation }) {
                                 내가 쓴 글
                             </Text>
                         </View>
-                        <View
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate(teamLOL)}
                             style={{
                                 flexDirection: 'row',
                                 justifyContent: 'flex-end',
@@ -67,7 +69,7 @@ function roomsLOL({ navigation }) {
                                 style={{height: 50, width: 80, resizeMode: 'cover'}}
                                 source={require('../../../../image/team.png')}
                             />
-                        </View>
+                        </TouchableOpacity>
                     </View>
 
                     <TouchableOpacity

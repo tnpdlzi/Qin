@@ -9,6 +9,7 @@ import tiersBG from './tiers/tiersBG';
 import tiersRS from "./tiers/tiersRS";
 import roomsLOL from "./roomList/roomsLOL";
 import joinedLOL from "./join/joinedLOL";
+import teamLOL from "./team/teamLOL";
 
 const Stack = createStackNavigator();
 
@@ -61,6 +62,11 @@ export default function CategoryScreen({ navigation }) {
                 name="joinedLOL"
                 component={joinedLOL}
                 options={{ title: 'joinedLOL' }}
+            />
+            <Stack.Screen
+                name="teamLOL"
+                component={teamLOL}
+                options={{ title: 'teamLOL' }}
             />
         </Stack.Navigator>
     );
