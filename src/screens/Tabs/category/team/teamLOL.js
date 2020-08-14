@@ -4,7 +4,7 @@ import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, TextInput} 
 export class teamLOL extends Component<Props> {
     constructor(props){
         super(props);
-        this.state={count:1, minutes: 5};
+        this.state={count:1, minutes: 5, top: false, jungle: false, mid: false, bottom: false, support: false};
     }
 
     _plus(){
@@ -177,19 +177,34 @@ export class teamLOL extends Component<Props> {
                                             paddingHorizontal: 8
                                         }}>
 
-                                    <TouchableOpacity style={{
+                                    <TouchableOpacity style={ this.state.top ? {
                                         height: 35,
                                         width: 53,
                                         flexDirection: 'row',
                                         borderStyle: 'solid',
                                         borderRadius: 14,
-                                        borderColor: '#000000',
+                                        borderColor: '#ffffff',
                                         borderWidth: 1,
                                         borderTopWidth: 1,
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                    }}>
-                                        <Text style={{fontSize: 14, padding: 5}}>
+                                        elevation: 10,
+                                        backgroundColor: '#ffffff'
+                                    } : {
+                                        height: 35,
+                                        width: 53,
+                                        flexDirection: 'row',
+                                        borderStyle: 'solid',
+                                        borderRadius: 14,
+                                        borderColor: '#E2E2E2',
+                                        borderWidth: 1,
+                                        borderTopWidth: 1,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}
+                                    onPress={() => this.setState({top: !this.state.top})}
+                                    >
+                                        <Text style={{fontSize: 14, padding: 5, color: this.state.top ? '#000000' : '#E2E2E2'} }>
                                             탑
                                         </Text>
                                     </TouchableOpacity>
@@ -199,8 +214,8 @@ export class teamLOL extends Component<Props> {
                                         style={{
                                             paddingHorizontal: 8
                                         }}>
-                                    <TouchableOpacity style={styles.position}>
-                                        <Text style={{fontSize: 14, padding: 5}}>
+                                    <TouchableOpacity style={ this.state.mid ? styles.positioned : styles.position} onPress={() => this.setState({mid: !this.state.mid})}>
+                                        <Text style={{fontSize: 14, padding: 5, color: this.state.mid ? '#000000' : '#E2E2E2'}}>
                                             미드
                                         </Text>
                                     </TouchableOpacity>
@@ -210,8 +225,8 @@ export class teamLOL extends Component<Props> {
                                         style={{
                                             paddingHorizontal: 8
                                         }}>
-                                    <TouchableOpacity style={styles.position}>
-                                        <Text style={{fontSize: 14, padding: 5}}>
+                                    <TouchableOpacity style={this.state.jungle ? styles.positioned : styles.position} onPress={() => this.setState({jungle: !this.state.jungle})}>
+                                        <Text style={{fontSize: 14, padding: 5, color: this.state.jungle ? '#000000' : '#E2E2E2'}}>
                                             정글
                                         </Text>
                                     </TouchableOpacity>
@@ -230,8 +245,8 @@ export class teamLOL extends Component<Props> {
                                         style={{
                                             paddingHorizontal: 8
                                         }}>
-                                    <TouchableOpacity style={styles.position}>
-                                        <Text style={{fontSize: 14, padding: 5}}>
+                                    <TouchableOpacity style={this.state.bottom ? styles.positioned : styles.position} onPress={() => this.setState({bottom: !this.state.bottom})}>
+                                        <Text style={{fontSize: 14, padding: 5, color: this.state.bottom ? '#000000' : '#E2E2E2'}}>
                                             원딜
                                         </Text>
                                     </TouchableOpacity>
@@ -241,17 +256,30 @@ export class teamLOL extends Component<Props> {
                                         style={{
                                             paddingHorizontal: 8
                                         }}>
-                                    <TouchableOpacity style={{height: 35,
+                                    <TouchableOpacity style={this.state.support ? {height: 35,
                                         width: 73,
                                         flexDirection: 'row',
                                         borderStyle: 'solid',
                                         borderRadius: 14,
-                                        borderColor: '#000000',
+                                        borderColor: '#ffffff',
                                         borderWidth: 1,
                                         borderTopWidth: 1,
                                         alignItems: 'center',
-                                        justifyContent: 'center',}}>
-                                        <Text style={{fontSize: 14, padding: 5}}>
+                                        justifyContent: 'center',
+                                        elevation: 10,
+                                        backgroundColor: '#ffffff'} :
+                                        {height: 35,
+                                            width: 73,
+                                            flexDirection: 'row',
+                                            borderStyle: 'solid',
+                                            borderRadius: 14,
+                                            borderColor: '#E2E2E2',
+                                            borderWidth: 1,
+                                            borderTopWidth: 1,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',}}
+                                                      onPress={() => this.setState({support: !this.state.support})}>
+                                        <Text style={{fontSize: 14, padding: 5, color: this.state.support ? '#000000' : '#E2E2E2'}}>
                                             서포터
                                         </Text>
                                     </TouchableOpacity>
@@ -404,11 +432,25 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderStyle: 'solid',
         borderRadius: 14,
-        borderColor: '#000000',
+        borderColor: '#E2E2E2',
         borderWidth: 1,
         borderTopWidth: 1,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    positioned: {
+        height: 35,
+        width: 63,
+        flexDirection: 'row',
+        borderStyle: 'solid',
+        borderRadius: 14,
+        borderColor: '#ffffff',
+        borderWidth: 1,
+        borderTopWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 10,
+        backgroundColor: '#ffffff'
     }
 });
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import teamLOL from "../team/teamLOL";
 
@@ -12,6 +12,12 @@ const rTitle = [
 ]
 
 function joinedLOL({ navigation }) {
+
+    const [top, setTop] = useState(false);
+    const [jungle, setJungle] = useState(false);
+    const [mid, setMid] = useState(false);
+    const [bottom, setBottom] = useState(false);
+    const [support, setSupport] = useState(false);
 
     return (
         <View style={styles.container}>
@@ -73,7 +79,7 @@ function joinedLOL({ navigation }) {
                                 }}>
 
                                 <Text style={{fontSize: 16}}>
-                                    {data.join} | {data.total} 명
+                                    {data.join} / {data.total} 명
                                 </Text>
 
                             </View>
@@ -186,19 +192,33 @@ function joinedLOL({ navigation }) {
                                         paddingHorizontal: 8
                                     }}>
 
-                                    <TouchableOpacity style={{
+                                    <TouchableOpacity style={ top ? {
                                         height: 35,
                                         width: 53,
                                         flexDirection: 'row',
                                         borderStyle: 'solid',
                                         borderRadius: 14,
-                                        borderColor: '#000000',
+                                        borderColor: '#ffffff',
                                         borderWidth: 1,
                                         borderTopWidth: 1,
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                    }}>
-                                        <Text style={{fontSize: 14, padding: 5}}>
+                                        elevation: 10,
+                                        backgroundColor: '#ffffff'
+                                    } : {
+                                        height: 35,
+                                        width: 53,
+                                        flexDirection: 'row',
+                                        borderStyle: 'solid',
+                                        borderRadius: 14,
+                                        borderColor: '#E2E2E2',
+                                        borderWidth: 1,
+                                        borderTopWidth: 1,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}
+                                    onPress={() => setTop(!top)}>
+                                        <Text style={{fontSize: 14, padding: 5, color: top ? '#000000' : '#E2E2E2'} }>
                                             탑
                                         </Text>
                                     </TouchableOpacity>
@@ -208,8 +228,9 @@ function joinedLOL({ navigation }) {
                                     style={{
                                         paddingHorizontal: 8
                                     }}>
-                                    <TouchableOpacity style={styles.position}>
-                                        <Text style={{fontSize: 14, padding: 5}}>
+                                    <TouchableOpacity style={mid ? styles.positioned : styles.position}
+                                    onPress={() => setMid(!mid)}>
+                                        <Text style={{fontSize: 14, padding: 5, color: mid ? '#000000' : '#E2E2E2'} }>
                                             미드
                                         </Text>
                                     </TouchableOpacity>
@@ -219,8 +240,9 @@ function joinedLOL({ navigation }) {
                                     style={{
                                         paddingHorizontal: 8
                                     }}>
-                                    <TouchableOpacity style={styles.position}>
-                                        <Text style={{fontSize: 14, padding: 5}}>
+                                    <TouchableOpacity style={jungle ? styles.positioned : styles.position}
+                                                      onPress={() => setJungle(!jungle)}>
+                                        <Text style={{fontSize: 14, padding: 5, color: jungle ? '#000000' : '#E2E2E2'} }>
                                             정글
                                         </Text>
                                     </TouchableOpacity>
@@ -239,8 +261,9 @@ function joinedLOL({ navigation }) {
                                     style={{
                                         paddingHorizontal: 8
                                     }}>
-                                    <TouchableOpacity style={styles.position}>
-                                        <Text style={{fontSize: 14, padding: 5}}>
+                                    <TouchableOpacity style={bottom ? styles.positioned : styles.position}
+                                                      onPress={() => setBottom(!bottom)}>
+                                        <Text style={{fontSize: 14, padding: 5, color: bottom ? '#000000' : '#E2E2E2'} }>
                                             원딜
                                         </Text>
                                     </TouchableOpacity>
@@ -250,17 +273,31 @@ function joinedLOL({ navigation }) {
                                     style={{
                                         paddingHorizontal: 8
                                     }}>
-                                    <TouchableOpacity style={{height: 35,
+                                    <TouchableOpacity style={ support ? {height: 35,
                                         width: 73,
                                         flexDirection: 'row',
                                         borderStyle: 'solid',
                                         borderRadius: 14,
-                                        borderColor: '#000000',
+                                        borderColor: '#ffffff',
                                         borderWidth: 1,
                                         borderTopWidth: 1,
                                         alignItems: 'center',
-                                        justifyContent: 'center',}}>
-                                        <Text style={{fontSize: 14, padding: 5}}>
+                                        justifyContent: 'center',
+                                        elevation: 10,
+                                        backgroundColor: '#ffffff'} :
+                                        {height: 35,
+                                            width: 73,
+                                            flexDirection: 'row',
+                                            borderStyle: 'solid',
+                                            borderRadius: 14,
+                                            borderColor: '#E2E2E2',
+                                            borderWidth: 1,
+                                            borderTopWidth: 1,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',}}
+                                    onPress={() => setSupport(!support)}>
+
+                                    <Text style={{fontSize: 14, padding: 5, color: support ? '#000000' : '#E2E2E2'} }>
                                             서포터
                                         </Text>
                                     </TouchableOpacity>
@@ -350,11 +387,25 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderStyle: 'solid',
         borderRadius: 14,
-        borderColor: '#000000',
+        borderColor: '#E2E2E2',
         borderWidth: 1,
         borderTopWidth: 1,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    positioned: {
+        height: 35,
+        width: 63,
+        flexDirection: 'row',
+        borderStyle: 'solid',
+        borderRadius: 14,
+        borderColor: '#ffffff',
+        borderWidth: 1,
+        borderTopWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 10,
+        backgroundColor: '#ffffff'
     }
 });
 
