@@ -10,6 +10,7 @@ import tiersRS from "./tiers/tiersRS";
 import roomsLOL from "./roomList/roomsLOL";
 import joinedLOL from "./join/joinedLOL";
 import teamLOL from "./team/teamLOL";
+import teamComplete from "./team/teamComplete";
 
 const Stack = createStackNavigator();
 
@@ -67,6 +68,11 @@ export default function CategoryScreen({ navigation }) {
                 name="teamLOL"
                 component={teamLOL}
                 options={{ title: 'teamLOL' }}
+            />
+            <Stack.Screen
+                name="teamComplete"
+                component={teamComplete}
+                options={{ title: 'teamComplete' }}
             />
         </Stack.Navigator>
     );
