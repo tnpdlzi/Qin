@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, useState} from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import joinedLOL from "../join/joinedLOL";
 import teamLOL from "../team/teamLOL";
@@ -16,6 +16,7 @@ const myRoom = [
     {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
 ]
 function roomsLOL({ navigation }) {
+    const [endtime, setEndtime] = useState(datas.endtime);
 
         return (
             <View style={styles.container}>
@@ -50,9 +51,10 @@ function roomsLOL({ navigation }) {
                             style={{
                                 flexDirection: 'row',
                                 justifyContent: 'flex-start',
-                                alignItems: 'center'
+                                alignItems: 'center',
+                                paddingStart: 10
                             }}>
-                            <Text style={{paddingStart: 10, paddingEnd: 20, fontSize: 30, fontWeight: 'bold'}}>
+                            <Text style={{paddingStart: 10, paddingEnd: 20, fontSize: 30, fontWeight: 'bold', color: '#FFC81A'}}>
                                 ·
                             </Text>
                             <Text style={{paddingEnd: 20, fontSize: 15, fontWeight: 'bold'}}>
@@ -64,6 +66,7 @@ function roomsLOL({ navigation }) {
                             style={{
                                 flexDirection: 'row',
                                 justifyContent: 'flex-end',
+                                paddingEnd: 5
                             }}>
                             <Image
                                 style={{height: 50, width: 80, resizeMode: 'cover'}}
@@ -74,10 +77,10 @@ function roomsLOL({ navigation }) {
 
                     <TouchableOpacity
                         style={{
-                            paddingStart: 8,
                             flexDirection: 'row',
                             justifyContent: 'space-between',
                             width: '100%',
+                            paddingVertical: 20,
                         }}
                         onPress={() => navigation.navigate(joinedLOL)}>
                         <View
@@ -85,6 +88,7 @@ function roomsLOL({ navigation }) {
                                 flexDirection: 'row',
                                 alignItems: 'center',
                                 justifyContent: 'flex-start',
+                                paddingStart: 15,
                             }}>
                                 {myRoom.map((data, index) => {
                                     return (
@@ -93,7 +97,8 @@ function roomsLOL({ navigation }) {
                                                 flexDirection: 'row',
                                                 alignItems: 'center',
                                                 justifyContent: 'flex-start',
-                                                paddingStart: 5
+                                                paddingStart: 5,
+                                                paddingEnd: 100
                                             }}>
                                                 <Text style={{fontSize: 12, fontWeight: 'bold'}}>
                                                     {data.roomIntro} ( {data.join} / {data.total} )
@@ -105,18 +110,27 @@ function roomsLOL({ navigation }) {
                                     );})}
                         </View>
                         <View
-                            style={{
-                                flexDirection: 'row',
-                                justifyContent: 'flex-end',
-                                alignItems: 'center',
-                                flex: 1,
-                                height: 65,
-                                width: 80,
-                                paddingEnd: 40
-                            }}>
-                            <Text>
-                                refresh
-                            </Text>
+                            >
+                            <TouchableOpacity
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    height: 28,
+                                    width: 70,
+                                    borderStyle: 'solid',
+                                    borderRadius: 20,
+                                    borderColor: '#00255A',
+                                    borderWidth: 2,
+                                    paddingVertical: 10,
+                                    elevation: 6,
+                                    backgroundColor: '#ffffff'
+                                }}
+                                onPress={() => setEndtime(endtime + 5)}>
+                                <Text style={{color: '#00255A', fontWeight: 'bold'}}>
+                                    refresh
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -166,7 +180,7 @@ function roomsLOL({ navigation }) {
                                             flexDirection: 'row',
                                             justifyContent: 'flex-end',
                                             flex: 1,
-                                            padding: 20
+                                            padding: 10
                                         }}>
                                         <Text style={{fontSize: 12, paddingStart: 10, color: '#5E5E5E'}}>
                                             {data.ruID}  |  {data.endtime}
