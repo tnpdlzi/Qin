@@ -26,33 +26,61 @@ function HashHome({ navigation }) {
                 paddingBottom:5,
 
             }}>인기 키워드</Text>
-            <ScrollView 
+            <View
+                style = {{
+                    flexDirection:"row",
+                    height: winHeight*0.05,
+                    backgroundColor: "#0099cc"
+                }}>
+                <ScrollView 
                 horizontal={true}
                 showsHorizontalScrollIndicator={true}
                 onMomentumScrollEnd={() => {
                 console.log('Scrolling is End');
-            }}>
-                <View
-                style = {{
-                    flexDirection:"row",
-                    height: winHeight*0.03,
                 }}>
                 {hash_rank.map((data, index)=>{
                     return(
                         <View
-                            style={styles.Top_Hash_view}>
+                            style={styles.Top_Hash_list}>
                         <Text style = {{color: "white", fontSize:13.5,fontWeight: 'bold'}}># {data.hash_rank}</Text>
                         </View>
                     )
                  })}
-                </View>
-            </ScrollView>
-            <View style={styles.search_list_view}>
-                <Text>검색 키워드 목록</Text>
+                 </ScrollView>
             </View>
+            
+            <Text style = {{
+                paddingTop : 10,
+                paddingLeft:10,
+                fontSize:14,
+                paddingBottom:5,
+
+            }}>검색 키워드</Text>
+            <View style = {{
+                    flexDirection:"row",
+                    height: winHeight*0.05,
+                    backgroundColor: "#0099cc"
+            }}>
+                <ScrollView 
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={true}
+                    onMomentumScrollEnd={() => {
+                    console.log('Scrolling is End');
+                }}>
+                
+                </ScrollView>
+            </View>
+
             <View
             style={styles.chat_list_view}>
                 <Text>chat_list_view</Text>
+                <ScrollView 
+                    showsHorizontalScrollIndicator={true}
+                    onMomentumScrollEnd={() => {
+                    console.log('Scrolling is End');
+                }}>
+                
+                </ScrollView>
             </View>
         </View>
     );
@@ -80,24 +108,24 @@ const styles = StyleSheet.create({
         borderColor: "#00255A",
         borderRadius: 15,
     },
-    Top_Hash_view:{
+    Top_Hash_list:{
         marginLeft:7,
         backgroundColor: "#00255A",
         borderRadius:7,
         padding:3, //하나의 요소 내에서 테두리로부터 요소 안의 내용물까지의 간격을 의미
         marginBottom:7,
-        height: winHeight*0.03,
+        height: 25
     },
     search_list_view:{
         paddingTop:10,
         backgroundColor: "#3DFF92", //구분을 위한 임시 배경 컬러
-        height:winHeight*0.11,
-        paddingLeft:10
+        height:winHeight*0.5,
+        padding:10
     },
     chat_list_view:{
         flexDirection:"row",
         backgroundColor: "#FFAAFF",
-        height: winHeight*0.7,
+        height: winHeight,
     }
 });
 
