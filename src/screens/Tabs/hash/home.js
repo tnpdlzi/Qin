@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Dimensions,ScrollView, StyleSheet, View, Text, Button, TextInput } from 'react-native';
+import { Dimensions,ScrollView, StyleSheet, View, Text, Button, TextInput, Image } from 'react-native';
+import { Icon, Row } from 'native-base';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const winHeight = Dimensions.get('window').height;
 const winWidth  = Dimensions.get('window').width;
@@ -7,24 +9,35 @@ const winWidth  = Dimensions.get('window').width;
 
 const hash_rank = [{hash_rank: "동건짱"}, {hash_rank:"리그오브레전드"}, {hash_rank:"롤"}, {hash_rank:"롤"}, {hash_rank:"롤"}
 , {hash_rank:"롤"}, {hash_rank:"롤"}, {hash_rank:"롤"}, {hash_rank:"롤"}, {hash_rank:"롤"}];
+
+
 function HashHome({ navigation }) {
     
-    
-    
+    //검색 목록
+    let search_hash_list = [];
     return (
 
         <View style = {styles.container}>
             <View
                 style={styles.search_bar_view}>
+                    <Text style ={{fontSize: 20}}>#</Text>
                 <TextInput style={styles.search_bar} placeholder="키워드를 검색하세요"
+                autoCorrect={ false }
                 />
+                <TouchableOpacity
+                    style={{
+                    }}>
+                    <Image
+                        style={{height: 100, width: 60, resizeMode: 'cover'}}
+                        source={require('../../../image/tag_search.png')} 
+                    />
+                </TouchableOpacity>
             </View>
             <Text style = {{
                 paddingTop : 10,
                 paddingLeft:10,
                 fontSize:14,
                 paddingBottom:5,
-
             }}>인기 키워드</Text>
             <View
                 style = {{
@@ -59,7 +72,7 @@ function HashHome({ navigation }) {
             <View style = {{
                     flexDirection:"row",
                     height: winHeight*0.05,
-                    backgroundColor: "#0099cc"
+                    backgroundColor: "#0099cc",
             }}>
                 <ScrollView 
                     horizontal={true}
@@ -67,19 +80,33 @@ function HashHome({ navigation }) {
                     onMomentumScrollEnd={() => {
                     console.log('Scrolling is End');
                 }}>
-                
+                    {search_hash_list.map((data, index)=>{
+                    return(
+                        <View
+                            style={styles.search_hash_list}>
+                        <Text style = {{color: "white", fontSize:17,fontWeight: 'bold'}}># {data.hash}</Text>
+                        <TouchableOpacity
+                            style={{padding: 5
+                        }}
+                       >
+                        <Image
+                            style={{height: 50, width: 10, resizeMode: 'cover'}}
+                            source={require('../../../image/cancel.png')}
+                        />
+                </TouchableOpacity>
+                        </View>
+                    )
+                 })}
                 </ScrollView>
             </View>
 
             <View
             style={styles.chat_list_view}>
-                <Text>chat_list_view</Text>
                 <ScrollView 
                     showsHorizontalScrollIndicator={true}
                     onMomentumScrollEnd={() => {
                     console.log('Scrolling is End');
                 }}>
-                
                 </ScrollView>
             </View>
         </View>
@@ -90,23 +117,23 @@ function HashHome({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         height:winHeight,
-        backgroundColor:"#FFDBC1",
         padding:5,
+        flex: 1,
+        flexDirection: 'column',
     },
     search_bar_view:{
+        marginTop:10,
+        borderRadius: 15,
+        paddingLeft: 10,
+        width: "95%",
+        height: 55, //%로 설정하면 검색창이 켜질때 마다 크기가 줄어든다...
+        alignItems: 'center',
         flexDirection: 'row',
-            width: "100%",
-            justifyContent:"center",
-            paddingTop: 10,
-            height: 55, //%로 설정하면 검색창이 켜질때 마다 크기가 줄어든다...
-            backgroundColor: "#E1B771",
+        borderColor: "#00255A",
+        borderWidth: 1.5,
     },
     search_bar: {
-        fontSize: 15,
-        width: winWidth - 30,
-        borderWidth: 1.5,
-        borderColor: "#00255A",
-        borderRadius: 15,
+        flex: 1,
     },
     Top_Hash_list:{
         marginLeft:7,
@@ -119,13 +146,19 @@ const styles = StyleSheet.create({
     search_list_view:{
         paddingTop:10,
         backgroundColor: "#3DFF92", //구분을 위한 임시 배경 컬러
-        height:winHeight*0.5,
+        height:winHeight*0.3,
         padding:10
     },
     chat_list_view:{
         flexDirection:"row",
-        backgroundColor: "#FFAAFF",
-        height: winHeight,
+    },
+    search_hash_list:{
+        marginLeft:7,
+        backgroundColor: "#00255A",
+        borderRadius:7,
+        flexDirection: "row",
+        alignItems: 'center',
+        height: 25
     }
 });
 

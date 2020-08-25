@@ -12,20 +12,7 @@ const Stack = createStackNavigator();
 export default function HashScreen({ navigation }) {
     return (
         <Stack.Navigator>
-            {/* <Stack.Screen
-                name="Home"
-                component={HashHome}
-                options={{
-                    title: 'Hash Tag', headerLeft: () => (
-                        <TouchableOpacity
-                            style={Styles.headerButton}
-                            onPress={() => navigation.openDrawer()}
-                        >
-                            <Text>Menu</Text>
-                        </TouchableOpacity>
-                    ),
-                }}
-            /> */}
+            
             <Stack.Screen
                 name="Home"
                 component={HashHome}
