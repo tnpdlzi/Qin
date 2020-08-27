@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Dimensions,ScrollView, StyleSheet, View, Text, Button, TextInput, Image } from 'react-native';
 import { Icon, Row } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -14,7 +14,25 @@ const hash_rank = [{hash_rank: "동건짱"}, {hash_rank:"리그오브레전드"}
 function HashHome({ navigation }) {
     
     //검색 목록
-    let search_hash_list = [];
+    //const search_hash_list = [];
+    //아직까지 검색목록을 Text로만 처리가능 추후 객체로 지정
+    const [search_hash, setSearch_Hash] = useState([]);
+    const [newText, setNewText] = useState("");
+    //const [newHash, setNewHash] = useState({hash:""});
+    
+    //삭제의 문제점 = 하나를 삭제했을때 인덱스가 수시로 변한다.
+    const addHash = () =>{
+        //setNewHash(newHash=> newHash.hash = newText);
+        setSearch_Hash([
+            ...search_hash,
+            newText
+        ]);
+    };
+
+    const deleteHash = (index) =>{
+        console.log(index);
+        setSearch_Hash(search_hash.slice(index,1));
+    };
     return (
 
         <View style = {styles.container}>
@@ -23,10 +41,13 @@ function HashHome({ navigation }) {
                     <Text style ={{fontSize: 20}}>#</Text>
                 <TextInput style={styles.search_bar} placeholder="키워드를 검색하세요"
                 autoCorrect={ false }
+                onChangeText = {(text) =>setNewText(text)}
                 />
                 <TouchableOpacity
                     style={{
-                    }}>
+                    }}
+                    onPress = {newText.length >= 1 ? addHash: null}
+                    >
                     <Image
                         style={{height: 100, width: 60, resizeMode: 'cover'}}
                         source={require('../../../image/tag_search.png')} 
@@ -80,11 +101,11 @@ function HashHome({ navigation }) {
                     onMomentumScrollEnd={() => {
                     console.log('Scrolling is End');
                 }}>
-                    {search_hash_list.map((data, index)=>{
+                {search_hash.map((data, index)=>{
                     return(
                         <View
                             style={styles.search_hash_list}>
-                        <Text style = {{color: "white", fontSize:17,fontWeight: 'bold'}}># {data.hash}</Text>
+                        <Text style = {{color: "white", fontSize:17,fontWeight: 'bold'}}># {data}</Text>
                         <TouchableOpacity
                             style={{padding: 5
                         }}
@@ -95,7 +116,7 @@ function HashHome({ navigation }) {
                         />
                 </TouchableOpacity>
                         </View>
-                    )
+                    )                         
                  })}
                 </ScrollView>
             </View>
