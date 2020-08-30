@@ -2,21 +2,43 @@ import React, {Component, useState} from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import joinedLOL from "../join/joinedLOL";
 import teamLOL from "../team/teamLOL";
+import axios from 'axios';
 
 // 서버로부터 받을 id값, 방장 이름, 방 제목, 참여중 인원수, 총원, 모집 종료 시간
-const datas = [
-    {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
-    {roomID: '2', ruID: '이규빈', roomIntro: 'ㅎㅇㅎㅇ', join: '2', total: '4', endtime: '18:42'},
-    {roomID: '3', ruID: '류대현', roomIntro: '커몽', join: '2', total: '4', endtime: '18:42'},
-    {roomID: '4', ruID: '박진곤', roomIntro: '우와', join: '2', total: '4', endtime: '18:42'},
-    {roomID: '5', ruID: '이지훈', roomIntro: 'intro', join: '2', total: '4', endtime: '18:42'},
-];
+// const datas = [
+//     {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
+//     {roomID: '2', ruID: '이규빈', roomIntro: 'ㅎㅇㅎㅇ', join: '2', total: '4', endtime: '18:42'},
+//     {roomID: '3', ruID: '류대현', roomIntro: '커몽', join: '2', total: '4', endtime: '18:42'},
+//     {roomID: '4', ruID: '박진곤', roomIntro: '우와', join: '2', total: '4', endtime: '18:42'},
+//     {roomID: '5', ruID: '이지훈', roomIntro: 'intro', join: '2', total: '4', endtime: '18:42'},
+// ];
 
 const myRoom = [
     {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
 ]
-function roomsLOL({ navigation }) {
-    const [endtime, setEndtime] = useState(datas.endtime);
+
+function roomsLOL({ navigation, route }) {
+
+    let [datas, setDatas] = useState([]);
+
+    let tier = route.params.tiergame[0];
+    let game = route.params.tiergame[1];
+    let url = 'http://133.186.216.152:8080/category/roomlist?tier=' + tier + '&game=' + game;
+
+    let getDatas = async () => await axios.get(url)
+        .then(function (response) {
+            datas = setDatas(response.data);
+            console.log(datas)
+        })
+        .catch(function (error) {
+            console.log(tier)
+            console.log(game)
+            console.log(url)
+            console.log('error : ' + error);
+        });
+    getDatas();
+    console.log(datas);
+
 
         return (
             <View style={styles.container}>
@@ -101,10 +123,10 @@ function roomsLOL({ navigation }) {
                                                 paddingEnd: 100
                                             }}>
                                                 <Text style={{fontSize: 12, fontWeight: 'bold'}}>
-                                                    {data.roomIntro} ( {data.join} / {data.total} )
+                                                    {data.roomIntro} ( {'1'} / {data.total.toString()} )
                                                 </Text>
                                                 <Text style={{fontSize: 12, paddingStart: 10, color: '#5E5E5E'}}>
-                                                    {data.endtime}
+                                                    {data.endtime.toString()}
                                                 </Text>
                                         </View>
                                     );})}
@@ -171,7 +193,7 @@ function roomsLOL({ navigation }) {
                                             paddingStart: 5
                                         }}>
                                         <Text style={{fontSize: 12, fontWeight: 'bold'}}>
-                                            {data.roomIntro} ( {data.join} / {data.total} )
+                                            {data.roomIntro} ( {2} / {data.total} )
                                         </Text>
 
                                     </View>
@@ -183,7 +205,7 @@ function roomsLOL({ navigation }) {
                                             padding: 10
                                         }}>
                                         <Text style={{fontSize: 12, paddingStart: 10, color: '#5E5E5E'}}>
-                                            {data.ruID}  |  {data.endtime}
+                                            {data.ruID}  |  {data.endTime}
                                         </Text>
                                     </View>
                                 </TouchableOpacity>

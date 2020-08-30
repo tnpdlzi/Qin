@@ -47,7 +47,7 @@ function tiersLOL({ navigation }) {
                                             justifyContent: 'space-between',
                                             width: '100%',
                                         }}
-                                        onPress={() => navigation.navigate('roomsLOL')}>
+                                        onPress={() => navigation.navigate('roomsLOL', {tiergame: ['bronze', 'LOL']})}>
                                         <View
                                             style={{
                                                 flexDirection: 'row',
