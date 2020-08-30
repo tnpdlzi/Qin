@@ -14,24 +14,28 @@ const hash_rank = [{hash_rank: "동건짱"}, {hash_rank:"리그오브레전드"}
 function HashHome({ navigation }) {
     
     //검색 목록
-    //const search_hash_list = [];
-    //아직까지 검색목록을 Text로만 처리가능 추후 객체로 지정
     const [search_hash, setSearch_Hash] = useState([]);
-    const [newText, setNewText] = useState("");
-    //const [newHash, setNewHash] = useState({hash:""});
+    //const [newText, setNewText] = useState("");
+    const [newHash, setNewHash] = useState({hash:null});
     
     //삭제의 문제점 = 하나를 삭제했을때 인덱스가 수시로 변한다.
     const addHash = () =>{
-        //setNewHash(newHash=> newHash.hash = newText);
-        setSearch_Hash([
-            ...search_hash,
-            newText
-        ]);
+        //중복된 Hash가 없을 때 add 하기 위한 조건문
+        if(!search_hash.includes(newHash)){
+            setSearch_Hash([
+                ...search_hash,
+                newHash
+            ]);
+        }
     };
-
-    const deleteHash = (index) =>{
-        console.log(index);
-        setSearch_Hash(search_hash.slice(index,1));
+    //삭제 연산 구현
+    const deleteHash = (data) =>{
+        search_hash.forEach(function(element, index){
+            if(element.hash == data.hash){
+                console.log(index);
+                setSearch_Hash(search_hash.filter(input => input != data));
+            }
+        })
     };
     return (
 
@@ -41,12 +45,12 @@ function HashHome({ navigation }) {
                     <Text style ={{fontSize: 20}}>#</Text>
                 <TextInput style={styles.search_bar} placeholder="키워드를 검색하세요"
                 autoCorrect={ false }
-                onChangeText = {(text) =>setNewText(text)}
+                onChangeText = {(text) => text >= 1 ? setNewHash({hash:text}) : setNewHash({hash:null})} //text길이가 1이상일떄만 newHash업데이트
                 />
                 <TouchableOpacity
                     style={{
                     }}
-                    onPress = {newText.length >= 1 ? addHash: null}
+                    onPress = {addHash}
                     >
                     <Image
                         style={{height: 100, width: 60, resizeMode: 'cover'}}
@@ -102,13 +106,19 @@ function HashHome({ navigation }) {
                     console.log('Scrolling is End');
                 }}>
                 {search_hash.map((data, index)=>{
-                    return(
+                    //검색창에 아무것도 없을때는 반응 X
+                    if(data.hash != null){
+                        //null아닐때 Input넣고 출력
+                        let Input = data.hash;
+                        return(
                         <View
                             style={styles.search_hash_list}>
-                        <Text style = {{color: "white", fontSize:17,fontWeight: 'bold'}}># {data}</Text>
+                        <Text style = {{color: "white", fontSize:17,fontWeight: 'bold'}}># {Input}</Text>
                         <TouchableOpacity
                             style={{padding: 5
                         }}
+                        //검색 키워드 삭제 기능 구현
+                        onPress = {() => deleteHash(data)}
                        >
                         <Image
                             style={{height: 50, width: 10, resizeMode: 'cover'}}
@@ -116,7 +126,8 @@ function HashHome({ navigation }) {
                         />
                 </TouchableOpacity>
                         </View>
-                    )                         
+                    )
+                    }                       
                  })}
                 </ScrollView>
             </View>
