@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import { Dimensions,ScrollView, StyleSheet, View, Text, Button, TextInput, Image } from 'react-native';
 import { Icon, Row } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import axios from 'axios';
 
 const winHeight = Dimensions.get('window').height;
 const winWidth  = Dimensions.get('window').width;
@@ -37,6 +38,10 @@ function HashHome({ navigation }) {
             }
         })
     };
+
+    //채팅방 목록
+    const [data, setData] = useState([]);
+    
     return (
 
         <View style = {styles.container}>
@@ -45,7 +50,7 @@ function HashHome({ navigation }) {
                     <Text style ={{fontSize: 20}}>#</Text>
                 <TextInput style={styles.search_bar} placeholder="키워드를 검색하세요"
                 autoCorrect={ false }
-                onChangeText = {(text) => text >= 1 ? setNewHash({hash:text}) : setNewHash({hash:null})} //text길이가 1이상일떄만 newHash업데이트
+                onChangeText = {(text) => text.length >= 1 ? setNewHash({hash:text}) : setNewHash({hash:null})} //text길이가 1이상일떄만 newHash업데이트
                 />
                 <TouchableOpacity
                     style={{
@@ -68,7 +73,6 @@ function HashHome({ navigation }) {
                 style = {{
                     flexDirection:"row",
                     height: winHeight*0.05,
-                    backgroundColor: "#0099cc"
                 }}>
                 <ScrollView 
                 horizontal={true}
@@ -97,7 +101,6 @@ function HashHome({ navigation }) {
             <View style = {{
                     flexDirection:"row",
                     height: winHeight*0.05,
-                    backgroundColor: "#0099cc",
             }}>
                 <ScrollView 
                     horizontal={true}
@@ -133,12 +136,14 @@ function HashHome({ navigation }) {
             </View>
 
             <View
-            style={styles.chat_list_view}>
+            style={{flexDirection:"row",}}
+                >
                 <ScrollView 
                     showsHorizontalScrollIndicator={true}
                     onMomentumScrollEnd={() => {
                     console.log('Scrolling is End');
                 }}>
+                
                 </ScrollView>
             </View>
         </View>
