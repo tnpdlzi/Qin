@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {ScrollView, View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
-
+// 가장 첫 화면
 function CategoryHome({ navigation }) {
 
     return (
@@ -11,7 +11,8 @@ function CategoryHome({ navigation }) {
                 console.log('Scrolling is End');
             }}>
             <View style={styles.item}>
-                <TouchableOpacity style={styles.gamecard} onPress={() => navigation.navigate('tiersLOL')}>
+                {/*이 부분을 통해 index에서 선언된 tiersLOL이라는 네비게이션에 등록된 스크린으로 넘어가게됨. 아래도 동일*/}
+                <TouchableOpacity style={styles.gamecard} onPress={() => navigation.navigate('tiersLOL')}> 
                     <View style={styles.LtriangleCorner} />
                     <View style={styles.LtriangleCorner1} />
                     <Text style={styles.title}>LEAGUE OF</Text>

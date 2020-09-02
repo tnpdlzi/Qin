@@ -18,17 +18,18 @@ const myRoom = [
 ]
 
 function roomsLOL({ navigation, route }) {
-
+    // hook 방식인데, 왼쪽이 스테이트 이름, 오른쪽이 스테이트 설정하는 함수임. useState를 통해 스테이트로 쓴다는 말이고 초기 변수를 안에 넣어줌
     let [datas, setDatas] = useState([]);
-
+    // 이 전 화면인 tiersLOL에서 넘김 매개변수를 받아옴. tiergame은 bronze, LOL과 같이 티어와 게임이름을 넘겼음.
     let tier = route.params.tiergame[0];
     let game = route.params.tiergame[1];
+    // 이 넘어온 티어와 게임 이름을 통해 서버에 요청하기 위해 밑의 url의 파라미터를 바꿔줬음.
     let url = 'http://133.186.216.152:8080/category/roomlist?tier=' + tier + '&game=' + game;
-
+    // 위에서 선언한 url로 통신을 하기 위해 axios를 사용. 위의 서버는 get 방식으로 만들어졌으므로 get으로 호출. url 변수를 넣으면 위의 티어와 게임 이름도 같이 들어감
     let getDatas = async () => await axios.get(url)
         .then(function (response) {
+            // response로 온 데이타를 위의 hook의 오른쪽, setDatas를 통해 state인 datas를 바꿔줌
             datas = setDatas(response.data);
-            console.log(datas)
         })
         .catch(function (error) {
             console.log(tier)
@@ -36,6 +37,7 @@ function roomsLOL({ navigation, route }) {
             console.log(url)
             console.log('error : ' + error);
         });
+    // 위의 함수를 호출하여 실행되도록 한다.
     getDatas();
     console.log(datas);
 

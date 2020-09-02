@@ -47,6 +47,7 @@ function tiersLOL({ navigation }) {
                                             justifyContent: 'space-between',
                                             width: '100%',
                                         }}
+                                        // 이 부분에서 roomsLOL로 넘어가는데, 네비게이션으로 넘길 때 매개변수를 같이 넘기는 거임. bronze와 LOL이라는 매개변수를 넘기기위해 배열을 사용함
                                         onPress={() => navigation.navigate('roomsLOL', {tiergame: ['bronze', 'LOL']})}>
                                         <View
                                             style={{

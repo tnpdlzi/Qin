@@ -6,11 +6,11 @@ import FriendScreen from './friend';
 import HashScreen from './hash'
 import { View, Text, StyleSheet, Image } from 'react-native';
 
-
+// 아래쪽의 탭 네비게이터를 쓰겠다는 선언
 const Tab = createBottomTabNavigator();
-
+// 탭들에 대한 구현 함수로 선언
 function MyTabs() {
-    return (
+    return (// 탭 네비게이터로 안에 있는 4개의 아이콘에 대한 옵션 설정. 그 아래로는 각각의 아이콘에 대해 누르면 이동할 스크린, 그리고 아이콘에 대한 이미지 설정
         <Tab.Navigator
             tabBarOptions={{
                 iconStyle: {height: 40},
