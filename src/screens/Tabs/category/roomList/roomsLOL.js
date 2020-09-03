@@ -14,7 +14,7 @@ import axios from 'axios';
 // ];
 
 const myRoom = [
-    {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
+    {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', joined: '2', total: '4', endtime: '18:42'},
 ]
 
 function roomsLOL({ navigation, route }) {
@@ -125,7 +125,7 @@ function roomsLOL({ navigation, route }) {
                                                 paddingEnd: 100
                                             }}>
                                                 <Text style={{fontSize: 12, fontWeight: 'bold'}}>
-                                                    {data.roomIntro} ( {'1'} / {data.total.toString()} )
+                                                    {data.roomIntro} ( {data.joined} / {data.total.toString()} )
                                                 </Text>
                                                 <Text style={{fontSize: 12, paddingStart: 10, color: '#5E5E5E'}}>
                                                     {data.endtime.toString()}
@@ -195,7 +195,7 @@ function roomsLOL({ navigation, route }) {
                                             paddingStart: 5
                                         }}>
                                         <Text style={{fontSize: 12, fontWeight: 'bold'}}>
-                                            {data.roomIntro} ( {2} / {data.total} )
+                                            {data.roomIntro} ( {data.joined} / {data.total} )
                                         </Text>
 
                                     </View>
