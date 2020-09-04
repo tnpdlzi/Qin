@@ -19,6 +19,7 @@ function MyTabs() {
                 upperCaseLabel: false,
                 showLabel: false,
                 showIcon: true,
+                keyboardHidesTabBar: true,
             }}
         >
             <Tab.Screen name="friend" component={FriendScreen} options={

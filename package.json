@@ -1,5 +1,5 @@
 {
-  "name": "Qin",
+  "name": "qin",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -40,5 +40,17 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tnpdlzi/Qin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tnpdlzi/Qin/issues"
+  },
+  "homepage": "https://github.com/tnpdlzi/Qin#readme",
+  "description": ""
 }
