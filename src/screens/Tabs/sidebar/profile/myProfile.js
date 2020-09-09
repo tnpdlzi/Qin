@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
-import Styles from '../../../styles';
+import Styles from '../../../../styles';
 
-function MemoryHome({ navigation }) {
+function myProfile({ navigation }) {
 
     return (
         <View style={Styles.container}>
-            <Text>friend Home</Text>
+            <Text>Memory Home</Text>
 
         </View>
     );
@@ -14,4 +14,4 @@ function MemoryHome({ navigation }) {
 
 
 
-export default MemoryHome;
+export default myProfile;

@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import {View, Text, Button, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import Styles from '../../../styles';
-import {
-    DrawerContentScrollView,
-    DrawerItemList,
-} from '@react-navigation/drawer';
 
-
-function CustomDrawerContent({ navigation }) {
+function DrawerScreen({ navigation }) {
     return (
 
         <View style={styles.container}>
@@ -120,8 +114,7 @@ function CustomDrawerContent({ navigation }) {
 
                     <TouchableOpacity
                         onPress={() => {
-                            // Navigate using the `navigation` prop that you received
-                            navigation.navigate('SomeScreen');
+                            navigation.navigate('myGameScreen');
                         }}
                     >
                         <Text  style={{fontSize: 14, color: '#000000', paddingVertical: 5}}>
@@ -130,8 +123,7 @@ function CustomDrawerContent({ navigation }) {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
-                            // Navigate using the `navigation` prop that you received
-                            navigation.navigate('SomeScreen');
+                            navigation.navigate('myProfileScreen');
                         }}
                     >
                         <Text  style={{fontSize: 14, color: '#000000', paddingVertical: 5}}>
@@ -147,7 +139,7 @@ function CustomDrawerContent({ navigation }) {
                 style={{
                     backgroundColor: '#F7F7F7',
                     width: '100%',
-                    height: 60,
+                    height: 50,
                     flexDirection: 'row',
                     alignItems: 'center'
                 }}
@@ -190,4 +182,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CustomDrawerContent;
+export default DrawerScreen;

@@ -1,18 +1,17 @@
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import CategoryScreen from './category';
-import ChatScreen from './chat';
-import FriendScreen from './friend';
-import HashScreen from './hash'
-import { View, Text, StyleSheet, Image } from 'react-native';
-import myGame from "./sidebar/game/myGame";
-import myProfile from "./sidebar/profile/myProfile";
-
-// 아래쪽의 탭 네비게이터를 쓰겠다는 선언
+import React, { Component } from 'react';
+import {View, Text, Button, Image} from 'react-native';
+import Styles from '../../../../styles';
+import FriendScreen from "../../friend";
+import ChatScreen from "../../chat";
+import CategoryScreen from "../../category";
+import HashScreen from "../../hash";
+import myGame from "../game/myGame";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
-// 탭들에 대한 구현 함수로 선언
-function MyTabs() {
-    return (// 탭 네비게이터로 안에 있는 4개의 아이콘에 대한 옵션 설정. 그 아래로는 각각의 아이콘에 대해 누르면 이동할 스크린, 그리고 아이콘에 대한 이미지 설정
+
+function myProfileScreen({ navigation }) {
+
+    return (
         <Tab.Navigator
             tabBarOptions={{
                 iconStyle: {height: 40},
@@ -28,7 +27,7 @@ function MyTabs() {
                 {
                     tabBarIcon: ({ tintColor, focused }) => (
                         <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                            <Image source={focused ? require('../../image/menu_y_01.png') : require('../../image/menu_01.png')} style={{ height: 70, width: 70, justifyContent: 'center'}}/>
+                            <Image source={focused ? require('../../../../image/menu_y_01.png') : require('../../../../image/menu_01.png')} style={{ height: 70, width: 70, justifyContent: 'center'}}/>
                         </View>
                     )
                 }
@@ -37,7 +36,7 @@ function MyTabs() {
                 {
                     tabBarIcon: ({ tintColor, focused }) => (
                         <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                            <Image source={focused ? require('../../image/menu_y_02.png') : require('../../image/menu_02.png')} style={{ height: 70, width: 70, justifyContent: 'center'}}/>
+                            <Image source={focused ? require('../../../../image/menu_y_02.png') : require('../../../../image/menu_02.png')} style={{ height: 70, width: 70, justifyContent: 'center'}}/>
                         </View>
                     )
                 }
@@ -45,14 +44,14 @@ function MyTabs() {
             <Tab.Screen name="category" component={CategoryScreen} options={{
                 tabBarIcon: ({ tintColor, focused }) => (
                     <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                        <Image source={focused ? require('../../image/menu_y_03.png') : require('../../image/menu_03.png')} style={{ height: 70, width: 70, justifyContent: 'center'}}/>
+                        <Image source={focused ? require('../../../../image/menu_y_03.png') : require('../../../../image/menu_03.png')} style={{ height: 70, width: 70, justifyContent: 'center'}}/>
                     </View>
                 )}} />
             <Tab.Screen name="hash" component={HashScreen} options={
                 {
                     tabBarIcon: ({ tintColor, focused }) => (
                         <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                            <Image source={focused ? require('../../image/menu_y_04.png') : require('../../image/menu_04.png')} style={{ height: 70, width: 70, justifyContent: 'center'}}/>
+                            <Image source={focused ? require('../../../../image/menu_y_04.png') : require('../../../../image/menu_04.png')} style={{ height: 70, width: 70, justifyContent: 'center'}}/>
                         </View>
                     )
                 }
@@ -61,6 +60,6 @@ function MyTabs() {
     );
 }
 
-export default MyTabs;
 
 
+export default myProfileScreen;
