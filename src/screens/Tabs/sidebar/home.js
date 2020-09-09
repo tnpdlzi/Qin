@@ -30,7 +30,7 @@ function DrawerScreen({ navigation }) {
                                     width: 20,
                                     resizeMode: 'cover',
                                 }}
-                                source={require('../../../../src/image/cancel.png')}
+                                source={require('../../../../src/image/cancel_1.png')}
                             />
                         </TouchableOpacity>
                     </View>
