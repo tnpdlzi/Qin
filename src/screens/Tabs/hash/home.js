@@ -1,5 +1,5 @@
-import React, { Component, useState } from 'react';
-import { Dimensions,ScrollView, StyleSheet, View, Text, Button, TextInput, Image } from 'react-native';
+import React, { Component, useState, cloneElement, useEffect } from 'react';
+import { Dimensions,ScrollView, StyleSheet, View, Text, Button, TextInput, Image, } from 'react-native';
 import { Icon, Row } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
@@ -16,49 +16,70 @@ function HashHome({ navigation }) {
     
     //검색 목록
     const [search_hash, setSearch_Hash] = useState([]);
-    //const [newText, setNewText] = useState("");
-    const [newHash, setNewHash] = useState({hash:null});
-    
-    //삭제의 문제점 = 하나를 삭제했을때 인덱스가 수시로 변한다.
-    const addHash = () =>{
-        //중복된 Hash가 없을 때 add 하기 위한 조건문
-        if(!search_hash.includes(newHash)){
+    const [newText, setNewText] = useState("");
+    const [resData, setResData] = useState([]);
+    function addHash(){
+        if(!search_hash.includes(newText)){
             setSearch_Hash([
                 ...search_hash,
-                newHash
+                newText
             ]);
         }
-    };
+    }
+
+    let getDatas = async () => await axios.post('##########', {
+        "uID": "1",
+        "hashList" : search_hash
+    })
+    .then(function (response){
+        setResData(response.data);
+    })
+    .catch(function(error){
+        console.log("에러 :" + error);
+    });
+    //useEffect함수는 두번 째 매개변수의 변수에 변경이 발생했을때 첫번째 매개변수의 내용을 실행한다.
+    useEffect(()=>{
+        //search_hash가 변하면 실행되어 getDatas를 호출한다.
+        if(search_hash.length >= 1) getDatas();
+        else setResData([]); //search_hash가 없다면 resData도 없어야 한다.
+    },[search_hash]);
+
     //삭제 연산 구현
-    const deleteHash = (data) =>{
+    const deleteHash = function(data) {
         search_hash.forEach(function(element, index){
             if(element.hash == data.hash){
-                console.log(index);
+                //배열의 filter를 이용해서 data와 일치하는 멤버 삭제
                 setSearch_Hash(search_hash.filter(input => input != data));
             }
         })
     };
+    function chatRooms(data){
+        console.log("chatRooms Call");
+        return(
+            <View style = {styles.chatRoom}>
+                <Text>{data}</Text>
+            </View>
+        )
+    }
 
-    //채팅방 목록
-    const [data, setData] = useState([]);
-    
+    //채팅방 
     return (
-
         <View style = {styles.container}>
             <View
                 style={styles.search_bar_view}>
                     <Text style ={{fontSize: 20}}>#</Text>
                 <TextInput style={styles.search_bar} placeholder="키워드를 검색하세요"
                 autoCorrect={ false }
-                onChangeText = {(text) => text.length >= 1 ? setNewHash({hash:text}) : setNewHash({hash:null})} //text길이가 1이상일떄만 newHash업데이트
+                onChangeText = {(text) => setNewText(text)} //변할때 마다 NewText 에 입력
                 />
                 <TouchableOpacity
                     style={{
                     }}
-                    onPress = {addHash}
+                    onPress = {() => newText.length >= 1 ? addHash() : null}
                     >
                     <Image
-                        style={{height: 100, width: 60, resizeMode: 'cover'}}
+                        style={{height: 100, width: 60, resizeMode: 'cover'
+                    }}
                         source={require('../../../image/tag_search.png')} 
                     />
                 </TouchableOpacity>
@@ -72,7 +93,7 @@ function HashHome({ navigation }) {
             <View
                 style = {{
                     flexDirection:"row",
-                    height: winHeight*0.05,
+                    height: winHeight*0.035,
                 }}>
                 <ScrollView 
                 horizontal={true}
@@ -90,14 +111,7 @@ function HashHome({ navigation }) {
                  })}
                  </ScrollView>
             </View>
-            
-            <Text style = {{
-                paddingTop : 10,
-                paddingLeft:10,
-                fontSize:14,
-                paddingBottom:5,
-
-            }}>검색 키워드</Text>
+            <Text style = {{paddingTop : 10,paddingLeft:10,fontSize:14,paddingBottom:5,}}>검색 키워드</Text>
             <View style = {{
                     flexDirection:"row",
                     height: winHeight*0.05,
@@ -109,41 +123,48 @@ function HashHome({ navigation }) {
                     console.log('Scrolling is End');
                 }}>
                 {search_hash.map((data, index)=>{
-                    //검색창에 아무것도 없을때는 반응 X
-                    if(data.hash != null){
-                        //null아닐때 Input넣고 출력
-                        let Input = data.hash;
-                        return(
-                        <View
-                            style={styles.search_hash_list}>
-                        <Text style = {{color: "white", fontSize:17,fontWeight: 'bold'}}># {Input}</Text>
-                        <TouchableOpacity
-                            style={{padding: 5
-                        }}
-                        //검색 키워드 삭제 기능 구현
-                        onPress = {() => deleteHash(data)}
-                       >
-                        <Image
-                            style={{height: 50, width: 10, resizeMode: 'cover'}}
-                            source={require('../../../image/cancel.png')}
-                        />
+                    return(
+                    <View
+                        style={styles.search_hash_list}>
+                    <Text style = {{color: "white", fontSize:17,fontWeight: 'bold'}}># {data}</Text>
+                    <TouchableOpacity
+                        style={{padding: 5}}
+                    //검색 키워드 삭제 기능 구현
+                    onPress = {() => deleteHash(data)}
+                    >
+                    <Image
+                        style={{height: 50, width: 10, resizeMode: 'cover'}}
+                        source={require('../../../image/cancel.png')}/>
                 </TouchableOpacity>
                         </View>
-                    )
-                    }                       
-                 })}
+                )                   
+                })}
                 </ScrollView>
             </View>
 
             <View
-            style={{flexDirection:"row",}}
-                >
+            style={{flexDirection:"row", flex:1, padding:5}}
+            >
                 <ScrollView 
                     showsHorizontalScrollIndicator={true}
                     onMomentumScrollEnd={() => {
                     console.log('Scrolling is End');
                 }}>
-                
+                {resData.map((data, index)=>{
+                    return(
+                        <View style = {styles.chatRoom}>
+                            <View style = {{width: winHeight * 0.07, alignItems: "center", justifyContent: "center"}}>
+                            <TouchableOpacity>
+                            <Image style={styles.chatRoomIcon} source={require('../../../image/my.png')}/>
+                            </TouchableOpacity>
+                            </View>
+                            <View style = {{ flex: 1, height: winHeight * 0.04, paddingTop: 7, flexDirection:"row", paddingLeft:10}}>
+                                <Text style={{fontSize: 17, flex:1}}>{data.chatInfo}</Text>
+                                <Text style = {{paddingTop: 2, fontSize: 13}}>{data.total}명</Text>
+                            </View>
+                        </View>
+                    )
+                })}
                 </ScrollView>
             </View>
         </View>
@@ -154,12 +175,14 @@ function HashHome({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         height:winHeight,
-        padding:5,
         flex: 1,
         flexDirection: 'column',
+        backgroundColor: 'white'
     },
     search_bar_view:{
         marginTop:10,
+        marginLeft: 10,
+        marginRight: 10,
         borderRadius: 15,
         paddingLeft: 10,
         width: "95%",
@@ -196,6 +219,16 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: 'center',
         height: 25
+    },
+    chatRoom :{
+        flexDirection: "row",
+        height: winHeight*0.09,
+        //margin:3,
+        padding: 10
+
+    },
+    chatRoomIcon:{
+        height: 60, width: 60, resizeMode: 'cover',
     }
 });
 
