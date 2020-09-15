@@ -234,7 +234,7 @@ function roomsLOL({ navigation, route }) {
                                             padding: 10
                                         }}>
                                         <Text style={{fontSize: 12, paddingStart: 10, color: '#5E5E5E'}}>
-                                            {data.ruID}  |  {endtime}
+                                            {data.userName}  |  {endtime}
                                         </Text>
                                     </View>
                                 </TouchableOpacity>
