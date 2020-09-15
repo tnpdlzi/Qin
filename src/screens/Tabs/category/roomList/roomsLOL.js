@@ -13,13 +13,12 @@ import axios from 'axios';
 //     {roomID: '5', ruID: '이지훈', roomIntro: 'intro', join: '2', total: '4', endtime: '18:42'},
 // ];
 
-const myRoom = [
-    {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', joined: '2', total: '4', endtime: '18:42'},
-]
 
 function roomsLOL({ navigation, route }) {
     // hook 방식인데, 왼쪽이 스테이트 이름, 오른쪽이 스테이트 설정하는 함수임. useState를 통해 스테이트로 쓴다는 말이고 초기 변수를 안에 넣어줌
     let [datas, setDatas] = useState([]);
+    let [myRoom, setMyRoom] = useState([]);
+
     // 이 전 화면인 tiersLOL에서 넘김 매개변수를 받아옴. tiergame은 bronze, LOL과 같이 티어와 게임이름을 넘겼음.
     let tier = route.params.tiergame[0];
     let game = route.params.tiergame[1];
@@ -40,6 +39,23 @@ function roomsLOL({ navigation, route }) {
     // 위의 함수를 호출하여 실행되도록 한다.
     getDatas();
     console.log(datas);
+
+    let mrurl = 'http://133.186.216.152:8080/category/myroom?tier=' + tier + '&game=' + game + '&uID=1';
+    // 위에서 선언한 url로 통신을 하기 위해 axios를 사용. 위의 서버는 get 방식으로 만들어졌으므로 get으로 호출. url 변수를 넣으면 위의 티어와 게임 이름도 같이 들어감
+    let getMyRoom = async () => await axios.get(mrurl)
+        .then(function (response) {
+            // response로 온 데이타를 위의 hook의 오른쪽, setDatas를 통해 state인 datas를 바꿔줌
+            myRoom = setMyRoom(response.data);
+        })
+        .catch(function (error) {
+            console.log(tier)
+            console.log(game)
+            console.log(url)
+            console.log('error : ' + error);
+        });
+    // 위의 함수를 호출하여 실행되도록 한다.
+    getMyRoom();
+    console.log(myRoom);
 
 
         return (
@@ -62,7 +78,7 @@ function roomsLOL({ navigation, route }) {
                     backgroundColor: 'white',
                     borderRadius: 0,
                     elevation: 0,
-                    paddingHorizontal: 37,
+                    paddingHorizontal: 43,
                     justifyContent: 'space-between'}}>
                     <View
                         style={{
@@ -115,6 +131,12 @@ function roomsLOL({ navigation, route }) {
                                 paddingStart: 15,
                             }}>
                                 {myRoom.map((data, index) => {
+
+
+                                    let rdate = new Date(data.createdTime);
+                                    rdate.setMinutes(rdate.getMinutes() + parseInt(data.endTime));
+                                    let endtime = rdate.toString().substr(16, 5);
+
                                     return (
                                         <View
                                             style={{
@@ -125,10 +147,10 @@ function roomsLOL({ navigation, route }) {
                                                 paddingEnd: 100
                                             }}>
                                                 <Text style={{fontSize: 12, fontWeight: 'bold'}}>
-                                                    {data.roomIntro} ( {data.joined} / {data.total.toString()} )
+                                                    {data.roomIntro} ( {data.joined} / {data.total} )
                                                 </Text>
                                                 <Text style={{fontSize: 12, paddingStart: 10, color: '#5E5E5E'}}>
-                                                    {data.endtime.toString()}
+                                                    {endtime}
                                                 </Text>
                                         </View>
                                     );})}
@@ -150,7 +172,7 @@ function roomsLOL({ navigation, route }) {
                                     elevation: 6,
                                     backgroundColor: '#ffffff'
                                 }}
-                                onPress={() => setEndtime(endtime + 5)}>
+                                onPress={() => setEndtime(endTime + 5)}>
                                 <Text style={{color: '#00255A', fontWeight: 'bold'}}>
                                     refresh
                                 </Text>
@@ -177,6 +199,11 @@ function roomsLOL({ navigation, route }) {
 
                 <ScrollView style={styles.sView}>
                     {datas.map((data, index) => {
+
+                        let rdate = new Date(data.createdTime);
+                        rdate.setMinutes(rdate.getMinutes() + parseInt(data.endTime));
+                        let endtime = rdate.toString().substr(16, 5);
+
                         return (
                             <View style={styles.sItem} >
                                 <TouchableOpacity
@@ -207,7 +234,7 @@ function roomsLOL({ navigation, route }) {
                                             padding: 10
                                         }}>
                                         <Text style={{fontSize: 12, paddingStart: 10, color: '#5E5E5E'}}>
-                                            {data.ruID}  |  {data.endTime}
+                                            {data.ruID}  |  {endtime}
                                         </Text>
                                     </View>
                                 </TouchableOpacity>
