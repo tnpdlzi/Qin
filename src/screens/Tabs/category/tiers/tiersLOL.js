@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component, useState} from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import axios from "axios";
 
-const datas = [
+const tiers = [
     {id: 'UNRANKED'},
     {id: 'IRON'},
     {id: 'BRONZE'},
@@ -14,7 +15,28 @@ const datas = [
 
 function tiersLOL({ navigation }) {
 
-        return (
+    let getDatas = async (url) => await axios.get(url)
+        .then(function (response) {
+            console.log(response.data)
+            return response.data
+        })
+        .catch(function (error) {
+            console.log(url)
+            console.log('error : ' + error);
+        });
+
+    let getMyRoom = async (mrurl) => await axios.get(mrurl)
+        .then(function (response) {
+            console.log(response.data)
+            return response.data
+        })
+        .catch(function (error) {
+            console.log(mrurl)
+            console.log('error : ' + error);
+        });
+
+
+    return (
             <View style={styles.container}>
                 <View style={styles.gameImage}>
                     <View style={styles.item}>
@@ -37,7 +59,7 @@ function tiersLOL({ navigation }) {
                     />
                 </View>
                 <ScrollView style={styles.sView}>
-                    {datas.map((data, index) => {
+                    {tiers.map((data, index) => {
                         return (
                                 <View style={styles.sItem} >
                                     <TouchableOpacity
@@ -47,8 +69,9 @@ function tiersLOL({ navigation }) {
                                             justifyContent: 'space-between',
                                             width: '100%',
                                         }}
-                                        // 이 부분에서 roomsLOL로 넘어가는데, 네비게이션으로 넘길 때 매개변수를 같이 넘기는 거임. bronze와 LOL이라는 매개변수를 넘기기위해 배열을 사용함
-                                        onPress={() => navigation.navigate('roomsLOL', {tiergame: ['bronze', 'LOL']})}>
+                                        onPress={
+                                            async () => navigation.navigate('roomsLOL', {dataroom: [await getDatas('http://133.186.216.152:8080/category/roomlist?tier=' + data.id + '&game=LOL'), await getMyRoom('http://133.186.216.152:8080/category/myroom?tier=' + data.id + '&game=LOL&uID=1')]})
+                                        }>
                                         <View
                                             style={{
                                                 flexDirection: 'row',
