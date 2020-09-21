@@ -3,46 +3,61 @@ import { Dimensions,ScrollView, StyleSheet, View, Text, Button, TextInput, Image
 import { Icon, Row } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
+import Axios from 'axios';
+//import { TestScheduler } from 'jest';
 
 const winHeight = Dimensions.get('window').height;
 const winWidth  = Dimensions.get('window').width;
-
 
 const hash_rank = [{hash_rank: "동건짱"}, {hash_rank:"리그오브레전드"}, {hash_rank:"롤"}, {hash_rank:"롤"}, {hash_rank:"롤"}
 , {hash_rank:"롤"}, {hash_rank:"롤"}, {hash_rank:"롤"}, {hash_rank:"롤"}, {hash_rank:"롤"}];
 
 
+
+
+
 function HashHome({ navigation }) {
     
     //검색 목록
-    const [search_hash, setSearch_Hash] = useState([]);
-    const [newText, setNewText] = useState("");
-    const [resData, setResData] = useState([]);
+    const [search_hash, setSearch_Hash] = useState([]);   //검색할 HashTag 목록들
+    const [newText, setNewText] = useState(""); //유저의 input을 담기위한 Hook
+    const [resData, setResData] = useState([]); //search_hash 를 이용한 axios통신
+    
+    //검색할 Hash Tag목록 추가
     function addHash(){
         if(!search_hash.includes(newText)){
             setSearch_Hash([
-                ...search_hash,
+                ...search_hash, // 기존의 List들은 유지하면서 새로운 newText추가
                 newText
             ]);
         }
     }
 
-    let getDatas = async () => await axios.post('##########', {
+
+
+    //Hash Tag목록을 기반으로 목록의 Hash Tag를 모두 포함하는 ChatRoom의 Data를 받아온다.
+    let getDatas = async () => await axios.post('http://220.149.232.18:8080/hash/hashSearch', {
         "uID": "1",
         "hashList" : search_hash
     })
-    .then(function (response){
-        setResData(response.data);
+    .then(function(response){
+        if(response.data == ""){ //seach_hash 를 이용해서 통신한 결과가 없을 경우 ResData를 빈 배열로 초기화
+            setResData([]);
+        }else setResData(response.data);
     })
     .catch(function(error){
         console.log("에러 :" + error);
     });
+
     //useEffect함수는 두번 째 매개변수의 변수에 변경이 발생했을때 첫번째 매개변수의 내용을 실행한다.
     useEffect(()=>{
         //search_hash가 변하면 실행되어 getDatas를 호출한다.
-        if(search_hash.length >= 1) getDatas();
+        if(search_hash.length != 0){
+            getDatas();
+        } 
         else setResData([]); //search_hash가 없다면 resData도 없어야 한다.
     },[search_hash]);
+    
 
     //삭제 연산 구현
     const deleteHash = function(data) {
@@ -53,14 +68,6 @@ function HashHome({ navigation }) {
             }
         })
     };
-    function chatRooms(data){
-        console.log("chatRooms Call");
-        return(
-            <View style = {styles.chatRoom}>
-                <Text>{data}</Text>
-            </View>
-        )
-    }
 
     //채팅방 
     return (
@@ -91,10 +98,7 @@ function HashHome({ navigation }) {
                 paddingBottom:5,
             }}>인기 키워드</Text>
             <View
-                style = {{
-                    flexDirection:"row",
-                    height: winHeight*0.035,
-                }}>
+                style = {{flexDirection:"row",height: winHeight*0.035}}>
                 <ScrollView 
                 horizontal={true}
                 showsHorizontalScrollIndicator={true}
@@ -140,30 +144,49 @@ function HashHome({ navigation }) {
                 )                   
                 })}
                 </ScrollView>
-            </View>
-
-            <View
-            style={{flexDirection:"row", flex:1, padding:5}}
-            >
+                </View>
+            
+            <View style={{flexDirection:"row", flex:1, padding:5}}>
                 <ScrollView 
                     showsHorizontalScrollIndicator={true}
                     onMomentumScrollEnd={() => {
                     console.log('Scrolling is End');
                 }}>
-                {resData.map((data, index)=>{
-                    return(
-                        <View style = {styles.chatRoom}>
-                            <View style = {{width: winHeight * 0.07, alignItems: "center", justifyContent: "center"}}>
-                            <TouchableOpacity>
-                            <Image style={styles.chatRoomIcon} source={require('../../../image/my.png')}/>
-                            </TouchableOpacity>
+                {resData.map((data, index) =>{
+                    let arr = (data.hash).split(',');
+                    if(data.isDeleted != 1){
+                        return(
+                            <View style = {styles.chatRoom}>
+                                <View style = {{width: winHeight * 0.07, alignItems: "center", justifyContent: "center"}}>
+                                <TouchableOpacity>
+                                    <Image style={styles.chatRoomIcon} source={require('../../../image/my.png')}/>
+                                </TouchableOpacity>
+                                </View>
+                                <View style = {{flex: 1, flexDirection:"column"}}>
+                                    <View style = {{ flex: 1, height: winHeight * 0.04, paddingTop: 7, flexDirection:"row", paddingLeft:10}}>
+                                    <Text style={{fontSize: 17, flex:1}}>{data.chatInfo}</Text>
+                                    <Text style = {{paddingTop: 2, fontSize: 13}}>{data.total}명</Text>
+                                    </View>
+                                    <View style = {{flex: 0.8}}>
+                                        <ScrollView 
+                                        horizontal={true}
+                                        showsHorizontalScrollIndicator={true}
+                                        onMomentumScrollEnd={() => {
+                                        console.log('Scrolling is End');
+                                        }}>
+                                        {arr.map((data, index)=>{
+                                            return (
+                                                <View style = {{paddingLeft: 7}}>
+                                                    <Text style = {{fontSize: 13, color: 'gray'}}># {data}</Text>
+                                                </View>
+                                            )
+                                        })}
+                                        </ScrollView>    
+                                    </View>
+                                </View>
                             </View>
-                            <View style = {{ flex: 1, height: winHeight * 0.04, paddingTop: 7, flexDirection:"row", paddingLeft:10}}>
-                                <Text style={{fontSize: 17, flex:1}}>{data.chatInfo}</Text>
-                                <Text style = {{paddingTop: 2, fontSize: 13}}>{data.total}명</Text>
-                            </View>
-                        </View>
-                    )
+                        )
+                    }
                 })}
                 </ScrollView>
             </View>
