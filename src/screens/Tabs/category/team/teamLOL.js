@@ -14,22 +14,27 @@ function teamLOL({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <View style={{
-                paddingEnd: 20
-            }}>
-                <Image
-                    style={{
-                        height: 170,
-                        width: 170,
-                        resizeMode: 'cover',
-                    }}
-                    source={require('../../../../image/team.png')}/>
-            </View>
-
-            <Text style={{fontSize: 16, fontWeight: 'bold', paddingBottom: 30}}>
-                필요한 인원을 모집하세요.
-            </Text>
             <ScrollView style={styles.sView}>
+                <View style={styles.container}>
+                    <View style={{
+                        paddingEnd: 20
+                    }}>
+                        <Image
+                            style={{
+                                height: 170,
+                                width: 170,
+                                resizeMode: 'cover',
+                            }}
+                            source={require('../../../../image/team.png')}/>
+                    </View>
+
+                    <Text style={{fontSize: 16, fontWeight: 'bold', paddingBottom: 30}}>
+                        필요한 인원을 모집하세요.
+                    </Text>
+                </View>
+
+                <View style={{paddingHorizontal: 37}}>
+
                 <View style={styles.sItem}>
                     <View
                         style={{
@@ -56,6 +61,7 @@ function teamLOL({ navigation }) {
                         </View>
                     </View>
                 </View>
+
                 <View style={styles.sItem}>
                     <View
                         style={{
@@ -261,6 +267,7 @@ function teamLOL({ navigation }) {
                         </View>
                     </View>
                 </View>
+                </View>
                 <View style={{
                     width: '100%',
                     height: 130,
@@ -269,6 +276,7 @@ function teamLOL({ navigation }) {
                     justifyContent: 'flex-start',
                     alignItems: 'center',
                     paddingBottom: 40,
+                    paddingHorizontal: 37
                 }}>
 
                     <View
@@ -285,7 +293,7 @@ function teamLOL({ navigation }) {
                                 alignItems: 'center'
                             }}>
                             <Text style={{
-                                paddingStart: 10,
+                                paddingStart: 0,
                                 paddingEnd: 10,
                                 fontSize: 30,
                                 fontWeight: 'bold',
@@ -301,7 +309,6 @@ function teamLOL({ navigation }) {
                                     flexDirection: 'row',
                                     justifyContent: 'flex-start',
                                     alignItems: 'center',
-                                    width: '75%'
                                 }}>
                                 <TouchableOpacity onPress={() => minutes > 0 ? setMinutes(minutes-5) : null}>
                                     <Image
@@ -326,7 +333,7 @@ function teamLOL({ navigation }) {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <Text>
+                        <Text style={{paddingStart: 10}}>
                             5분 단위의 시간 설정으로 모집 글이 자동 삭제됩니다.
                         </Text>
 
@@ -360,6 +367,7 @@ function teamLOL({ navigation }) {
                 </View>
 
 
+
             </ScrollView>
         </View>
     );
@@ -388,9 +396,6 @@ const styles = StyleSheet.create({
     sView: {
         flex: 1,
         backgroundColor: 'white',
-        borderRadius: 0,
-        elevation: 0,
-        paddingHorizontal: 37,
     },
     sItem: {
         width: '100%',

@@ -36,13 +36,13 @@ function joinedLOL({ navigation, route }) {
                 return(
                     <View style={{
                         width: '100%',
-                        height: 100,
+                        height: 70,
                         backgroundColor: '#ffffff',
                         flexDirection: 'row',
                         justifyContent: 'flex-start',
                         alignItems: 'center',
-                        paddingTop: 45,
-                        paddingBottom: 10,
+                        paddingTop: 20,
+                        paddingBottom: 0,
                         paddingHorizontal: 30
                     }} >
                         <View
@@ -60,7 +60,7 @@ function joinedLOL({ navigation, route }) {
                                     paddingStart: 5
                                 }}>
 
-                                <Text style={{fontSize: 24}}>
+                                <Text style={{fontSize: 32}}>
                                     {data.roomIntro}
                                 </Text>
 
@@ -71,7 +71,8 @@ function joinedLOL({ navigation, route }) {
                                     flexDirection: 'row',
                                     justifyContent: 'flex-end',
                                     flex: 1,
-                                    padding: 20
+                                    padding: 20,
+                                    alignItems: 'center'
                                 }}>
 
                                 <Text style={{fontSize: 16}}>
