@@ -12,6 +12,15 @@ import axios from 'axios';
 //     {roomID: '4', ruID: '박진곤', roomIntro: '우와', join: '2', total: '4', endtime: '18:42'},
 //     {roomID: '5', ruID: '이지훈', roomIntro: 'intro', join: '2', total: '4', endtime: '18:42'},
 // ];
+let getDatas = async (url) => await axios.get(url)
+    .then(function (response) {
+        console.log(response.data)
+        return response.data
+    })
+    .catch(function (error) {
+        console.log(url)
+        console.log('error : ' + error);
+    });
 
 
 function roomsLOL({ navigation, route }) {
@@ -180,6 +189,7 @@ function roomsLOL({ navigation, route }) {
 
                         let rdate = new Date(data.createdTime);
                         rdate.setMinutes(rdate.getMinutes() + parseInt(data.endTime));
+                        rdate.setHours(rdate.getHours() + 9);
                         let endtime = rdate.toString().substr(16, 5);
 
                         return (
@@ -191,7 +201,7 @@ function roomsLOL({ navigation, route }) {
                                         justifyContent: 'space-between',
                                         width: '100%',
                                     }}
-                                    onPress={() => navigation.navigate(joinedLOL)}>
+                                    onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID)]})}>
                                     <View
                                         style={{
                                             flexDirection: 'row',

@@ -2,16 +2,12 @@ import React, { useState } from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import teamLOL from "../team/teamLOL";
 
-const room = [
-    {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
-    {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
-]
 
-const rTitle = [
-    {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
-]
 
-function joinedLOL({ navigation }) {
+function joinedLOL({ navigation, route }) {
+
+    let member = route.params.memtitle[0];
+    let rTitle = route.params.memtitle[1];
 
     const [top, setTop] = useState(false);
     const [jungle, setJungle] = useState(false);
@@ -79,7 +75,7 @@ function joinedLOL({ navigation }) {
                                 }}>
 
                                 <Text style={{fontSize: 16}}>
-                                    {data.join} / {data.total} 명
+                                    {data.joined} / {data.total} 명
                                 </Text>
 
                             </View>
@@ -90,7 +86,12 @@ function joinedLOL({ navigation }) {
 
 
             <ScrollView style={styles.sView}>
-                {room.map((data, index) => {
+                {member.map((data, index) => {
+
+                    let rdate = new Date(data.inTime);
+                    rdate.setHours(rdate.getHours() + 9);
+                    let intime = rdate.toString().substr(16, 5);
+
                     return (
                         <View style={{
                             width: '100%',
@@ -126,7 +127,7 @@ function joinedLOL({ navigation }) {
                                         }}>
 
                                         <Text style={{fontSize: 14}}>
-                                            {data.ruID}
+                                            {data.uID}
                                         </Text>
 
 
@@ -140,7 +141,7 @@ function joinedLOL({ navigation }) {
                                         }}>
 
                                         <Text style={{fontSize: 14}}>
-                                            {data.endtime}
+                                            {intime}
                                         </Text>
 
                                     </View>
