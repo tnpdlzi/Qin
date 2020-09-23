@@ -97,7 +97,18 @@ function roomsLOL({ navigation, route }) {
                             />
                         </TouchableOpacity>
                     </View>
+                    {myRoom.map((data, index) => {
 
+
+                        let rdate = new Date(data.createdTime);
+                        rdate.setHours(rdate.getHours() + 9);
+                        rdate.setMinutes(rdate.getMinutes() + parseInt(data.endTime));
+                        let endtime = rdate.toString().substr(16, 5);
+
+                        endTime = data.endTime;
+                        roomID = data.roomID;
+
+                        return (
                     <TouchableOpacity
                         style={{
                             flexDirection: 'row',
@@ -105,7 +116,7 @@ function roomsLOL({ navigation, route }) {
                             width: '100%',
                             paddingVertical: 20,
                         }}
-                        onPress={() => navigation.navigate(joinedLOL)}>
+                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID)]})}>
                         <View
                             style={{
                                 flexDirection: 'row',
@@ -113,18 +124,7 @@ function roomsLOL({ navigation, route }) {
                                 justifyContent: 'flex-start',
                                 paddingStart: 15,
                             }}>
-                                {myRoom.map((data, index) => {
 
-
-                                    let rdate = new Date(data.createdTime);
-                                    rdate.setHours(rdate.getHours() + 9);
-                                    rdate.setMinutes(rdate.getMinutes() + parseInt(data.endTime));
-                                    let endtime = rdate.toString().substr(16, 5);
-
-                                    endTime = data.endTime;
-                                    roomID = data.roomID;
-
-                                    return (
                                         <View
                                             style={{
                                                 flexDirection: 'row',
@@ -140,7 +140,6 @@ function roomsLOL({ navigation, route }) {
                                                     {endtime}
                                                 </Text>
                                         </View>
-                                    );})}
                         </View>
                         <View
                             >
@@ -166,6 +165,8 @@ function roomsLOL({ navigation, route }) {
                             </TouchableOpacity>
                         </View>
                     </TouchableOpacity>
+                        );})}
+
                 </View>
 
                 <View
