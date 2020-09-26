@@ -1,10 +1,8 @@
 import React from 'react';
-import { Text } from 'react-native'
+import { Text, TouchableOpacity, View, Image } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import ChatHome from './home';
 import chatRoom from './chatRoom';
-import Styles from '../../../styles';
-import { TouchableOpacity, View, Image } from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -35,7 +33,6 @@ export default function ChatScreen({ navigation }) {
                 options={{
                     headerTitle: () =>
                         <View style={{ alignItems: "center", flex: 1 }}>
-                            {/* <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/> */}
                             <Text style={{ fontSize: 17 }}>상대 닉네임</Text>
                         </View>
                     ,

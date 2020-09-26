@@ -1,53 +1,50 @@
-import React, { Component } from 'react';
-import { View, Text, Button, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
-//import Styles from '../../../styles';
+import React, {  useState, useEffect } from 'react';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import SocketIOClient from "socket.io-client";
+const url = 'http://192.168.0.5:3000';
 
-const testRoom = [
-    {userName: 'test', message: '대화내용 미리보기', time: '12:10'},
-    {userName: 'user1', message: 'ㅎㅇ', time: '12:10'},
-    {userName: 'user2', message: 'ㅋㅋ', time: '12:10'},
-];
+export default function ChatHome({ navigation }) {
+    const [chatList, setChatList] = useState([]);
+    const socket = SocketIOClient(url, { jsonp: false});
 
-function ChatHome({ navigation }) {
+    //페이지 로드시 채팅방리스트 "한 번만" 불러옴
+    useEffect(() => {
+        socket.emit('load chatList');
+    },[]);
+    socket.on('return chatList', (data) => {
+        setChatList(data);
+    })
     
-    //개인채팅방 목록 생성(상대 닉네임, 대화 내용 일부, 시간)
-    const Item = ({ userName, roomTitle, message, time }) => (
-        <TouchableOpacity
-            onPress={() => navigation.navigate('chatRoom')}
+    //FlatList renderItem
+    const renderItem = ({ item }) => {
+        return(
+            <TouchableOpacity
+            onPress={() => navigation.navigate('chatRoom', {roomTitle: item.chatName})}
         >
             <View style={styles.item}>
                 <View style={{ width: 60, justifyContent: 'center' }}>
-                    <Image 
+                    <Image
                         source={require('../../../image/my.png')} style={{ height: 50, width: 50, resizeMode: 'contain' }}
                     />
                 </View>
                 <View style={{ flexDirection: 'column', justifyContent: 'space-evenly', width: "65%" }}>
-                    <Text style={styles.title}>{userName}</Text>
-                    <Text style={styles.title}>{message}</Text>
+                    <Text style={styles.title}>{item.chatName}</Text>
+                    <Text style={styles.title}>미리보기</Text>
                 </View>
                 <View style={{ justifyContent: 'flex-end', width: "30%" }}>
-                    <Text style={styles.title}>{time}</Text>
+                    <Text style={styles.title}>12:10</Text>
                 </View>
             </View>
         </TouchableOpacity>
-    );
+        );
+    };
 
-    const renderItem = ({ item }) => (
-        <Item
-            userName={item.userName}
-            roomTitle={item.roomTitle}
-            message={item.message}
-            time={item.time}
-        />
-    );
-    
     return (
         <View style={styles.container}>
             <FlatList
-                data={testRoom}
+                data={chatList}
                 renderItem={renderItem}
             />
-
         </View>
     );
 }
@@ -69,5 +66,3 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
 });
-
-export default ChatHome;
