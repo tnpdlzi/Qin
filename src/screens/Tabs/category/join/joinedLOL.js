@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import teamLOL from "../team/teamLOL";
+import axios from 'axios';
 
-
+let postDatas = async (url, uID, roomID) => await axios({
+    method: 'post',
+    url: url,
+    data: {
+      uID: uID,
+      roomID: roomID
+    }
+  });
 
 function joinedLOL({ navigation, route }) {
 
@@ -324,7 +332,9 @@ function joinedLOL({ navigation, route }) {
                             backgroundColor: '#00255a',
                             alignItems: 'center',
                             justifyContent: 'center'
-                        }}>
+                        }}
+                        onPress={async () => navigation.navigate('joinedLOL', await postDatas('http://133.186.216.152:8080/category/join', 1, 1))}>
+
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             참여하기
