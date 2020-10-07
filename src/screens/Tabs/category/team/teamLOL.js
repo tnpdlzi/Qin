@@ -1,6 +1,23 @@
 import React, {useState} from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, TextInput} from 'react-native';
 import teamComplete from "./teamComplete";
+import axios from 'axios';
+
+const qs = require('qs');
+
+let postDatas = async (ruID, tier, game, total, endTime, roomIntro) => await axios({
+    method: 'post',
+    url: 'http://133.186.216.152:8080/category/makeRoom',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+      ruID: ruID,
+      tier: tier,
+      game: game,
+      total: total,
+      endTime: endTime,
+      roomIntro: roomIntro
+    })
+  });
 
 function teamLOL({ navigation }) {
     // hook을 통해 만든 states. 그냥 변수와 설정하는 함수라고 생각하면 쉽다. 여길 보면 훅에 대한 이해도를 높일 수 있을것.
@@ -357,7 +374,7 @@ function teamLOL({ navigation }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={() => navigation.navigate(teamComplete)}>
+                        onPress={async () => navigation.navigate('teamComplete', await postDatas(1, 'BRONZE', 'LOL', 5, 5, 'roomTest'))}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             작성하기
