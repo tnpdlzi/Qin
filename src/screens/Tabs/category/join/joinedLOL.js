@@ -1,27 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import teamLOL from "../team/teamLOL";
 import axios from 'axios';
+const qs = require('qs');
+const date = new Date();
 
 let postDatas = async (url, uID, roomID) => await axios({
     method: 'post',
     url: url,
-    data: {
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
       uID: uID,
       roomID: roomID
-    }
+    })
   });
 
 function joinedLOL({ navigation, route }) {
 
-    let member = route.params.memtitle[0];
+    let members = route.params.memtitle[0];
     let rTitle = route.params.memtitle[1];
+    const [member, setMember] = useState(members)
+    const [isError, setIsError] = useState(false);
+
+    console.log(member);
 
     const [top, setTop] = useState(false);
     const [jungle, setJungle] = useState(false);
     const [mid, setMid] = useState(false);
     const [bottom, setBottom] = useState(false);
     const [support, setSupport] = useState(false);
+
+    function addMember(newMember){
+        console.log(newMember)
+            setMember([
+                ...member, // 기존의 List들은 유지하면서 새로운 newText추가
+                {uID: newMember, inTime: "나"}
+            ]);
+    }
+
+    const getLists = () => {
+        return new Promise ((resolve, reject) => {       
+            setTimeout(() => {        
+                resolve(members);   
+            }, 1000);
+        });
+    };
+        
+        
+    useEffect(() => {
+        console.log('=== useEffect ===');
+            const fetchList = async () => {
+                setIsError(false);
+                try {
+                    const memberData = await getLists();
+                    setMember(memberData);
+                } catch (error) {
+                    setIsError(true);
+                }
+            }
+            fetchList();
+        }, []);
+        
+        
 
     return (
         <View style={styles.container}>
@@ -333,7 +373,7 @@ function joinedLOL({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('joinedLOL', await postDatas('http://133.186.216.152:8080/category/join', 1, 1))}>
+                        onPress={async () => {await postDatas('http://133.186.216.152:8080/category/join', 1, 1), await addMember('유저1')}}>
 
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
