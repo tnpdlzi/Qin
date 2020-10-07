@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, View, Image, TextInput, StyleSheet, FlatList } from 'react-native';
 import SocketIOClient from "socket.io-client";
-const url = 'http://192.168.0.5:3000';
+const url = 'http://133.186.216.152:3000';
 
 export default class chatRoom extends Component {
     constructor(props) {
