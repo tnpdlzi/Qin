@@ -3,12 +3,22 @@ import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react
 import teamLOL from "../team/teamLOL";
 import joinedLOL from "../join/joinedLOL";
 import roomsLOL from "../roomList/roomsLOL";
+import axios from 'axios';
 
 
 function teamComplete({ navigation, route }) {
-    console.log(route.params.myRoom);
-    let myRoom = route.params.myRoom;
-
+    let getDatas = async (url) => await axios.get(url)
+    .then(function (response) {
+        console.log(response.data)
+        return response.data
+    })
+    .catch(function (error) {
+        console.log(url)
+        console.log('error : ' + error);
+    });
+    
+    let roomID = route.params.myRoom;
+    console.log('roomID = ' + roomID)
 
     return (
         <View style={styles.container}>
@@ -69,8 +79,6 @@ function teamComplete({ navigation, route }) {
 
                 <View
                     style={{alignItems: 'center', paddingBottom: 10}}>
-                        {myRoom.map((data, index) => {
-                            return(
                     <TouchableOpacity
                         style={{
                             height: 50,
@@ -85,14 +93,14 @@ function teamComplete({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID)]})}>
+                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + roomID)]})}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             게시글 확인
                         </Text>
 
                     </TouchableOpacity>
-                            );})}
+                            
                 </View>
                 <View
                     style={{alignItems: 'center', paddingBottom: 50}}>

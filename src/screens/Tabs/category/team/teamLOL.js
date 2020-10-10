@@ -32,7 +32,10 @@ let postDatas = async (ruID, tier, game, total, endTime, roomIntro) => await axi
       uID: ruID,
       roomID: roomID
     })
-  }));
+  }).then(function (roomID) {
+    let rtn = roomID.config.data.split('roomID=');
+    return rtn[1]
+}));
 //   let postDatas2 = async (url, uID, roomID) => await axios({
 //     method: 'post',
 //     url: url,
@@ -412,7 +415,7 @@ function teamLOL({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('teamComplete', await postDatas(1, tier, 'LOL', count, minutes, intro), {myRoom: await getMyRoom('http://133.186.216.152:8080/category/myroom?tier=' + tier + '&game=LOL&uID=1')})}>
+                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(1, tier, 'LOL', count, minutes, intro)})}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             작성하기
