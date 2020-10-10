@@ -4,62 +4,11 @@ import teamLOL from "../team/teamLOL";
 import joinedLOL from "../join/joinedLOL";
 import roomsLOL from "../roomList/roomsLOL";
 
-function callPost(){
-    const url = '/user-register/server?key=all';
-    const formData = new FormData();
 
-    formData.append('centerKey', 1)
+function teamComplete({ navigation, route }) {
+    console.log(route.params.myRoom);
+    let myRoom = route.params.myRoom;
 
-    formData.append('image', this.state.file)
-    formData.append('name', this.state.name)
-    formData.append('uCenterName', this.state.uCenterName)
-    formData.append('birthday', this.state.birthday)
-    formData.append('gender', this.state.gender)
-    formData.append('email', this.state.email)
-    formData.append('address', this.state.address)
-    formData.append('uPhoneNum', this.state.uPhoneNum)
-    formData.append('carNum', this.state.carNum)
-    formData.append('secondNum', this.state.secondNum)
-    formData.append('webID', this.state.webID)
-    formData.append('uRegistered', '등록')
-    formData.append('uApplyDate', this.state.uApplyDate)
-    formData.append('etc', this.state.etc)
-    console.log(formData)
-    const config = {
-        headers: {
-            'content-type': 'multipart/form-data'
-        }
-    }
-    return post(url, formData, config)
-}
-
-function teamComplete({ navigation }) {
-
-    const callApi = async () => {
-        const response = await fetch('/program-user/server?key=all');
-        const body = await response.json();
-        console.log(body);
-        return body;
-    }
-
-
-
-    const room = callApi();
-
-    const rooms = [
-        {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
-        {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
-    ]
-
-    const rTitle = [
-        {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
-    ]
-
-    const [top, setTop] = useState(false);
-    const [jungle, setJungle] = useState(false);
-    const [mid, setMid] = useState(false);
-    const [bottom, setBottom] = useState(false);
-    const [support, setSupport] = useState(false);
 
     return (
         <View style={styles.container}>
@@ -120,6 +69,8 @@ function teamComplete({ navigation }) {
 
                 <View
                     style={{alignItems: 'center', paddingBottom: 10}}>
+                        {myRoom.map((data, index) => {
+                            return(
                     <TouchableOpacity
                         style={{
                             height: 50,
@@ -134,13 +85,14 @@ function teamComplete({ navigation }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={() => navigation.navigate(joinedLOL)}>
+                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID)]})}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             게시글 확인
                         </Text>
 
                     </TouchableOpacity>
+                            );})}
                 </View>
                 <View
                     style={{alignItems: 'center', paddingBottom: 50}}>

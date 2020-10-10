@@ -25,9 +25,9 @@ let getDatas = async (url) => await axios.get(url)
 
 function roomsLOL({ navigation, route }) {
 
-    // 이 전 화면인 tiersLOL에서 넘김 매개변수를 받아옴. tiergame은 bronze, LOL과 같이 티어와 게임이름을 넘겼음.
     let datas = route.params.dataroom[0];
     let myRoom = route.params.dataroom[1];
+    let tier = route.params.dataroom[2];
 
     let endTime, roomID;
 
@@ -85,7 +85,7 @@ function roomsLOL({ navigation, route }) {
                             </Text>
                         </View>
                         <TouchableOpacity
-                            onPress={() => navigation.navigate(teamLOL)}
+                            onPress={() => navigation.navigate('teamLOL', {tier: tier})}
                             style={{
                                 flexDirection: 'row',
                                 justifyContent: 'flex-end',

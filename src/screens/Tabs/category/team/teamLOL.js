@@ -17,9 +17,43 @@ let postDatas = async (ruID, tier, game, total, endTime, roomIntro) => await axi
       endTime: endTime,
       roomIntro: roomIntro
     })
-  });
+  }).then(async () => await axios.get('http://133.186.216.152:8080/category/newroom?tier=' + tier + '&game=LOL&uID=' + ruID)
+  .then(function (response) {
+      console.log(response.data[0].roomID)
+      return response.data[0].roomID
+  })
+  .catch(function (error) {
+      console.log('error : ' + error);
+  })).then(async (roomID) => await axios({
+    method: 'post',
+    url: 'http://133.186.216.152:8080/category/join',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+      uID: ruID,
+      roomID: roomID
+    })
+  }));
+//   let postDatas2 = async (url, uID, roomID) => await axios({
+//     method: 'post',
+//     url: url,
+//     headers: { 'content-type': 'application/x-www-form-urlencoded' },
+//     data: qs.stringify({
+//       uID: uID,
+//       roomID: roomID
+//     })
+//   });
 
-function teamLOL({ navigation }) {
+  let getMyRoom = async (mrurl) => await axios.get(mrurl)
+        .then(function (response) {
+            console.log(response.data)
+            return response.data
+        })
+        .catch(function (error) {
+            console.log(mrurl)
+            console.log('error : ' + error);
+        });
+
+function teamLOL({ navigation, route }) {
     // hook을 통해 만든 states. 그냥 변수와 설정하는 함수라고 생각하면 쉽다. 여길 보면 훅에 대한 이해도를 높일 수 있을것.
     const [top, setTop] = useState(false);
     const [jungle, setJungle] = useState(false);
@@ -28,6 +62,10 @@ function teamLOL({ navigation }) {
     const [support, setSupport] = useState(false);
     const [count, setCount] = useState(1);
     const [minutes, setMinutes] = useState(5);
+    const [intro, setIntro] = useState('');
+    
+    let tier = route.params.tier;
+    console.log(tier)
 
     return (
         <View style={styles.container}>
@@ -74,7 +112,7 @@ function teamLOL({ navigation }) {
                                 justifyContent: 'flex-start',
                                 width: '75%'
                             }}>
-                            <TextInput style={{fontSize: 16}} placeholder="제목을 입력하세요."/>
+                            <TextInput style={{fontSize: 16}} placeholder="제목을 입력하세요." onChangeText={(intro) => setIntro(intro)}/>
                         </View>
                     </View>
                 </View>
@@ -327,7 +365,7 @@ function teamLOL({ navigation }) {
                                     justifyContent: 'flex-start',
                                     alignItems: 'center',
                                 }}>
-                                <TouchableOpacity onPress={() => minutes > 0 ? setMinutes(minutes-5) : null}>
+                                <TouchableOpacity onPress={() => minutes > 5 ? setMinutes(minutes-5) : null}>
                                     <Image
                                         style={{
                                             height: 80,
@@ -374,7 +412,7 @@ function teamLOL({ navigation }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('teamComplete', await postDatas(1, 'BRONZE', 'LOL', 5, 5, 'roomTest'))}>
+                        onPress={async () => navigation.navigate('teamComplete', await postDatas(1, tier, 'LOL', count, minutes, intro), {myRoom: await getMyRoom('http://133.186.216.152:8080/category/myroom?tier=' + tier + '&game=LOL&uID=1')})}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             작성하기

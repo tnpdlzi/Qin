@@ -70,7 +70,7 @@ function tiersLOL({ navigation }) {
                                             width: '100%',
                                         }}
                                         onPress={
-                                            async () => navigation.navigate('roomsLOL', {dataroom: [await getDatas('http://133.186.216.152:8080/category/roomlist?tier=' + data.id + '&game=LOL'), await getMyRoom('http://133.186.216.152:8080/category/myroom?tier=' + data.id + '&game=LOL&uID=1')]})
+                                            async () => navigation.navigate('roomsLOL', {dataroom: [await getDatas('http://133.186.216.152:8080/category/roomlist?tier=' + data.id + '&game=LOL'), await getMyRoom('http://133.186.216.152:8080/category/myroom?tier=' + data.id + '&game=LOL&uID=1'), data.id]})
                                         }>
                                         <View
                                             style={{
