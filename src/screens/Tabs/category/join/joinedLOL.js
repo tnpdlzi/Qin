@@ -5,13 +5,14 @@ import axios from 'axios';
 const qs = require('qs');
 const date = new Date();
 
-let postDatas = async (url, uID, roomID) => await axios({
+let postDatas = async (url, uID, roomID, position) => await axios({
     method: 'post',
     url: url,
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify({
       uID: uID,
-      roomID: roomID
+      roomID: roomID,
+      position: position
     })
   });
 
@@ -30,6 +31,8 @@ function joinedLOL({ navigation, route }) {
     const [bottom, setBottom] = useState(false);
     const [support, setSupport] = useState(false);
 
+    const [position, setPosition] = useState([])
+
     function addMember(newMember){
         console.log(newMember)
             setMember([
@@ -38,6 +41,7 @@ function joinedLOL({ navigation, route }) {
             ]);
     }
 
+    
     const getLists = () => {
         return new Promise ((resolve, reject) => {       
             setTimeout(() => {        
@@ -175,8 +179,12 @@ function joinedLOL({ navigation, route }) {
                                             paddingStart: 5
                                         }}>
 
-                                        <Text style={{fontSize: 14}}>
+                                        <Text style={{fontSize: 16}}>
                                             {data.uID}
+                                        </Text>
+
+                                        <Text style={{fontSize: 12, paddingStart: 10}}>
+                                            ({data.position})
                                         </Text>
 
 
@@ -373,7 +381,7 @@ function joinedLOL({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => {await postDatas('http://133.186.216.152:8080/category/join', 1, 1), await addMember('유저1')}}>
+                        onPress={async () => {await postDatas('http://133.186.216.152:8080/category/join', 1, 1, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), await addMember('유저1')}}>
 
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>

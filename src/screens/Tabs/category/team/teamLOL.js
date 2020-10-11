@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const qs = require('qs');
 
-let postDatas = async (ruID, tier, game, total, endTime, roomIntro) => await axios({
+let postDatas = async (ruID, tier, game, total, endTime, roomIntro, position) => await axios({
     method: 'post',
     url: 'http://133.186.216.152:8080/category/makeRoom',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -30,7 +30,8 @@ let postDatas = async (ruID, tier, game, total, endTime, roomIntro) => await axi
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify({
       uID: ruID,
-      roomID: roomID
+      roomID: roomID,
+      position: position
     })
   }).then(function (roomID) {
     let rtn = roomID.config.data.split('roomID=');
@@ -397,7 +398,7 @@ function teamLOL({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(1, tier, 'LOL', count, minutes, intro), tier: tier})}>
+                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(1, tier, 'LOL', count, minutes, intro, (top?'탑 ':'') + (jungle?'정글 ':'') + (mid?'미드 ':'') + (bottom?'원딜 ':'') + (support?'서폿':'')), tier: tier})}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             작성하기
