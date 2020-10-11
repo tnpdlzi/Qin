@@ -18,7 +18,7 @@ function teamComplete({ navigation, route }) {
     });
     
     let roomID = route.params.myRoom;
-    console.log('roomID = ' + roomID)
+    let tier = route.params.tier;
 
     return (
         <View style={styles.container}>
@@ -118,7 +118,7 @@ function teamComplete({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={() => navigation.navigate(roomsLOL)}>
+                        onPress={async () => navigation.navigate('roomsLOL', {dataroom: [await getDatas('http://133.186.216.152:8080/category/roomlist?tier=' + tier + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/myroom?tier=' + tier + '&game=LOL&uID=1'), tier]})}>
 
                         <Text style={{color: '#00255A', fontSize: 15, fontWeight: 'bold'}}>
                             게시판 돌아가기

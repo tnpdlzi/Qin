@@ -36,25 +36,7 @@ let postDatas = async (ruID, tier, game, total, endTime, roomIntro) => await axi
     let rtn = roomID.config.data.split('roomID=');
     return rtn[1]
 }));
-//   let postDatas2 = async (url, uID, roomID) => await axios({
-//     method: 'post',
-//     url: url,
-//     headers: { 'content-type': 'application/x-www-form-urlencoded' },
-//     data: qs.stringify({
-//       uID: uID,
-//       roomID: roomID
-//     })
-//   });
 
-  let getMyRoom = async (mrurl) => await axios.get(mrurl)
-        .then(function (response) {
-            console.log(response.data)
-            return response.data
-        })
-        .catch(function (error) {
-            console.log(mrurl)
-            console.log('error : ' + error);
-        });
 
 function teamLOL({ navigation, route }) {
     // hook을 통해 만든 states. 그냥 변수와 설정하는 함수라고 생각하면 쉽다. 여길 보면 훅에 대한 이해도를 높일 수 있을것.
@@ -415,7 +397,7 @@ function teamLOL({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(1, tier, 'LOL', count, minutes, intro)})}>
+                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(1, tier, 'LOL', count, minutes, intro), tier: tier})}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             작성하기

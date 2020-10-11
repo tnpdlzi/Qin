@@ -28,6 +28,9 @@ function roomsLOL({ navigation, route }) {
     let datas = route.params.dataroom[0];
     let myRoom = route.params.dataroom[1];
     let tier = route.params.dataroom[2];
+    console.log(datas)
+    console.log(myRoom)
+    console.log(tier)
 
     let endTime, roomID;
 
