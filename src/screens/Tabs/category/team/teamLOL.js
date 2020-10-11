@@ -398,7 +398,7 @@ function teamLOL({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(1, tier, 'LOL', count, minutes, intro, (top?'탑 ':'') + (jungle?'정글 ':'') + (mid?'미드 ':'') + (bottom?'원딜 ':'') + (support?'서폿':'')), tier: tier})}>
+                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(1, tier, 'LOL', count, minutes, intro, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), tier: tier})}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             작성하기

@@ -22,7 +22,7 @@ function joinedLOL({ navigation, route }) {
     let rTitle = route.params.memtitle[1];
     let roomID = route.params.memtitle[2];
     const [member, setMember] = useState(members)
-    const [isError, setIsError] = useState(false);
+    const [isJoined, setIsJoined] = useState(false);
 
     console.log(member);
     console.log(roomID);
@@ -207,7 +207,8 @@ function joinedLOL({ navigation, route }) {
                         </View>
                     );
                 })}
-                <View style={{width: '100%',
+                
+                <View style={isJoined?{width: 0, height: 0} : {width: '100%',
                     height: 150,
                     backgroundColor: '#ffffff',
                     flexDirection: 'row',
@@ -216,7 +217,7 @@ function joinedLOL({ navigation, route }) {
                     padding: 0,
                     }}>
                     <View
-                        style={{
+                        style={isJoined?{width: 0, height: 0} :{
                             flexDirection: 'row',
                             justifyContent: 'flex-start',
                             alignItems: 'center'
@@ -366,7 +367,7 @@ function joinedLOL({ navigation, route }) {
                 </View>
 
                 <View
-                    style={{alignItems: 'center', paddingBottom: 30, paddingTop: 20}}>
+                    style={isJoined?{width: 0, height: 0} :{alignItems: 'center', paddingBottom: 30, paddingTop: 20}}>
                     <TouchableOpacity
                         style={{
                             height: 50,
@@ -381,7 +382,7 @@ function joinedLOL({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => {await postDatas('http://133.186.216.152:8080/category/join', 1, roomID, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), await addMember('유저1')}}>
+                        onPress={async () => {await postDatas('http://133.186.216.152:8080/category/join', 1, roomID, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), await addMember('유저1'), setIsJoined(true)}}>
 
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
