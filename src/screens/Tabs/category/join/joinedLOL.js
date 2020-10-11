@@ -20,18 +20,18 @@ function joinedLOL({ navigation, route }) {
 
     let members = route.params.memtitle[0];
     let rTitle = route.params.memtitle[1];
+    let roomID = route.params.memtitle[2];
     const [member, setMember] = useState(members)
     const [isError, setIsError] = useState(false);
 
     console.log(member);
+    console.log(roomID);
 
     const [top, setTop] = useState(false);
     const [jungle, setJungle] = useState(false);
     const [mid, setMid] = useState(false);
     const [bottom, setBottom] = useState(false);
     const [support, setSupport] = useState(false);
-
-    const [position, setPosition] = useState([])
 
     function addMember(newMember){
         console.log(newMember)
@@ -381,7 +381,7 @@ function joinedLOL({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => {await postDatas('http://133.186.216.152:8080/category/join', 1, 1, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), await addMember('유저1')}}>
+                        onPress={async () => {await postDatas('http://133.186.216.152:8080/category/join', 1, roomID, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), await addMember('유저1')}}>
 
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
