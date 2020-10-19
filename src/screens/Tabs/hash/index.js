@@ -98,20 +98,27 @@ export default function HashScreen({ navigation }) {
                                         <Text style ={{justifyContent:"center", fontSize: 20}}>   방 만들기</Text>
                                </View>
                                <View style = {{alignItems:"center"}}>
-                                {/* 2020-10-12 이어서 진행할 부분 <<  */}
                                {[...Array(hashCounter)].map((num, index) =>{
                                    return(
-                                        <View style ={{height: 40,}}>
-                                            <Text>#</Text>
-                                            <TextInput style = {styles.input} placeholder = "채팅방의 이름을 입력해주세요.(20자)"
+                                        <View style ={{paddingLeft: 10,height: 50, flexDirection: "row", marginTop: 15, width : "60%", backgroundColor: "white",borderBottomColor: "gray",borderBottomWidth: 2,}}>
+                                            <Text style ={{paddingTop : 15, fontSize:18}}>#</Text>
+                                            <TextInput style = {{width: "100%",fontSize: 17}} placeholder = " 키워드를 입력해주세요."
                                             autoCorrect={ false }
-                                    onChange = {(text) =>{setChatRoomName(text)}}
-                                    ></TextInput>
+                                            onChange = {(text) =>{setChatRoomName(text)}}>
+                                            </TextInput>
                                         </View>
                                    );
                                })}
                                </View>
                                
+                            </View>
+                            <View style = {styles.ModalHashBot}>
+                                <TouchableOpacity style={{paddingTop: 1, paddingLeft:9}}
+                                    onPress = {setHashCounter(hashCounter + 1)}>
+                                    <Image
+                                        style={{height: 60, width: 30, resizeMode: 'cover',}}
+                                        source={require('../../../image/plus.png')}/>
+                                </TouchableOpacity>
                             </View>
                         </View>
                     </Modal>
@@ -179,8 +186,9 @@ const styles = StyleSheet.create({
     },
     ModalHashView :{
         height: 450,
-        backgroundColor: "red",
+        width:"100%",
         borderRadius: 20,
+        backgroundColor:"white"
     },
     ModalHashTop:{
         height:50,
@@ -192,6 +200,10 @@ const styles = StyleSheet.create({
     },
     ModalHashMid:{
         flex:0.75,
-        backgroundColor: 'blue'
+        backgroundColor: 'white'
+    },
+    ModalHashBot :{
+        backgroundColor:"white",
+        justifyContent :"center"
     }
 });

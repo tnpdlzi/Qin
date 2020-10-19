@@ -6,7 +6,7 @@ import Modal from 'react-native-modal';
 
 const winHeight = Dimensions.get('window').height;
 const winWidth  = Dimensions.get('window').width;
-const IP = ;
+const IP = 'http://';
 
 const test_uID = 109; //임시 uID 이후 로그인 유지 방법을 통해서 다른 변수로 대체될 예정
 
