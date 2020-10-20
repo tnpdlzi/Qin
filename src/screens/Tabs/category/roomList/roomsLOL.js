@@ -144,7 +144,7 @@ function roomsLOL({ navigation, route }) {
                             width: '100%',
                             paddingVertical: 20,
                         }}
-                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID)]})}>
+                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID), data.roomID, await getDatas('http://133.186.216.152:8080/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
                         <View
                             style={{
                                 flexDirection: 'row',
@@ -234,7 +234,7 @@ function roomsLOL({ navigation, route }) {
                                         justifyContent: 'space-between',
                                         width: '100%',
                                     }}
-                                    onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID), data.roomID]})}>
+                                    onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID), data.roomID, await getDatas('http://133.186.216.152:8080/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
                                     <View
                                         style={{
                                             flexDirection: 'row',

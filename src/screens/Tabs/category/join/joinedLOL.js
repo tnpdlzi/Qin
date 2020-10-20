@@ -34,19 +34,19 @@ function joinedLOL({ navigation, route }) {
     let members = route.params.memtitle[0];
     let rTitle = route.params.memtitle[1];
     let roomID = route.params.memtitle[2];
-    let tmp = members.map((data) => {
-        if(data.id == 1){
-            tmp = true
-        }
-    })
+    let userIn = route.params.memtitle[3];
+    console.log('thisisuserin = ' + userIn);
+    
     const [member, setMember] = useState(members)
-    const [isJoined, setIsJoined] = useState(member[0].uID == 1? true:false);
+    const [isJoined, setIsJoined] = useState(member[0].uID == 1 ? true : false);
     const [isError, setIsError] = useState(false);
+    const [isUser, setIsUser] = useState(userIn == '' ? false : true);
     
     console.log(member);
     console.log(member[0].uID);
     console.log(isJoined);
-    console.log(roomID);
+    console.log('roomID = ' + roomID);
+    console.log('user in = ' + isUser);
     
 
     const [top, setTop] = useState(false);
@@ -59,43 +59,10 @@ function joinedLOL({ navigation, route }) {
     const onRefresh = React.useCallback(async() => {
         setRefreshing(true);
 
-        setMember(await getDatas('http://133.186.216.152:8080/category/member?roomID=' + roomID + '&game=LOL'))
-    
+        setMember(await getDatas('http://133.186.216.152:8080/category/member?roomID=' + roomID + '&game=LOL'));
+        setIsUser(await getDatas('http://133.186.216.152:8080/category/ismember?roomID=' + roomID + '&uID=1') == '' ? false : true);
         wait(2000).then(() => setRefreshing(false));
       }, []);
-
-    function addMember(newMember){
-        console.log(newMember)
-            setMember([
-                ...member, // 기존의 List들은 유지하면서 새로운 newText추가
-                {uID: newMember, inTime: "나"}
-            ]);
-    }
-
-    
-    const getLists = () => {
-        return new Promise ((resolve, reject) => {       
-            setTimeout(() => {        
-                resolve(members);   
-            }, 1000);
-        });
-    };
-        
-        
-    useEffect(() => {
-        console.log('=== useEffect ===');
-            const fetchList = async () => {
-                setIsError(false);
-                try {
-                    const memberData = await getLists();
-                    setMember(memberData);
-                } catch (error) {
-                    setIsError(true);
-                }
-            }
-            fetchList();
-        }, []);
-        
         
 
     return (
@@ -243,7 +210,7 @@ function joinedLOL({ navigation, route }) {
                     );
                 })}
                 
-                <View style={isJoined?{width: 0, height: 0} : {width: '100%',
+                <View style={{width: '100%',
                     height: 150,
                     backgroundColor: '#ffffff',
                     flexDirection: 'row',
@@ -252,7 +219,7 @@ function joinedLOL({ navigation, route }) {
                     padding: 0,
                     }}>
                     <View
-                        style={isJoined?{width: 0, height: 0} :{
+                        style={isJoined ? {width: 0, height: 0} : isUser ? {width:0, height: 0} : {
                             flexDirection: 'row',
                             justifyContent: 'flex-start',
                             alignItems: 'center'
@@ -402,7 +369,7 @@ function joinedLOL({ navigation, route }) {
                 </View>
 
                 <View
-                    style={isJoined?{width: 0, height: 0} :{alignItems: 'center', paddingBottom: 30, paddingTop: 20}}>
+                    style={isJoined ? {width: 0, height: 0} : isUser ? {width:0, height: 0} : {alignItems: 'center', paddingBottom: 30, paddingTop: 20}}>
                     <TouchableOpacity
                         style={{
                             height: 50,
