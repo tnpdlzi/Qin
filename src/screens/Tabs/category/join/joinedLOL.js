@@ -22,11 +22,14 @@ function joinedLOL({ navigation, route }) {
     let rTitle = route.params.memtitle[1];
     let roomID = route.params.memtitle[2];
     const [member, setMember] = useState(members)
-    const [isJoined, setIsJoined] = useState(false);
+    const [isJoined, setIsJoined] = useState(member[0].uID == 1? true:false);
     const [isError, setIsError] = useState(false);
 
     console.log(member);
+    console.log(member[0].uID);
+    console.log(isJoined);
     console.log(roomID);
+    
 
     const [top, setTop] = useState(false);
     const [jungle, setJungle] = useState(false);
@@ -181,7 +184,7 @@ function joinedLOL({ navigation, route }) {
                                         }}>
 
                                         <Text style={{fontSize: 16}}>
-                                            {data.uID}
+                                            {data.gameID}
                                         </Text>
 
                                         <Text style={{fontSize: 12, paddingStart: 10}}>
