@@ -24,9 +24,11 @@ let getDatas = async (url) => await axios.get(url)
 
 function roomsLOL({ navigation, route }) {
 
-    let datas = route.params.dataroom[0];
-    let myRoom = route.params.dataroom[1];
+    let routeDatas = route.params.dataroom[0];
+    let routeMyRoom = route.params.dataroom[1];
     let tier = route.params.dataroom[2];
+    const [datas, setDatas] = useState(routeDatas);
+    const [myRoom, setMyRoom] = useState(routeMyRoom);
     console.log(datas)
     console.log(myRoom)
     console.log(tier)
@@ -37,8 +39,11 @@ function roomsLOL({ navigation, route }) {
     console.log(isMyRoom)
 
     const [refreshing, setRefreshing] = useState(false);
-    const onRefresh = React.useCallback(() => {
+    const onRefresh = React.useCallback(async() => {
         setRefreshing(true);
+
+        setDatas(await getDatas('http://133.186.216.152:8080/category/roomlist?tier=' + tier + '&game=LOL'))
+        setMyRoom(await getDatas('http://133.186.216.152:8080/category/myroom?tier=' + tier + '&game=LOL&uID=1'))
     
         wait(2000).then(() => setRefreshing(false));
       }, []);
@@ -183,7 +188,7 @@ function roomsLOL({ navigation, route }) {
                                 }:{height:0, width:0}}
                                 onPress={() => refresh('http://133.186.216.152:8080/category/refresh?endTime=' + endTime + '&roomID=' + roomID)}>
                                 <Text style={{color: '#00255A', fontWeight: 'bold'}}>
-                                    refresh
+                                    시간연장
                                 </Text>
                             </TouchableOpacity>
                         </View>

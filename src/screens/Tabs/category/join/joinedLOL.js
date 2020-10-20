@@ -9,7 +9,15 @@ const wait = (timeout) => {
       setTimeout(resolve, timeout);
     });
   }
-
+let getDatas = async (url) => await axios.get(url)
+    .then(function (response) {
+        console.log(response.data)
+        return response.data
+    })
+    .catch(function (error) {
+        console.log(url)
+        console.log('error : ' + error);
+    });
 let postDatas = async (url, uID, roomID, position) => await axios({
     method: 'post',
     url: url,
@@ -48,8 +56,10 @@ function joinedLOL({ navigation, route }) {
     const [support, setSupport] = useState(false);
 
     const [refreshing, setRefreshing] = React.useState(false);
-    const onRefresh = React.useCallback(() => {
+    const onRefresh = React.useCallback(async() => {
         setRefreshing(true);
+
+        setMember(await getDatas('http://133.186.216.152:8080/category/member?roomID=' + roomID + '&game=LOL'))
     
         wait(2000).then(() => setRefreshing(false));
       }, []);
@@ -407,7 +417,7 @@ function joinedLOL({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => {await postDatas('http://133.186.216.152:8080/category/join', 1, roomID, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), await addMember('유저1'), setIsJoined(true)}}>
+                        onPress={async () => {await postDatas('http://133.186.216.152:8080/category/join', 1, roomID, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), setIsJoined(true), onRefresh()}}>
 
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
