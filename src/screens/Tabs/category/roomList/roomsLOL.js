@@ -33,6 +33,9 @@ function roomsLOL({ navigation, route }) {
     console.log(tier)
 
     let endTime, roomID;
+    
+    let isMyRoom = (myRoom.length)==0?false:true;
+    console.log(isMyRoom)
 
 
     let refresh = async (rfurl) => await axios.get(rfurl)
@@ -74,17 +77,27 @@ function roomsLOL({ navigation, route }) {
                             paddingTop: 10
                         }}>
                         <View
-                            style={{
+                            style={isMyRoom?{
                                 flexDirection: 'row',
                                 justifyContent: 'flex-start',
                                 alignItems: 'center',
                                 paddingStart: 10
+                            }:{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                paddingStart: 10,
+                                paddingHorizontal: 150
                             }}>
                             <Text style={{paddingStart: 10, paddingEnd: 20, fontSize: 30, fontWeight: 'bold', color: '#FFC81A'}}>
                                 ·
                             </Text>
-                            <Text style={{paddingEnd: 20, fontSize: 15, fontWeight: 'bold'}}>
+                            
+                            <Text style={isMyRoom?{paddingEnd: 20, fontSize: 15, fontWeight: 'bold'}:{fontSize: 0}}>
                                 내가 쓴 글
+                            </Text>
+                            <Text style={isMyRoom?{fontSize: 0}:{paddingEnd: 20, fontSize: 15, fontWeight: 'bold'}}>
+                                방 만들기
                             </Text>
                         </View>
                         <TouchableOpacity
@@ -95,7 +108,7 @@ function roomsLOL({ navigation, route }) {
                                 paddingEnd: 5
                             }}>
                             <Image
-                                style={{height: 50, width: 80, resizeMode: 'cover'}}
+                                style={isMyRoom?{height:0, width:0}:{height: 50, width: 80, resizeMode: 'cover'}}
                                 source={require('../../../../image/team.png')}
                             />
                         </TouchableOpacity>
@@ -147,7 +160,7 @@ function roomsLOL({ navigation, route }) {
                         <View
                             >
                             <TouchableOpacity
-                                style={{
+                                style={isMyRoom?{
                                     flexDirection: 'row',
                                     justifyContent: 'center',
                                     alignItems: 'center',
@@ -160,7 +173,7 @@ function roomsLOL({ navigation, route }) {
                                     paddingVertical: 10,
                                     elevation: 6,
                                     backgroundColor: '#ffffff'
-                                }}
+                                }:{height:0, width:0}}
                                 onPress={() => refresh('http://133.186.216.152:8080/category/refresh?endTime=' + endTime + '&roomID=' + roomID)}>
                                 <Text style={{color: '#00255A', fontWeight: 'bold'}}>
                                     refresh

@@ -23,6 +23,7 @@ function joinedLOL({ navigation, route }) {
     let roomID = route.params.memtitle[2];
     const [member, setMember] = useState(members)
     const [isJoined, setIsJoined] = useState(false);
+    const [isError, setIsError] = useState(false);
 
     console.log(member);
     console.log(roomID);
