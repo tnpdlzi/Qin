@@ -86,8 +86,6 @@ function roomsLOL({ navigation, route }) {
                 <View style={{
                     flexDirection: 'column',
                     backgroundColor: 'white',
-                    borderRadius: 0,
-                    elevation: 0,
                     paddingHorizontal: 43,
                     justifyContent: 'space-between'}}>
                     <View
@@ -95,7 +93,8 @@ function roomsLOL({ navigation, route }) {
                             flexDirection: 'row',
                             alignItems: 'center',
                             justifyContent: 'space-between',
-                            paddingTop: 10
+                            paddingTop: 10,
+                            width: '77%'
                         }}>
                         <View
                             style={isMyRoom?{
