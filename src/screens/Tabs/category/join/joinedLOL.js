@@ -64,7 +64,14 @@ function joinedLOL({ navigation, route }) {
         wait(2000).then(() => setRefreshing(false));
       }, []);
         
-
+    //   useEffect(() => {
+    //     const unfetched = navigation.addListener('focus', () => {
+    //       onRefresh();
+    //     });
+    
+    //     return unfetched;
+    //   }, [navigation]);
+      
     return (
         <View style={styles.container}>
             <View

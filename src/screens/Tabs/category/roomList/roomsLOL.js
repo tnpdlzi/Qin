@@ -24,11 +24,12 @@ let getDatas = async (url) => await axios.get(url)
 
 function roomsLOL({ navigation, route }) {
 
-    let routeDatas = route.params.dataroom[0];
-    let routeMyRoom = route.params.dataroom[1];
-    let tier = route.params.dataroom[2];
-    const [datas, setDatas] = useState(routeDatas);
-    const [myRoom, setMyRoom] = useState(routeMyRoom);
+    // let routeDatas = route.params.dataroom[0];
+    // let routeMyRoom = route.params.dataroom[1];
+    // let tier = route.params.dataroom[2];
+    let tier = route.params.dataroom[0];
+    const [datas, setDatas] = useState([]);
+    const [myRoom, setMyRoom] = useState([]);
     console.log(datas)
     console.log(myRoom)
     console.log(tier)
@@ -58,6 +59,14 @@ function roomsLOL({ navigation, route }) {
             console.log(rfurl)
             console.log('error : ' + error);
         });
+
+        useEffect(() => {
+            const unfetched = navigation.addListener('focus', () => {
+              onRefresh();
+            });
+        
+            return unfetched;
+          }, [navigation]);
 
         return (
             <View style={styles.container}>
