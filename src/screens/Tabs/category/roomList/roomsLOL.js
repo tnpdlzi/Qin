@@ -1,17 +1,16 @@
 import React, {Component, useState, useEffect} from 'react';
-import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, RefreshControl} from 'react-native';
 import joinedLOL from "../join/joinedLOL";
 import teamLOL from "../team/teamLOL";
 import axios from 'axios';
 
-// 서버로부터 받을 id값, 방장 이름, 방 제목, 참여중 인원수, 총원, 모집 종료 시간
-// const datas = [
-//     {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
-//     {roomID: '2', ruID: '이규빈', roomIntro: 'ㅎㅇㅎㅇ', join: '2', total: '4', endtime: '18:42'},
-//     {roomID: '3', ruID: '류대현', roomIntro: '커몽', join: '2', total: '4', endtime: '18:42'},
-//     {roomID: '4', ruID: '박진곤', roomIntro: '우와', join: '2', total: '4', endtime: '18:42'},
-//     {roomID: '5', ruID: '이지훈', roomIntro: 'intro', join: '2', total: '4', endtime: '18:42'},
-// ];
+
+const wait = (timeout) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
         console.log(response.data)
@@ -36,6 +35,14 @@ function roomsLOL({ navigation, route }) {
     
     let isMyRoom = (myRoom.length)==0?false:true;
     console.log(isMyRoom)
+
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+    
+        wait(2000).then(() => setRefreshing(false));
+      }, []);
+    
 
 
     let refresh = async (rfurl) => await axios.get(rfurl)
@@ -201,7 +208,11 @@ function roomsLOL({ navigation, route }) {
                 </View>
 
 
-                <ScrollView style={styles.sView}>
+                <ScrollView 
+                    style={styles.sView}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                      }>
                     {datas.map((data, index) => {
 
                         let rdate = new Date(data.createdTime);

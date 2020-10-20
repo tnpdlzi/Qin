@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, RefreshControl} from 'react-native';
 import teamLOL from "../team/teamLOL";
 import axios from 'axios';
 const qs = require('qs');
 const date = new Date();
+const wait = (timeout) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
 
 let postDatas = async (url, uID, roomID, position) => await axios({
     method: 'post',
@@ -21,10 +26,15 @@ function joinedLOL({ navigation, route }) {
     let members = route.params.memtitle[0];
     let rTitle = route.params.memtitle[1];
     let roomID = route.params.memtitle[2];
+    let tmp = members.map((data) => {
+        if(data.id == 1){
+            tmp = true
+        }
+    })
     const [member, setMember] = useState(members)
     const [isJoined, setIsJoined] = useState(member[0].uID == 1? true:false);
     const [isError, setIsError] = useState(false);
-
+    
     console.log(member);
     console.log(member[0].uID);
     console.log(isJoined);
@@ -36,6 +46,13 @@ function joinedLOL({ navigation, route }) {
     const [mid, setMid] = useState(false);
     const [bottom, setBottom] = useState(false);
     const [support, setSupport] = useState(false);
+
+    const [refreshing, setRefreshing] = React.useState(false);
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+    
+        wait(2000).then(() => setRefreshing(false));
+      }, []);
 
     function addMember(newMember){
         console.log(newMember)
@@ -142,7 +159,11 @@ function joinedLOL({ navigation, route }) {
             })}
 
 
-            <ScrollView style={styles.sView}>
+            <ScrollView 
+                style={styles.sView}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                  }>
                 {member.map((data, index) => {
 
                     let rdate = new Date(data.inTime);
