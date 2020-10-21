@@ -5,7 +5,7 @@ import HashHome from './home'
 import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import Modal from 'react-native-modal';
 import { TextInput } from 'react-native-gesture-handler';
-
+import createRoom from './creatRoom/createRoom'
 
 const Stack = createStackNavigator();
 
@@ -16,126 +16,6 @@ export default function HashScreen({ navigation }) {
     const [chatRoomName, setChatRoomName] = useState("");
     const [chatRoomInfo, setChatRoomInfo] = useState("");
     
-    
-    const HashChatRoom = ()=>{
-        return(
-            // 모달을 감싸는 뷰
-            <View>
-                <View>
-                    {/* chatName 과 chatInfo를 작성하는 모달 */}
-                    <Modal
-                        transparent = {true}
-                        isVisible = {modalVisible}
-                        backdropColor = {'black'}
-                        backdropOpacity = {0.5}
-                        
-                    >
-                        <View style ={styles.ModalName_InfoView}>
-                            <View style = {styles.ModalName_InfoTop}>
-                                <TouchableOpacity style={{paddingTop: 1, paddingLeft:9}}
-                                    onPress = {() => setModalVisible(!modalVisible)}>
-                                    <Image
-                                        style={{height: 60, width: 30, resizeMode: 'cover',}}
-                                        source={require('../../../image/cancel.png')}/>
-                                </TouchableOpacity>
-                                {/* {chatRoomName == "" & chatRoomInfo == "" ? <Text style = {{fontSize:15, color: "gray"}}>다음</Text> : 
-                                    <TouchableOpacity style={{paddingTop: 25, paddingRight:20, }}
-                                        onPress = {() => setModal2Visible(!modal2Visible)}>
-                                            <Text style ={{fontSize: 15, color: modal1TextColor()}}>다음</Text>
-                                    </TouchableOpacity>} */}
-                                <TouchableOpacity style={{paddingTop: 25, paddingRight:20, }}
-                                    onPress = {() => setModal2Visible(!modal2Visible)}>
-                                    <Text style ={{fontSize: 15,}}>다음</Text>
-                                </TouchableOpacity>    
-                            </View>
-                            <View style = {styles.ModalName_InfoMid}>
-                                <View style = {{flex: 0.3, backgroundColor: "white", flexDirection : "row", justifyContent:"center", alignItems:"center"}}>
-                                    <Image
-                                        style={{height: 30, width: 30, resizeMode: 'cover',}}
-                                        source={require('../../../image/logout.png')}/>
-                                        <Text style ={{justifyContent:"center"}}>   방 만들기</Text>
-                               </View>
-                               <View style = {{flex:1, alignItems:"center"}}>
-                                    <TextInput style = {styles.input} placeholder = "채팅방의 이름을 입력해주세요.(20자)"
-                                    autoCorrect={ false }
-                                    onChange = {(text) =>{setChatRoomName(text)}}
-                                    >
-                                    </TextInput>
-                                    <TextInput style = {styles.input} placeholder = "채팅방의 정보를 입력해주세요.(20자)"
-                                    autoCorrect={ false }
-                                    onChange = {(text) =>{setChatRoomInfo(text)}}
-                                    >
-                                    </TextInput>
-                               </View>
-                            </View>
-                        </View>
-                    </Modal>
-                </View>
-                {/* HashTag입력하는 모달 */}
-                <View>
-                    <Modal
-                    transparent = {true}
-                    isVisible = {modal2Visible}
-                    backdropColor = {'black'}
-                    backdropOpacity = {0.5}
-                    >
-                        <View style = {styles.ModalHashView}>
-                            <View style = {styles.ModalHashTop}>
-                                <TouchableOpacity style={{paddingTop: 15, paddingLeft:15}}
-                                    onPress = {() => setModal2Visible(!modal2Visible)}>
-                                    <Text style ={{fontSize: 15}}>이전</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{paddingTop: 15, paddingRight:15}}
-                                    onPress = {() => setModal2Visible(!modal2Visible)}>
-                                    <Text style ={{fontSize: 15}}>다음</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style = {styles.ModalHashMid}>
-                                <View style = {{backgroundColor: "white", flexDirection : "row", justifyContent:"center", alignItems:"center"}}>
-                                    <Image
-                                        style={{height: 40, width: 40, resizeMode: 'cover',}}
-                                        source={require('../../../image/logout.png')}/>
-                                        <Text style ={{justifyContent:"center", fontSize: 20}}>   방 만들기</Text>
-                               </View>
-                               <View style = {{alignItems:"center"}}>
-                               {[...Array(hashCounter)].map((num, index) =>{
-                                   return(
-                                        <View style ={{paddingLeft: 10,height: 50, flexDirection: "row", marginTop: 15, width : "60%", backgroundColor: "white",borderBottomColor: "gray",borderBottomWidth: 2,}}>
-                                            <Text style ={{paddingTop : 15, fontSize:18}}>#</Text>
-                                            <TextInput style = {{width: "100%",fontSize: 17}} placeholder = " 키워드를 입력해주세요."
-                                            autoCorrect={ false }
-                                            onChange = {(text) =>{setChatRoomName(text)}}>
-                                            </TextInput>
-                                        </View>
-                                   );
-                               })}
-                               </View>
-                               
-                            </View>
-                            <View style = {styles.ModalHashBot}>
-                                <TouchableOpacity style={{paddingTop: 1, paddingLeft:9}}
-                                    onPress = {setHashCounter(hashCounter + 1)}>
-                                    <Image
-                                        style={{height: 60, width: 30, resizeMode: 'cover',}}
-                                        source={require('../../../image/plus.png')}/>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </Modal>
-                </View>
-            </View>
-          
-        
-        );
-        
-    }
-    const createRoom = () =>{
-        if(modalVisible > 0){
-            return(
-                <HashChatRoom />
-            );
-        }
-    }
 
     return (
         <Stack.Navigator>
@@ -154,11 +34,15 @@ export default function HashScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <TouchableOpacity onPress ={()=> setModalVisible(!modalVisible)}>
+                    headerRight: () => <TouchableOpacity onPress ={()=> navigation.navigate('createRoom')}>
                         <Text style = {{margin:15}}>방 만들기</Text>
-                        {createRoom()}
                     </TouchableOpacity>,
                 }}
+            />
+            <Stack.Screen
+                name="createRoom"
+                component={createRoom}
+                options={{ title: '방 만들기' }}
             />
 
         </Stack.Navigator>
