@@ -6,7 +6,7 @@ const tiers = [
     {id: 'UNRANKED'},
     {id: 'IRON'},
     {id: 'BRONZE'},
-    {id: 'SILEVER'},
+    {id: 'SILVER'},
     {id: 'GOLD'},
     {id: 'PLATINUM'},
     {id: 'DIAMOND'},
