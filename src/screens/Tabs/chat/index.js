@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component, useState } from 'react';
 import { Text, TouchableOpacity, View, Image } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Modal from "react-native-modal";
 import ChatHome from './home';
 import chatRoom from './chatRoom';
 
@@ -31,16 +32,7 @@ export default function ChatScreen({ navigation }) {
                 name="chatRoom"
                 component={chatRoom}
                 options={{
-                    headerTitle: () =>
-                        <View style={{ alignItems: "center", flex: 1 }}>
-                            <Text style={{ fontSize: 17 }}>상대 닉네임</Text>
-                        </View>
-                    ,
-                    headerRight: () => <TouchableOpacity>
-                        <View style={{ justifyContent: "center", width: 50 }}>
-                            <Text style={{ fontWeight: "bold", fontSize: 17 }}>관리</Text>
-                        </View>
-                    </TouchableOpacity>,
+                    headerShown: false,
                 }}
             />
         </Stack.Navigator>
