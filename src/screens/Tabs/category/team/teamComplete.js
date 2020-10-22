@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, BackHandler} from 'react-native';
 import teamLOL from "../team/teamLOL";
 import joinedLOL from "../join/joinedLOL";
 import roomsLOL from "../roomList/roomsLOL";
@@ -19,6 +19,28 @@ function teamComplete({ navigation, route }) {
     
     let roomID = route.params.myRoom;
     let tier = route.params.tier;
+    let game = route.params.game;
+
+    const backAction = () => {
+
+        if(game == 'LOL'){
+            navigation.navigate('teamLOL');
+        }else if(game == 'OW'){
+            navigation.navigate('teamOW');
+        }else if(game == 'BG'){
+            navigation.navigate('teamBG');
+        }else if(game == 'RS'){
+            navigation.navigate('teamRS');
+        }
+        
+      };
+    
+      useEffect(() => {
+        BackHandler.addEventListener("hardwareBackPress", backAction);
+    
+        return () =>
+          BackHandler.removeEventListener("hardwareBackPress", backAction);
+      }, []);
 
     return (
         <View style={styles.container}>
