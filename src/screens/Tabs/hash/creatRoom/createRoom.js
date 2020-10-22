@@ -6,7 +6,7 @@ function createRoom ({Navigation}){
     const [chatRoomName, setChatRoomName] = useState("");
     const [chatRoomInfo ,setChatRoomInfo] = useState("");
     const [hashCounter, setHashCounter] = useState(3);
-
+    const [memberCounter, setMemberCounter] = useState(50);
     const hashInput = () =>{
         return(
             <View style ={{paddingLeft: 10,height: 50, flexDirection: "row", marginTop: 10, backgroundColor: "white",borderBottomColor: "gray",borderBottomWidth: 2}}>
@@ -64,6 +64,19 @@ function createRoom ({Navigation}){
             <View style = {styles.MemberNum}>
                 <Text style ={{fontSize:15,color:"gray"}}>채팅방의 최대 모집 인원을 설정해 주세요.</Text>
                 <Text style ={{fontSize:15,color:"gray"}}>(10명 단위 / 최대 100명)</Text>
+                <View style = {{flexDirection:"row", alignItems:"center"}}>
+                    <TouchableOpacity onPress = {() => memberCounter > 10 ? setMemberCounter(memberCounter - 10) : null}>
+                        <Image
+                            source={require('../../../../image/minus.png')} style={{ height: 80, width: 80, resizeMode: 'contain'}}
+                        />
+                    </TouchableOpacity>
+                    <Text>{memberCounter} 명</Text>
+                    <TouchableOpacity onPress = {() => memberCounter < 100 ? setMemberCounter(memberCounter + 10) : null}>
+                        <Image
+                            source={require('../../../../image/plus.png')} style={{ height: 80, width: 80, resizeMode: 'contain'}}
+                        />
+                    </TouchableOpacity>
+                </View>
             </View>  
         </View>
     )
