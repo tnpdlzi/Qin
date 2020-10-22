@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, RefreshControl} from 'react-native';
 import teamLOL from "../team/teamLOL";
 import axios from 'axios';
 const qs = require('qs');
 const date = new Date();
-
-let postDatas = async (url, uID, roomID) => await axios({
+const wait = (timeout) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
+let getDatas = async (url) => await axios.get(url)
+    .then(function (response) {
+        console.log(response.data)
+        return response.data
+    })
+    .catch(function (error) {
+        console.log(url)
+        console.log('error : ' + error);
+    });
+let postDatas = async (url, uID, roomID, position) => await axios({
     method: 'post',
     url: url,
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify({
       uID: uID,
-      roomID: roomID
+      roomID: roomID,
+      position: position
     })
   });
 
@@ -19,10 +33,21 @@ function joinedLOL({ navigation, route }) {
 
     let members = route.params.memtitle[0];
     let rTitle = route.params.memtitle[1];
+    let roomID = route.params.memtitle[2];
+    let userIn = route.params.memtitle[3];
+    console.log('thisisuserin = ' + userIn);
+    
     const [member, setMember] = useState(members)
+    const [isJoined, setIsJoined] = useState(member[0].uID == 1 ? true : false);
     const [isError, setIsError] = useState(false);
-
+    const [isUser, setIsUser] = useState(userIn == '' ? false : true);
+    
     console.log(member);
+    console.log(member[0].uID);
+    console.log(isJoined);
+    console.log('roomID = ' + roomID);
+    console.log('user in = ' + isUser);
+    
 
     const [top, setTop] = useState(false);
     const [jungle, setJungle] = useState(false);
@@ -30,39 +55,23 @@ function joinedLOL({ navigation, route }) {
     const [bottom, setBottom] = useState(false);
     const [support, setSupport] = useState(false);
 
-    function addMember(newMember){
-        console.log(newMember)
-            setMember([
-                ...member, // 기존의 List들은 유지하면서 새로운 newText추가
-                {uID: newMember, inTime: "나"}
-            ]);
-    }
+    const [refreshing, setRefreshing] = React.useState(false);
+    const onRefresh = React.useCallback(async() => {
+        setRefreshing(true);
 
-    const getLists = () => {
-        return new Promise ((resolve, reject) => {       
-            setTimeout(() => {        
-                resolve(members);   
-            }, 1000);
-        });
-    };
+        setMember(await getDatas('http://133.186.216.152:8080/category/member?roomID=' + roomID + '&game=LOL'));
+        setIsUser(await getDatas('http://133.186.216.152:8080/category/ismember?roomID=' + roomID + '&uID=1') == '' ? false : true);
+        wait(2000).then(() => setRefreshing(false));
+      }, []);
         
-        
-    useEffect(() => {
-        console.log('=== useEffect ===');
-            const fetchList = async () => {
-                setIsError(false);
-                try {
-                    const memberData = await getLists();
-                    setMember(memberData);
-                } catch (error) {
-                    setIsError(true);
-                }
-            }
-            fetchList();
-        }, []);
-        
-        
-
+    //   useEffect(() => {
+    //     const unfetched = navigation.addListener('focus', () => {
+    //       onRefresh();
+    //     });
+    
+    //     return unfetched;
+    //   }, [navigation]);
+      
     return (
         <View style={styles.container}>
             <View
@@ -134,7 +143,11 @@ function joinedLOL({ navigation, route }) {
             })}
 
 
-            <ScrollView style={styles.sView}>
+            <ScrollView 
+                style={styles.sView}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                  }>
                 {member.map((data, index) => {
 
                     let rdate = new Date(data.inTime);
@@ -175,8 +188,12 @@ function joinedLOL({ navigation, route }) {
                                             paddingStart: 5
                                         }}>
 
-                                        <Text style={{fontSize: 14}}>
-                                            {data.uID}
+                                        <Text style={{fontSize: 16}}>
+                                            {data.gameID}
+                                        </Text>
+
+                                        <Text style={{fontSize: 12, paddingStart: 10}}>
+                                            ({data.position})
                                         </Text>
 
 
@@ -199,6 +216,7 @@ function joinedLOL({ navigation, route }) {
                         </View>
                     );
                 })}
+                
                 <View style={{width: '100%',
                     height: 150,
                     backgroundColor: '#ffffff',
@@ -208,7 +226,7 @@ function joinedLOL({ navigation, route }) {
                     padding: 0,
                     }}>
                     <View
-                        style={{
+                        style={isJoined ? {width: 0, height: 0} : isUser ? {width:0, height: 0} : {
                             flexDirection: 'row',
                             justifyContent: 'flex-start',
                             alignItems: 'center'
@@ -358,7 +376,7 @@ function joinedLOL({ navigation, route }) {
                 </View>
 
                 <View
-                    style={{alignItems: 'center', paddingBottom: 30, paddingTop: 20}}>
+                    style={isJoined ? {width: 0, height: 0} : isUser ? {width:0, height: 0} : {alignItems: 'center', paddingBottom: 30, paddingTop: 20}}>
                     <TouchableOpacity
                         style={{
                             height: 50,
@@ -373,7 +391,7 @@ function joinedLOL({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => {await postDatas('http://133.186.216.152:8080/category/join', 1, 1), await addMember('유저1')}}>
+                        onPress={async () => {await postDatas('http://133.186.216.152:8080/category/join', 1, roomID, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), setIsJoined(true), onRefresh()}}>
 
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>

@@ -6,14 +6,15 @@ import Modal from 'react-native-modal';
 
 const winHeight = Dimensions.get('window').height;
 const winWidth  = Dimensions.get('window').width;
+const IP = 'http://';
 
-
-const test_uID = 10; //임시 uID 이후 로그인 유지 방법을 통해서 다른 변수로 대체될 예정
+const test_uID = 109; //임시 uID 이후 로그인 유지 방법을 통해서 다른 변수로 대체될 예정
 
 let hash_rank = [];
 
 let getTopRank = async () => await axios.get(IP + ':8080/hash/topRank')
     .then(function(response){
+        console.log(response.data);
         hash_rank = response.data;
     })
     .catch(function(error){
@@ -93,6 +94,7 @@ function HashHome({ navigation}) {
     return (
         //부모 컨테이너
         <View style = {styles.container}>
+            {console.log("부모 컨테이너")}
             {/* CharRoomList에서 이미지 클릭시 뜨는 모달 */}
             <Modal
                 transparent = {true}
@@ -110,6 +112,7 @@ function HashHome({ navigation}) {
                                         style={{height: 60, width: 30, resizeMode: 'cover',}}
                                         source={require('../../../image/cancel.png')}/>
                                 </TouchableOpacity>
+                                
                             </View>
                             <Text style = {{paddingTop: 30, fontSize: 18}}>채팅창 정보</Text>
                         </View>

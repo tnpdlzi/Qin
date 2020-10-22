@@ -1,17 +1,16 @@
 import React, {Component, useState, useEffect} from 'react';
-import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, RefreshControl} from 'react-native';
 import joinedLOL from "../join/joinedLOL";
 import teamLOL from "../team/teamLOL";
 import axios from 'axios';
 
-// 서버로부터 받을 id값, 방장 이름, 방 제목, 참여중 인원수, 총원, 모집 종료 시간
-// const datas = [
-//     {roomID: '1', ruID: '이동건', roomIntro: '방 만들기', join: '2', total: '4', endtime: '18:42'},
-//     {roomID: '2', ruID: '이규빈', roomIntro: 'ㅎㅇㅎㅇ', join: '2', total: '4', endtime: '18:42'},
-//     {roomID: '3', ruID: '류대현', roomIntro: '커몽', join: '2', total: '4', endtime: '18:42'},
-//     {roomID: '4', ruID: '박진곤', roomIntro: '우와', join: '2', total: '4', endtime: '18:42'},
-//     {roomID: '5', ruID: '이지훈', roomIntro: 'intro', join: '2', total: '4', endtime: '18:42'},
-// ];
+
+const wait = (timeout) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
         console.log(response.data)
@@ -25,11 +24,31 @@ let getDatas = async (url) => await axios.get(url)
 
 function roomsLOL({ navigation, route }) {
 
-    // 이 전 화면인 tiersLOL에서 넘김 매개변수를 받아옴. tiergame은 bronze, LOL과 같이 티어와 게임이름을 넘겼음.
-    let datas = route.params.dataroom[0];
-    let myRoom = route.params.dataroom[1];
+    // let routeDatas = route.params.dataroom[0];
+    // let routeMyRoom = route.params.dataroom[1];
+    // let tier = route.params.dataroom[2];
+    let tier = route.params.dataroom[0];
+    const [datas, setDatas] = useState([]);
+    const [myRoom, setMyRoom] = useState([]);
+    console.log(datas)
+    console.log(myRoom)
+    console.log(tier)
 
     let endTime, roomID;
+    
+    let isMyRoom = (myRoom.length)==0?false:true;
+    console.log(isMyRoom)
+
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = React.useCallback(async() => {
+        setRefreshing(true);
+
+        setDatas(await getDatas('http://133.186.216.152:8080/category/roomlist?tier=' + tier + '&game=LOL'))
+        setMyRoom(await getDatas('http://133.186.216.152:8080/category/myroom?tier=' + tier + '&game=LOL&uID=1'))
+    
+        wait(2000).then(() => setRefreshing(false));
+      }, []);
+    
 
 
     let refresh = async (rfurl) => await axios.get(rfurl)
@@ -40,6 +59,14 @@ function roomsLOL({ navigation, route }) {
             console.log(rfurl)
             console.log('error : ' + error);
         });
+
+        useEffect(() => {
+            const unfetched = navigation.addListener('focus', () => {
+              onRefresh();
+            });
+        
+            return unfetched;
+          }, [navigation]);
 
         return (
             <View style={styles.container}>
@@ -59,8 +86,6 @@ function roomsLOL({ navigation, route }) {
                 <View style={{
                     flexDirection: 'column',
                     backgroundColor: 'white',
-                    borderRadius: 0,
-                    elevation: 0,
                     paddingHorizontal: 43,
                     justifyContent: 'space-between'}}>
                     <View
@@ -68,31 +93,42 @@ function roomsLOL({ navigation, route }) {
                             flexDirection: 'row',
                             alignItems: 'center',
                             justifyContent: 'space-between',
-                            paddingTop: 10
+                            paddingTop: 10,
+                            width: '77%'
                         }}>
                         <View
-                            style={{
+                            style={isMyRoom?{
                                 flexDirection: 'row',
                                 justifyContent: 'flex-start',
                                 alignItems: 'center',
                                 paddingStart: 10
+                            }:{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                paddingStart: 10,
+                                paddingHorizontal: 150
                             }}>
                             <Text style={{paddingStart: 10, paddingEnd: 20, fontSize: 30, fontWeight: 'bold', color: '#FFC81A'}}>
                                 ·
                             </Text>
-                            <Text style={{paddingEnd: 20, fontSize: 15, fontWeight: 'bold'}}>
+                            
+                            <Text style={isMyRoom?{paddingEnd: 20, fontSize: 15, fontWeight: 'bold'}:{fontSize: 0}}>
                                 내가 쓴 글
+                            </Text>
+                            <Text style={isMyRoom?{fontSize: 0}:{paddingEnd: 20, fontSize: 15, fontWeight: 'bold'}}>
+                                방 만들기
                             </Text>
                         </View>
                         <TouchableOpacity
-                            onPress={() => navigation.navigate(teamLOL)}
+                            onPress={() => navigation.navigate('teamLOL', {tier: tier})}
                             style={{
                                 flexDirection: 'row',
                                 justifyContent: 'flex-end',
                                 paddingEnd: 5
                             }}>
                             <Image
-                                style={{height: 50, width: 80, resizeMode: 'cover'}}
+                                style={isMyRoom?{height:0, width:0}:{height: 50, width: 80, resizeMode: 'cover'}}
                                 source={require('../../../../image/team.png')}
                             />
                         </TouchableOpacity>
@@ -116,7 +152,7 @@ function roomsLOL({ navigation, route }) {
                             width: '100%',
                             paddingVertical: 20,
                         }}
-                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID)]})}>
+                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID), data.roomID, await getDatas('http://133.186.216.152:8080/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
                         <View
                             style={{
                                 flexDirection: 'row',
@@ -144,7 +180,7 @@ function roomsLOL({ navigation, route }) {
                         <View
                             >
                             <TouchableOpacity
-                                style={{
+                                style={isMyRoom?{
                                     flexDirection: 'row',
                                     justifyContent: 'center',
                                     alignItems: 'center',
@@ -157,10 +193,10 @@ function roomsLOL({ navigation, route }) {
                                     paddingVertical: 10,
                                     elevation: 6,
                                     backgroundColor: '#ffffff'
-                                }}
+                                }:{height:0, width:0}}
                                 onPress={() => refresh('http://133.186.216.152:8080/category/refresh?endTime=' + endTime + '&roomID=' + roomID)}>
                                 <Text style={{color: '#00255A', fontWeight: 'bold'}}>
-                                    refresh
+                                    시간연장
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -185,7 +221,11 @@ function roomsLOL({ navigation, route }) {
                 </View>
 
 
-                <ScrollView style={styles.sView}>
+                <ScrollView 
+                    style={styles.sView}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                      }>
                     {datas.map((data, index) => {
 
                         let rdate = new Date(data.createdTime);
@@ -202,7 +242,7 @@ function roomsLOL({ navigation, route }) {
                                         justifyContent: 'space-between',
                                         width: '100%',
                                     }}
-                                    onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID)]})}>
+                                    onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID), data.roomID, await getDatas('http://133.186.216.152:8080/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
                                     <View
                                         style={{
                                             flexDirection: 'row',
