@@ -31,10 +31,10 @@ function tiersLOL({ navigation }) {
                 <View style={styles.gameImage}>
                     <View style={styles.item}>
                         <Image
-                            style={{height: 50, width: 50, resizeMode: 'contain'}}
-                            source={require('../../../../image/img_user.png')}
+                            style={{height: 80, width: 80, resizeMode: 'contain'}}
+                            source={require('../../../../image/id_g.png')}
                         />
-                        <Text style={{padding: 20}}>등록이 필요합니다.</Text>
+                        <Text style={{paddingEnd: 40}}>등록이 필요합니다.</Text>
                     </View>
                     <Image
                         style={{
