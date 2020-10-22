@@ -43,11 +43,9 @@ export default function CategoryScreen({ navigation }) {
                 component={tiersLOL}
                 options={{
                     headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                        <View style={{paddingStart: 20}}>
-                            <Image
-                                source={require('../../../image/back.png')} style={{ height: 25, width: 25, resizeMode: 'contain'}}
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
-                        </View>
                     </TouchableOpacity>,
                     headerTitle: () =>
                         <View style={{ alignItems: "center", flex:1 }}>
@@ -62,11 +60,9 @@ export default function CategoryScreen({ navigation }) {
                 component={tiersOW}
                 options={{
                     headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                        <View style={{paddingStart: 20}}>
-                            <Image
-                                source={require('../../../image/back.png')} style={{ height: 25, width: 25, resizeMode: 'contain'}}
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
-                        </View>
                     </TouchableOpacity>,
                     headerTitle: () =>
                         <View style={{ alignItems: "center", flex:1 }}>
@@ -81,11 +77,9 @@ export default function CategoryScreen({ navigation }) {
                 component={tiersBG}
                 options={{
                     headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                        <View style={{paddingStart: 20}}>
-                            <Image
-                                source={require('../../../image/back.png')} style={{ height: 25, width: 25, resizeMode: 'contain'}}
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
-                        </View>
                     </TouchableOpacity>,
                     headerTitle: () =>
                         <View style={{ alignItems: "center", flex:1 }}>
@@ -100,11 +94,9 @@ export default function CategoryScreen({ navigation }) {
                 component={tiersRS}
                 options={{
                     headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                        <View style={{paddingStart: 20}}>
-                            <Image
-                                source={require('../../../image/back.png')} style={{ height: 25, width: 25, resizeMode: 'contain'}}
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
-                        </View>
                     </TouchableOpacity>,
                     headerTitle: () =>
                         <View style={{ alignItems: "center", flex:1 }}>
@@ -119,11 +111,9 @@ export default function CategoryScreen({ navigation }) {
                 component={roomsLOL}
                 options={{
                     headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('tiersLOL')}>
-                        <View style={{paddingStart: 20}}>
-                            <Image
-                                source={require('../../../image/back.png')} style={{ height: 25, width: 25, resizeMode: 'contain'}}
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
-                        </View>
                     </TouchableOpacity>,
                     headerTitle: () =>
                         <View style={{ alignItems: "center", flex:1 }}>
@@ -138,11 +128,9 @@ export default function CategoryScreen({ navigation }) {
                 component={joinedLOL}
                 options={{
                     headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('roomsLOL')}>
-                        <View style={{paddingStart: 20}}>
-                            <Image
-                                source={require('../../../image/back.png')} style={{ height: 25, width: 25, resizeMode: 'contain'}}
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
-                        </View>
                     </TouchableOpacity>,
                     headerTitle: () =>
                         <View style={{ alignItems: "center", flex:1 }}>
@@ -157,11 +145,9 @@ export default function CategoryScreen({ navigation }) {
                 component={teamLOL}
                 options={{
                     headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('roomsLOL')}>
-                        <View style={{paddingStart: 20}}>
-                            <Image
-                                source={require('../../../image/back.png')} style={{ height: 25, width: 25, resizeMode: 'contain'}}
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
-                        </View>
                     </TouchableOpacity>,
                     headerTitle: () =>
                         <View style={{ alignItems: "center", flex:1 }}>
@@ -176,11 +162,9 @@ export default function CategoryScreen({ navigation }) {
                 component={teamComplete}
                 options={{
                     headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('roomsLOL')}>
-                        <View style={{paddingStart: 20}}>
-                            <Image
-                                source={require('../../../image/back.png')} style={{ height: 25, width: 25, resizeMode: 'contain'}}
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
-                        </View>
                     </TouchableOpacity>,
                     headerTitle: () =>
                         <View style={{ alignItems: "center", flex:1 }}>
