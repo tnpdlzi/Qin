@@ -1,7 +1,6 @@
 import React, {Component, useState, useEffect} from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, RefreshControl} from 'react-native';
-import joinedLOL from "../join/joinedLOL";
-import teamLOL from "../team/teamLOL";
+import server from '../../../../../server.json'
 import axios from 'axios';
 
 
@@ -24,9 +23,6 @@ let getDatas = async (url) => await axios.get(url)
 
 function roomsLOL({ navigation, route }) {
 
-    // let routeDatas = route.params.dataroom[0];
-    // let routeMyRoom = route.params.dataroom[1];
-    // let tier = route.params.dataroom[2];
     let tier = route.params.dataroom[0];
     const [datas, setDatas] = useState([]);
     const [myRoom, setMyRoom] = useState([]);
@@ -43,8 +39,8 @@ function roomsLOL({ navigation, route }) {
     const onRefresh = React.useCallback(async() => {
         setRefreshing(true);
 
-        setDatas(await getDatas('http://133.186.216.152:8080/category/roomlist?tier=' + tier + '&game=LOL'))
-        setMyRoom(await getDatas('http://133.186.216.152:8080/category/myroom?tier=' + tier + '&game=LOL&uID=1'))
+        setDatas(await getDatas(server.ip + '/category/roomlist?tier=' + tier + '&game=LOL'))
+        setMyRoom(await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=LOL&uID=1'))
     
         wait(2000).then(() => setRefreshing(false));
       }, []);
@@ -152,7 +148,7 @@ function roomsLOL({ navigation, route }) {
                             width: '100%',
                             paddingVertical: 20,
                         }}
-                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID), data.roomID, await getDatas('http://133.186.216.152:8080/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
+                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas(server.ip + '/category/title?roomID=' + data.roomID), data.roomID, await getDatas(server.ip + '/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
                         <View
                             style={{
                                 flexDirection: 'row',
@@ -194,7 +190,7 @@ function roomsLOL({ navigation, route }) {
                                     elevation: 6,
                                     backgroundColor: '#ffffff'
                                 }:{height:0, width:0}}
-                                onPress={() => refresh('http://133.186.216.152:8080/category/refresh?endTime=' + endTime + '&roomID=' + roomID)}>
+                                onPress={() => refresh(server.ip + '/category/refresh?endTime=' + endTime + '&roomID=' + roomID)}>
                                 <Text style={{color: '#00255A', fontWeight: 'bold'}}>
                                     시간연장
                                 </Text>
@@ -242,7 +238,7 @@ function roomsLOL({ navigation, route }) {
                                         justifyContent: 'space-between',
                                         width: '100%',
                                     }}
-                                    onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + data.roomID), data.roomID, await getDatas('http://133.186.216.152:8080/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
+                                    onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas(server.ip + '/category/title?roomID=' + data.roomID), data.roomID, await getDatas(server.ip + '/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
                                     <View
                                         style={{
                                             flexDirection: 'row',

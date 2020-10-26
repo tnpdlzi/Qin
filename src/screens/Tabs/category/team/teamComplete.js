@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, BackHandler} from 'react-native';
-import teamLOL from "../team/teamLOL";
-import joinedLOL from "../join/joinedLOL";
-import roomsLOL from "../roomList/roomsLOL";
+import server from '../../../../../server.json'
 import axios from 'axios';
 
 
@@ -115,7 +113,7 @@ function teamComplete({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas('http://133.186.216.152:8080/category/member?roomID=' + roomID + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/title?roomID=' + roomID)]})}>
+                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + roomID + '&game=LOL'), await getDatas(server.ip + '/category/title?roomID=' + roomID)]})}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             게시글 확인
@@ -140,7 +138,7 @@ function teamComplete({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('roomsLOL', {dataroom: [await getDatas('http://133.186.216.152:8080/category/roomlist?tier=' + tier + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/myroom?tier=' + tier + '&game=LOL&uID=1'), tier]})}>
+                        onPress={async () => navigation.navigate('roomsLOL', {dataroom: [await getDatas(server.ip + '/category/roomlist?tier=' + tier + '&game=LOL'), await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=LOL&uID=1'), tier]})}>
 
                         <Text style={{color: '#00255A', fontSize: 15, fontWeight: 'bold'}}>
                             게시판 돌아가기

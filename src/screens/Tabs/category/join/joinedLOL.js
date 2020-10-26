@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, RefreshControl} from 'react-native';
-import teamLOL from "../team/teamLOL";
+import server from '../../../../../server.json'
 import axios from 'axios';
 const qs = require('qs');
 const date = new Date();
@@ -59,8 +59,8 @@ function joinedLOL({ navigation, route }) {
     const onRefresh = React.useCallback(async() => {
         setRefreshing(true);
 
-        setMember(await getDatas('http://133.186.216.152:8080/category/member?roomID=' + roomID + '&game=LOL'));
-        setIsUser(await getDatas('http://133.186.216.152:8080/category/ismember?roomID=' + roomID + '&uID=1') == '' ? false : true);
+        setMember(await getDatas(server.ip + '/category/member?roomID=' + roomID + '&game=LOL'));
+        setIsUser(await getDatas(server.ip + '/category/ismember?roomID=' + roomID + '&uID=1') == '' ? false : true);
         wait(2000).then(() => setRefreshing(false));
       }, []);
         
@@ -391,7 +391,7 @@ function joinedLOL({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => {await postDatas('http://133.186.216.152:8080/category/join', 1, roomID, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), setIsJoined(true), onRefresh()}}>
+                        onPress={async () => {await postDatas(server.ip + '/category/join', 1, roomID, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), setIsJoined(true), onRefresh()}}>
 
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>

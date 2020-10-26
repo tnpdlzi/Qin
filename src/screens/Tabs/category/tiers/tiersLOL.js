@@ -1,7 +1,7 @@
 import React, {Component, useState} from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
-import axios from "axios";
 
+// 롤에 있는 티어들
 const tiers = [
     {id: 'UNRANKED'},
     {id: 'IRON'},
@@ -14,17 +14,6 @@ const tiers = [
 ];
 
 function tiersLOL({ navigation }) {
-
-    let getDatas = async (url) => await axios.get(url)
-        .then(function (response) {
-            console.log(response.data)
-            return response.data
-        })
-        .catch(function (error) {
-            console.log(url)
-            console.log('error : ' + error);
-        });
-
 
     return (
             <View style={styles.container}>
@@ -49,6 +38,9 @@ function tiersLOL({ navigation }) {
                     />
                 </View>
                 <ScrollView style={styles.sView}>
+
+                    {/* tiers에 대해서 map을 돌려 tiers 목록이 생기게끔 만든다. */}
+
                     {tiers.map((data, index) => {
                         return (
                                 <View style={styles.sItem} >
@@ -60,7 +52,7 @@ function tiersLOL({ navigation }) {
                                             width: '100%',
                                         }}
                                         onPress={
-                                            // async () => navigation.navigate('roomsLOL', {dataroom: [await getDatas('http://133.186.216.152:8080/category/roomlist?tier=' + data.id + '&game=LOL'), await getDatas('http://133.186.216.152:8080/category/myroom?tier=' + data.id + '&game=LOL&uID=1'), data.id]})
+                                            // data.id를 이용해서 선택된 tier를 roomsLOL에 파라미터로 넘겨준다.
                                             async () => navigation.navigate('roomsLOL', {dataroom: [data.id]})
 
                                         }>
@@ -74,6 +66,7 @@ function tiersLOL({ navigation }) {
                                                 ·
                                             </Text>
                                             <Text style={{fontSize: 30, fontWeight: 'bold'}}>
+                                                {/* tier를 출력 */}
                                                 {data.id}
                                             </Text>
                                         </View>

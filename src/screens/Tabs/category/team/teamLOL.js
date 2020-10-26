@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, TextInput} from 'react-native';
-import teamComplete from "./teamComplete";
+import server from '../../../../../server.json'
 import axios from 'axios';
 
 const qs = require('qs');
 
 let postDatas = async (ruID, tier, game, total, endTime, roomIntro, position) => await axios({
     method: 'post',
-    url: 'http://133.186.216.152:8080/category/makeRoom',
+    url: server.ip + '/category/makeRoom',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify({
       ruID: ruID,
@@ -17,7 +17,7 @@ let postDatas = async (ruID, tier, game, total, endTime, roomIntro, position) =>
       endTime: endTime,
       roomIntro: roomIntro
     })
-  }).then(async () => await axios.get('http://133.186.216.152:8080/category/newroom?tier=' + tier + '&game=LOL&uID=' + ruID)
+  }).then(async () => await axios.get(server.ip + '/category/newroom?tier=' + tier + '&game=LOL&uID=' + ruID)
   .then(function (response) {
       console.log(response.data[0].roomID)
       return response.data[0].roomID
@@ -26,7 +26,7 @@ let postDatas = async (ruID, tier, game, total, endTime, roomIntro, position) =>
       console.log('error : ' + error);
   })).then(async (roomID) => await axios({
     method: 'post',
-    url: 'http://133.186.216.152:8080/category/join',
+    url: server.ip + '/category/join',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify({
       uID: ruID,
