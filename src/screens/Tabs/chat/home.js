@@ -8,13 +8,13 @@ export default function ChatHome({ navigation }) {
     const [chatList, setChatList] = useState([]);
     const socket = SocketIOClient(url, { jsonp: false});
 
-    //페이지 로드시 채팅방리스트 "한 번만" 불러옴
+    //페이지 로드시 채팅방리스트 한 번만 불러옴
     useEffect(() => {
         socket.emit('load chatList');
     },[]);
     socket.on('return chatList', (data) => {
         setChatList(data);
-        console.log(data);
+        //console.log(data);
     })
     
     //FlatList renderItem
