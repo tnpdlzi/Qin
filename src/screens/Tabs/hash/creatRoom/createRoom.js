@@ -1,65 +1,144 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, TextInput} from 'react-native';
 import axios from "axios";
 
+const IP = 'http://';
+const test_uID = 109;
 function createRoom ({Navigation}){
-    const [chatRoomName, setChatRoomName] = useState("");
-    const [chatRoomInfo ,setChatRoomInfo] = useState("");
-    const [hashCounter, setHashCounter] = useState(3);
+    const [chatName, setChatName] = useState("");
+    const [chatInfo ,setChatInfo] = useState("");
     const [memberCounter, setMemberCounter] = useState(50);
-    const hashInput = () =>{
-        return(
-            <View style ={{paddingLeft: 10,height: 50, flexDirection: "row", marginTop: 10, backgroundColor: "white",borderBottomColor: "gray",borderBottomWidth: 2}}>
-                <Text style ={{paddingTop : 13, fontSize:20}}>#</Text>
-                <TextInput style = {{fontSize: 18}} placeholder = " 키워드를 입력해주세요."
-                autoCorrect={ false }
-                onChange = {(text) =>{setChatRoomName(text)}}>
-                </TextInput>
-            </View>
-        )
+    const [newText, setNewText] = useState(""); //유저의 input을 담기위한 Hook
+    const [hashList, setHashList] = useState([]);
+
+    //Hash Tag 추가하는 함수
+    function addHash(){
+        console.log("add");
+        if(!hashList.includes(newText)){
+            setHashList([
+                ...hashList, // 기존의 List들은 유지하면서 새로운 newText추가
+                newText
+            ]);
+        }
     }
 
+    //DB에서 Notnull인 정보들 
+    const neCheck = ()=>{
+        if(chatName.length > 0){
+            if(hashList.length > 0){
+                roomCreate();
+            }
+        }
+    }
+
+    //필수 필드 다 채웠을때 호출될 함수
+    const roomCreate = async () => await axios.post(IP + ':8080/hash/roomCreate',{
+        "uID" : test_uID,
+        "chatName" : chatName,
+        "chatInfo" : chatInfo,
+        "hashList" : hashList,
+        "maxMum" : memberCounter,
+    })
+    .then(function(response){
+        console.log(response.data);
+    })
+    .catch(function(error){
+        console.log(error);
+    });
+
+    const deleteHash = function(data) {
+        hashList.forEach(function(element, index){
+            if(element.hash == data.hash){
+                //배열의 filter를 이용해서 data와 일치하는 멤버 삭제
+                setHashList(hashList.filter(input => input != data));
+            }
+        })
+    };
+
+    //유저가 추가한 HashTag 리스트를 보여줄 화면
+    const hashInput = (hashText) =>{
+        return(
+            <View style = {{justifyContent:"space-between", flexDirection:"row", backgroundColor: "white",borderBottomColor: "gray", borderBottomWidth: 2,width:100,}}>
+                <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={true}
+                onMomentumScrollEnd={() => {
+                console.log('Scrolling is End');}}
+                >
+                    <View style ={styles.hashText}>
+                        <Text style ={{paddingTop : 13, fontSize:20}}>#  </Text>
+                        <Text style ={{paddingTop : 13, fontSize:20}}>{hashText}</Text>
+                    </View>
+                    
+                </ScrollView>
+                <View style ={{justifyContent:"center"}}>
+                    <TouchableOpacity style={{}}
+                        //검색 키워드 삭제 기능 구현
+                        onPress = {() => deleteHash(hashText)}>
+                        <Image
+                            style={{height: 50, width: 10, resizeMode: 'cover'}}
+                            source={require('../../../../image/cancel.png')}/>
+                    </TouchableOpacity>
+                
+                </View>
+            </View>
+            
+            
+        )
+    }
+    
     return (
         <View style = {styles.container}>
             <View style = {styles.name_Info}>
                 <Image
-                    style={{height: 50, width: 50, resizeMode: 'cover',alignSelf:"center", marginLeft:15, marginRight: 15,}}
-                    source={require('../../../../image/logout.png')}/>
+                    style={{height: 100, width: 50, resizeMode: 'cover',alignSelf:"center", marginLeft:15, marginRight: 15,}}
+                    source={require('../../../../image/room.png')}/>
                 <View style = {{flexDirection:"column",flex:1}}>
                     <TextInput style = {styles.input} 
                     placeholder = "채팅방의 이름을 입력해주세요.(20자)"
                     autoCorrect={ false }
-                    onChange = {(text) => setChatRoomName(text)}
+                    onChangeText = {(name) => setChatName(name)}
                     >
                     </TextInput>
                     <TextInput style = {styles.input} 
                     placeholder = "채팅방의 정보를 입력해주세요.(20자)"
                     autoCorrect={ false }
-                    onChange = {(text) => setChatRoomInfo(text)}
+                    onChangeText = {(info) => setChatInfo(info)}
                     >
                     </TextInput>
                 </View>
             </View>
             <View style = {styles.hashTags}>
+                <View style = {styles.hashInput}>
+                    <Text style ={{fontSize: 20}}>#</Text>
+                    <TextInput style={{flex:1}} placeholder="키워드를 입력하세요"
+                    autoCorrect={ false }
+                    onChangeText = {(text) => setNewText(text)} //변할때 마다 NewText 에 입력
+                    />
+                    <TouchableOpacity
+                        onPress = {() => newText.length >= 1 ? addHash() : null}
+                        >
+                        <Image
+                            style={{height: 100, width: 60, resizeMode: 'cover'
+                        }}
+                            source={require('../../../../image/tag_search.png')} 
+                        />
+                    </TouchableOpacity>
+                </View>
+                
                 <View style = {{alignItems:"center",flex: 1}}>
                     <ScrollView
                         showsHorizontalScrollIndicator={true}
                         onMomentumScrollEnd={() => {
                         console.log('Scrolling is End');
                     }}>
-                        {[...Array(hashCounter)].map((el, index)=>{
+                        {hashList.map((hashText, index)=>{
                             return(
-                                hashInput()
+                                hashInput(hashText)
                             )
-                                                
                         })}
                     </ScrollView>
                 </View>
-                <TouchableOpacity onPress = {() => setHashCounter(hashCounter + 1)}>
-                    <Image
-                        source={require('../../../../image/plus.png')} style={{ height: 80, width: 80, resizeMode: 'contain'}}
-                    />
-                </TouchableOpacity>
             </View>
             <View style = {styles.MemberNum}>
                 <Text style ={{fontSize:15,color:"gray"}}>채팅방의 최대 모집 인원을 설정해 주세요.</Text>
@@ -77,7 +156,17 @@ function createRoom ({Navigation}){
                         />
                     </TouchableOpacity>
                 </View>
-            </View>  
+            </View>
+            <View style = {{alignContent:"center", height:100, alignItems:"center",margin:15}}>
+                <TouchableOpacity style = {{flex: 0.4}}
+                onPress = {() => neCheck()}
+                >
+                    <View style = {{flex:1,backgroundColor: "#00255A", borderRadius: 20, justifyContent: "center", alignItems:"center",width:150}}>
+                        <Text style = {{color: "white", fontSize: 15}}>생성하기</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+              
         </View>
     )
 }
@@ -95,8 +184,8 @@ const styles = StyleSheet.create({
         justifyContent : "center"
     },
     hashTags:{
-        height : 310,
-        alignItems:"center"
+        height : 250,
+        alignItems:"center",
     },
     MemberNum:{
         height : 100,
@@ -122,8 +211,25 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
         fontSize: 15
     },
-
-
+    hashInput:{
+        flexDirection:"row",
+        height: 50,
+        width: '50%',
+        marginTop:10,
+        alignItems: 'center',
+        flexDirection: 'row',
+        borderColor: "#00255A",
+        borderWidth: 1.5,
+        borderRadius: 15,
+        justifyContent:"center",
+    },
+    hashText:{
+        paddingLeft: 10,
+        height: 50,
+        flexDirection: "row",
+        marginTop: 10,
+        backgroundColor: "white",
+    },
 })
 
 export default createRoom;

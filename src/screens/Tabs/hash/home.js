@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
-import { Dimensions,ScrollView, StyleSheet, View, Text, TextInput, Image, TouchableOpacity,TouchableHighlight} from 'react-native';
+import { Dimensions,ScrollView, StyleSheet, View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
 import Modal from 'react-native-modal';
@@ -154,8 +154,6 @@ function HashHome({ navigation}) {
                 onChangeText = {(text) => setNewText(text)} //변할때 마다 NewText 에 입력
                 />
                 <TouchableOpacity
-                    style={{
-                    }}
                     onPress = {() => newText.length >= 1 ? addHash() : null} 
                     >
                     <Image

@@ -42,7 +42,8 @@ export default function HashScreen({ navigation }) {
             <Stack.Screen
                 name="createRoom"
                 component={createRoom}
-                options={{ title: '방 만들기' }}
+                options={{ title: '방 만들기', headerRight:() =><TouchableOpacity onPress ={()=> navigation.navigate('createRoom')}>
+            </TouchableOpacity> }}
             />
 
         </Stack.Navigator>
