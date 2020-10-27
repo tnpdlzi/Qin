@@ -48,7 +48,7 @@ function teamOW({ navigation, route }) {
     const [tank, setTank] = useState(false);
     const [damage, setDamage] = useState(false);
     const [support, setSupport] = useState(false);
-    const [count, setCount] = useState(1);
+    const [count, setCount] = useState(2);
     const [minutes, setMinutes] = useState(5);
     const [intro, setIntro] = useState('');
     

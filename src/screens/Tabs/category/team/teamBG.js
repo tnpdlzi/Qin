@@ -46,7 +46,7 @@ let postDatas = async (ruID, tier, game, total, endTime, roomIntro, position) =>
 function teamBG({ navigation, route }) {
     
     // hook을 통해 만든 states. 그냥 변수와 설정하는 함수라고 생각하면 쉽다. 여길 보면 훅에 대한 이해도를 높일 수 있을것.
-    const [count, setCount] = useState(1);
+    const [count, setCount] = useState(2);
     const [minutes, setMinutes] = useState(5);
     const [intro, setIntro] = useState('');
     

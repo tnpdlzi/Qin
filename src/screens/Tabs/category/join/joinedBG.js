@@ -47,12 +47,6 @@ function joinedBG({ navigation, route }) {
 
     console.log('내가 이 방에 있는지 여부(방금 들어온거 포함) : ' + isJoined);
     console.log('내가 방에 들어와 있는지 확인(원래 있었는지 확인) : ' + isUser);
-        
-    const [top, setTop] = useState(false);
-    const [jungle, setJungle] = useState(false);
-    const [mid, setMid] = useState(false);
-    const [bottom, setBottom] = useState(false);
-    const [support, setSupport] = useState(false);
 
     // 새로고침 구현. 멤버를 불러오고, 내가 들어와있는지도 불러온다. 화면 새로고침임.
     const [refreshing, setRefreshing] = React.useState(false);
@@ -125,7 +119,7 @@ function joinedBG({ navigation, route }) {
                                 }}>
 
                                 <Text style={{fontSize: 16}}>
-                                    {data.joined} / {data.total} 명
+                                    {member.length} / {data.total} 명
                                 </Text>
 
                             </View>
@@ -184,10 +178,6 @@ function joinedBG({ navigation, route }) {
                                             {data.gameID}
                                         </Text>
 
-                                        <Text style={{fontSize: 12, paddingStart: 10}}>
-                                            ({data.position})
-                                        </Text>
-
 
                                     </View>
                                     <View
@@ -209,164 +199,7 @@ function joinedBG({ navigation, route }) {
                     );
                 })}
                 
-                <View style={{width: '100%',
-                    height: 150,
-                    backgroundColor: '#ffffff',
-                    flexDirection: 'row',
-                    justifyContent: 'flex-start',
-                    alignItems: 'center',
-                    padding: 0,
-                    }}>
-                    <View
-                        style={isJoined ? {width: 0, height: 0} : isUser ? {width:0, height: 0} : {
-                            flexDirection: 'row',
-                            justifyContent: 'flex-start',
-                            alignItems: 'center'
-                        }}>
-                        <Text style={{
-                            paddingStart: 10,
-                            paddingEnd: 10,
-                            fontSize: 30,
-                            fontWeight: 'bold',
-                            color: '#ffc81a'
-                        }}>
-                            ·
-                        </Text>
-                        <Text style={{paddingStart: 10, paddingEnd: 20, fontSize: 14, fontWeight: 'bold'}}>
-                            포지션
-                        </Text>
-                        <View
-                            style={{
-                                flexDirection: 'column',
-                            }}>
-                            <View
-                                style={{
-                                    flexDirection: 'row',
-                                    justifyContent: 'flex-start',
-                                    alignItems: 'center',
-                                    width: '75%',
-                                    padding: 8
-                                }}>
-                                <View
-                                    style={{
-                                        paddingHorizontal: 8
-                                    }}>
-
-                                    <TouchableOpacity style={ top ? {
-                                        height: 35,
-                                        width: 53,
-                                        flexDirection: 'row',
-                                        borderStyle: 'solid',
-                                        borderRadius: 14,
-                                        borderColor: '#ffffff',
-                                        borderWidth: 1,
-                                        borderTopWidth: 1,
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        elevation: 10,
-                                        backgroundColor: '#ffffff'
-                                    } : {
-                                        height: 35,
-                                        width: 53,
-                                        flexDirection: 'row',
-                                        borderStyle: 'solid',
-                                        borderRadius: 14,
-                                        borderColor: '#E2E2E2',
-                                        borderWidth: 1,
-                                        borderTopWidth: 1,
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                    }}
-                                    onPress={() => setTop(!top)}>
-                                        <Text style={{fontSize: 14, padding: 5, color: top ? '#000000' : '#E2E2E2'} }>
-                                            탑
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-
-                                <View
-                                    style={{
-                                        paddingHorizontal: 8
-                                    }}>
-                                    <TouchableOpacity style={mid ? styles.positioned : styles.position}
-                                    onPress={() => setMid(!mid)}>
-                                        <Text style={{fontSize: 14, padding: 5, color: mid ? '#000000' : '#E2E2E2'} }>
-                                            미드
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-
-                                <View
-                                    style={{
-                                        paddingHorizontal: 8
-                                    }}>
-                                    <TouchableOpacity style={jungle ? styles.positioned : styles.position}
-                                                      onPress={() => setJungle(!jungle)}>
-                                        <Text style={{fontSize: 14, padding: 5, color: jungle ? '#000000' : '#E2E2E2'} }>
-                                            정글
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                            <View
-                                style={{
-                                    flexDirection: 'row',
-                                    justifyContent: 'flex-start',
-                                    alignItems: 'center',
-                                    width: '75%',
-                                    padding: 8
-                                }}>
-
-                                <View
-                                    style={{
-                                        paddingHorizontal: 8
-                                    }}>
-                                    <TouchableOpacity style={bottom ? styles.positioned : styles.position}
-                                                      onPress={() => setBottom(!bottom)}>
-                                        <Text style={{fontSize: 14, padding: 5, color: bottom ? '#000000' : '#E2E2E2'} }>
-                                            원딜
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-
-                                <View
-                                    style={{
-                                        paddingHorizontal: 8
-                                    }}>
-                                    <TouchableOpacity style={ support ? {height: 35,
-                                        width: 73,
-                                        flexDirection: 'row',
-                                        borderStyle: 'solid',
-                                        borderRadius: 14,
-                                        borderColor: '#ffffff',
-                                        borderWidth: 1,
-                                        borderTopWidth: 1,
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        elevation: 10,
-                                        backgroundColor: '#ffffff'} :
-                                        {height: 35,
-                                            width: 73,
-                                            flexDirection: 'row',
-                                            borderStyle: 'solid',
-                                            borderRadius: 14,
-                                            borderColor: '#E2E2E2',
-                                            borderWidth: 1,
-                                            borderTopWidth: 1,
-                                            alignItems: 'center',
-                                            justifyContent: 'center',}}
-                                    onPress={() => setSupport(!support)}>
-
-                                    <Text style={{fontSize: 14, padding: 5, color: support ? '#000000' : '#E2E2E2'} }>
-                                            서포터
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-                </View>
-
+                
                 <View
                     style={isJoined ? {width: 0, height: 0} : isUser ? {width:0, height: 0} : {alignItems: 'center', paddingBottom: 30, paddingTop: 20}}>
                     <TouchableOpacity
@@ -383,7 +216,7 @@ function joinedBG({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => {await postDatas(server.ip + '/category/join', 1, roomID, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), setIsJoined(true), onRefresh()}}>
+                        onPress={async () => {await postDatas(server.ip + '/category/join', 1, roomID, ''), setIsJoined(true), onRefresh()}}>
 
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>

@@ -125,7 +125,7 @@ function joinedLOL({ navigation, route }) {
                                 }}>
 
                                 <Text style={{fontSize: 16}}>
-                                    {data.joined} / {data.total} 명
+                                    {member.length} / {data.total} 명
                                 </Text>
 
                             </View>
