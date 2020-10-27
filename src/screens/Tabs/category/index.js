@@ -8,8 +8,17 @@ import tiersOW from './tiers/tiersOW';
 import tiersBG from './tiers/tiersBG';
 import tiersRS from "./tiers/tiersRS";
 import roomsLOL from "./roomList/roomsLOL";
+import roomsOW from './roomList/roomsOW';
+import roomsBG from './roomList/roomsBG';
+import roomsRS from './roomList/roomsRS';
 import joinedLOL from "./join/joinedLOL";
+import joinedOW from './join/joinedOW';
+import joinedBG from './join/joinedBG';
+import joinedRS from './join/joinedRS';
 import teamLOL from "./team/teamLOL";
+import teamOW from './team/teamOW';
+import teamBG from './team/teamBG';
+import teamRS from './team/teamRS'
 import teamComplete from "./team/teamComplete";
 // 네비게이터 스택 선언, 인덱스에서 선언해주어야 함. 여기 써지는 스크린들이 navigation에 등록됨. 그래서 다른 곳에서 불러다 쓸 수 있음
 const Stack = createStackNavigator();
@@ -157,11 +166,169 @@ export default function CategoryScreen({ navigation }) {
                     headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
+
+            <Stack.Screen
+                name="roomsOW"
+                component={roomsOW}
+                options={{
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('tiersOW')}>
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
+                            />
+                    </TouchableOpacity>,
+                    headerTitle: () =>
+                        <View style={{ alignItems: "center", flex:1 }}>
+                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
+                        </View>
+                    ,
+                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                }}
+            />
+            <Stack.Screen
+                name="joinedOW"
+                component={joinedOW}
+                options={{
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('roomsOW')}>
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
+                            />
+                    </TouchableOpacity>,
+                    headerTitle: () =>
+                        <View style={{ alignItems: "center", flex:1 }}>
+                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
+                        </View>
+                    ,
+                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                }}
+            />
+            <Stack.Screen
+                name="teamOW"
+                component={teamOW}
+                options={{
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('roomsOW')}>
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
+                            />
+                    </TouchableOpacity>,
+                    headerTitle: () =>
+                        <View style={{ alignItems: "center", flex:1 }}>
+                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
+                        </View>
+                    ,
+                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                }}
+            />
+
+            <Stack.Screen
+                name="roomsBG"
+                component={roomsBG}
+                options={{
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('tiersBG')}>
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
+                            />
+                    </TouchableOpacity>,
+                    headerTitle: () =>
+                        <View style={{ alignItems: "center", flex:1 }}>
+                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
+                        </View>
+                    ,
+                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                }}
+            />
+            <Stack.Screen
+                name="joinedBG"
+                component={joinedBG}
+                options={{
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('roomsBG')}>
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
+                            />
+                    </TouchableOpacity>,
+                    headerTitle: () =>
+                        <View style={{ alignItems: "center", flex:1 }}>
+                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
+                        </View>
+                    ,
+                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                }}
+            />
+            <Stack.Screen
+                name="teamBG"
+                component={teamBG}
+                options={{
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('roomsBG')}>
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
+                            />
+                    </TouchableOpacity>,
+                    headerTitle: () =>
+                        <View style={{ alignItems: "center", flex:1 }}>
+                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
+                        </View>
+                    ,
+                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                }}
+            />
+
+
+            <Stack.Screen
+                name="roomsRS"
+                component={roomsRS}
+                options={{
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('tiersRS')}>
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
+                            />
+                    </TouchableOpacity>,
+                    headerTitle: () =>
+                        <View style={{ alignItems: "center", flex:1 }}>
+                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
+                        </View>
+                    ,
+                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                }}
+            />
+            <Stack.Screen
+                name="joinedRS"
+                component={joinedRS}
+                options={{
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('roomsRS')}>
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
+                            />
+                    </TouchableOpacity>,
+                    headerTitle: () =>
+                        <View style={{ alignItems: "center", flex:1 }}>
+                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
+                        </View>
+                    ,
+                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                }}
+            />
+            <Stack.Screen
+                name="teamRS"
+                component={teamRS}
+                options={{
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('roomsRS')}>
+                        <Image
+                                source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
+                            />
+                    </TouchableOpacity>,
+                    headerTitle: () =>
+                        <View style={{ alignItems: "center", flex:1 }}>
+                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
+                        </View>
+                    ,
+                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                }}
+            />
+            
             <Stack.Screen
                 name="teamComplete"
                 component={teamComplete}
                 options={{
-                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('roomsLOL')}>
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                         <Image
                                 source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
