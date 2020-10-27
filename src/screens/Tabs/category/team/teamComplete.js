@@ -19,6 +19,8 @@ function teamComplete({ navigation, route }) {
     let tier = route.params.tier;
     let game = route.params.game;
 
+    // 다른 곳과 다르게 이 페이지는 뒤로가기 버튼을 눌렀을 때 방 생성으로 돌아가면 안됨. 방 생성으로 돌아가게 되면 한 유저가 두개의 방을 만드는 불상사가 생김.
+    // 게임에 대한 파라미터를 받아서 뒤로가기 버튼을 눌렀을 때 2개의 페이지 전으로 돌아가도록 세팅
     const backAction = () => {
 
         if(game == 'LOL'){

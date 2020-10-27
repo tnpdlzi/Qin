@@ -5,6 +5,10 @@ import axios from 'axios';
 
 const qs = require('qs');
 
+// 방 생성의 일련의 과정을 동기를 맞춰서 진행. makeRoom을 통해 방을 만듦. 거기에 들어갈 유저ID, tier, game, total, endTime, roomIntro 값은 다 받아서 세팅
+// 그 후에 get을 통해 방금 만든 새로운 방에 대한 roomID를 받아옴
+// 받아온 값을 또 넘겨 post로 join 시킴. 내가 만든 방에 내가 들어가야 하니까. 방을 만들고, 내가 만든 방 ID를 받고, 거기에 join까지 하는 거임. 하나의 버튼으로.
+// 그 후에 roomID값을 받아서 다시 return. 그래야 teamComplete한테 내가 만든 방 ID를 파라미터로 넘겨줄 수 있음.
 let postDatas = async (ruID, tier, game, total, endTime, roomIntro, position) => await axios({
     method: 'post',
     url: server.ip + '/category/makeRoom',
@@ -51,7 +55,6 @@ function teamLOL({ navigation, route }) {
     const [intro, setIntro] = useState('');
     
     let tier = route.params.tier;
-    console.log(tier)
 
     return (
         <View style={styles.container}>

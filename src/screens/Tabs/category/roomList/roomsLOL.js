@@ -3,13 +3,14 @@ import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, RefreshCont
 import server from '../../../../../server.json'
 import axios from 'axios';
 
-
+// refresh가 완료될 때 까지 wait
 const wait = (timeout) => {
     return new Promise(resolve => {
       setTimeout(resolve, timeout);
     });
   }
 
+// url로부터 데이터 get
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
         console.log(response.data)
@@ -26,15 +27,13 @@ function roomsLOL({ navigation, route }) {
     let tier = route.params.dataroom[0];
     const [datas, setDatas] = useState([]);
     const [myRoom, setMyRoom] = useState([]);
-    console.log(datas)
-    console.log(myRoom)
-    console.log(tier)
 
-    let endTime, roomID;
-    
+    let endTime, roomID;    
     let isMyRoom = (myRoom.length)==0?false:true;
-    console.log(isMyRoom)
 
+    console.log('룸 LIST에 들어왔을 때 나의 방이 있는지 여부 : ' + isMyRoom);
+
+    // 새로고침 onRefresh로 구현. onRefresh를 호출하면 setDatas, setMyRoom으로 hook 다시 불러옴. 그에 따라 화면도 다시 render
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = React.useCallback(async() => {
         setRefreshing(true);
@@ -46,16 +45,17 @@ function roomsLOL({ navigation, route }) {
       }, []);
     
 
-
+    // 이거는 시간 연장할때 쓰는거
     let refresh = async (rfurl) => await axios.get(rfurl)
         .then(function (response) {
             console.log(rfurl)
-        })
+        }).then(onRefresh)
         .catch(function (error) {
             console.log(rfurl)
             console.log('error : ' + error);
         });
 
+        // 이 네비게이션이 focus되면 실행. onRefresh()를 실행해주겠다! 이걸로 자동 새로고침이 됨
         useEffect(() => {
             const unfetched = navigation.addListener('focus', () => {
               onRefresh();
@@ -93,6 +93,7 @@ function roomsLOL({ navigation, route }) {
                             width: '77%'
                         }}>
                         <View
+                        // 내가 만든 방이 있는지 없는지 확인해서 그거에 따라 UI 변경
                             style={isMyRoom?{
                                 flexDirection: 'row',
                                 justifyContent: 'flex-start',
@@ -148,6 +149,7 @@ function roomsLOL({ navigation, route }) {
                             width: '100%',
                             paddingVertical: 20,
                         }}
+                        // 서버에서 api 호출해 받은 데이터를 다음 화면으로 파라미터 전달
                         onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas(server.ip + '/category/title?roomID=' + data.roomID), data.roomID, await getDatas(server.ip + '/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
                         <View
                             style={{
@@ -224,6 +226,7 @@ function roomsLOL({ navigation, route }) {
                       }>
                     {datas.map((data, index) => {
 
+                        // 서버 시간과의 차이를 한국 시간으로 바꿔줌
                         let rdate = new Date(data.createdTime);
                         rdate.setMinutes(rdate.getMinutes() + parseInt(data.endTime));
                         rdate.setHours(rdate.getHours() + 9);

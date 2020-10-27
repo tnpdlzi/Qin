@@ -4,6 +4,8 @@ import server from '../../../../../server.json'
 import axios from 'axios';
 const qs = require('qs');
 const date = new Date();
+
+// roomsLOL에서 한것과 동일. 새로고침시에 기다리기, Data get방식, post방식 요청
 const wait = (timeout) => {
     return new Promise(resolve => {
       setTimeout(resolve, timeout);
@@ -35,26 +37,24 @@ function joinedLOL({ navigation, route }) {
     let rTitle = route.params.memtitle[1];
     let roomID = route.params.memtitle[2];
     let userIn = route.params.memtitle[3];
-    console.log('thisisuserin = ' + userIn);
-    
-    const [member, setMember] = useState(members)
-    const [isJoined, setIsJoined] = useState(member[0].uID == 1 ? true : false);
-    const [isError, setIsError] = useState(false);
-    const [isUser, setIsUser] = useState(userIn == '' ? false : true);
-    
-    console.log(member);
-    console.log(member[0].uID);
-    console.log(isJoined);
-    console.log('roomID = ' + roomID);
-    console.log('user in = ' + isUser);
-    
 
+    console.log('방의 ID값 : ' + roomID);
+
+    const [member, setMember] = useState(members)
+    const [isJoined, setIsJoined] = useState(member[0].uID == 1 ? true : false); // 방에 첫번째 들어온 사람(만든사람)이 나인지 확인해 나면은 true, 아니면 false로 세팅, 그리고 이게 트루면 나는 이미 joined된거
+    const [isError, setIsError] = useState(false);
+    const [isUser, setIsUser] = useState(userIn == '' ? false : true); // 방에 내가 들어와있는지 확인
+
+    console.log('내가 이 방에 있는지 여부(방금 들어온거 포함) : ' + isJoined);
+    console.log('내가 방에 들어와 있는지 확인(원래 있었는지 확인) : ' + isUser);
+        
     const [top, setTop] = useState(false);
     const [jungle, setJungle] = useState(false);
     const [mid, setMid] = useState(false);
     const [bottom, setBottom] = useState(false);
     const [support, setSupport] = useState(false);
 
+    // 새로고침 구현. 멤버를 불러오고, 내가 들어와있는지도 불러온다. 화면 새로고침임.
     const [refreshing, setRefreshing] = React.useState(false);
     const onRefresh = React.useCallback(async() => {
         setRefreshing(true);
@@ -63,14 +63,6 @@ function joinedLOL({ navigation, route }) {
         setIsUser(await getDatas(server.ip + '/category/ismember?roomID=' + roomID + '&uID=1') == '' ? false : true);
         wait(2000).then(() => setRefreshing(false));
       }, []);
-        
-    //   useEffect(() => {
-    //     const unfetched = navigation.addListener('focus', () => {
-    //       onRefresh();
-    //     });
-    
-    //     return unfetched;
-    //   }, [navigation]);
       
     return (
         <View style={styles.container}>
