@@ -132,7 +132,7 @@ function teamLOL({ navigation, route }) {
                                 alignItems: 'center',
                                 width: '75%'
                             }}>
-                            <TouchableOpacity onPress={() => count > 1 ? setCount(count-1) : null}>
+                            <TouchableOpacity onPress={() => count > 2 ? setCount(count-1) : null}>
                                 <Image
                                     style={{
                                         height: 80,

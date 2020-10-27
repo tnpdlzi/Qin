@@ -21,7 +21,7 @@ let postDatas = async (ruID, tier, game, total, endTime, roomIntro, position) =>
       endTime: endTime,
       roomIntro: roomIntro
     })
-  }).then(async () => await axios.get(server.ip + '/category/newroom?tier=' + tier + '&game=LOL&uID=' + ruID)
+  }).then(async () => await axios.get(server.ip + '/category/newroom?tier=' + tier + '&game=OW&uID=' + ruID)
   .then(function (response) {
       console.log(response.data[0].roomID)
       return response.data[0].roomID
@@ -45,10 +45,8 @@ let postDatas = async (ruID, tier, game, total, endTime, roomIntro, position) =>
 
 function teamOW({ navigation, route }) {
     // hook을 통해 만든 states. 그냥 변수와 설정하는 함수라고 생각하면 쉽다. 여길 보면 훅에 대한 이해도를 높일 수 있을것.
-    const [top, setTop] = useState(false);
-    const [jungle, setJungle] = useState(false);
-    const [mid, setMid] = useState(false);
-    const [bottom, setBottom] = useState(false);
+    const [tank, setTank] = useState(false);
+    const [damage, setDamage] = useState(false);
     const [support, setSupport] = useState(false);
     const [count, setCount] = useState(1);
     const [minutes, setMinutes] = useState(5);
@@ -132,7 +130,7 @@ function teamOW({ navigation, route }) {
                                 alignItems: 'center',
                                 width: '75%'
                             }}>
-                            <TouchableOpacity onPress={() => count > 1 ? setCount(count-1) : null}>
+                            <TouchableOpacity onPress={() => count > 2 ? setCount(count-1) : null}>
                                 <Image
                                     style={{
                                         height: 80,
@@ -144,7 +142,7 @@ function teamOW({ navigation, route }) {
                             <Text style={{fontSize: 14}}>
                                 {count}명
                             </Text>
-                            <TouchableOpacity onPress={() => count < 5 ? setCount(count+1) : null}>
+                            <TouchableOpacity onPress={() => count < 6 ? setCount(count+1) : null}>
                                 <Image
                                     style={{
                                         height: 80,
@@ -157,7 +155,7 @@ function teamOW({ navigation, route }) {
                     </View>
                 </View>
                 <View style={{width: '100%',
-                    height: 150,
+                    height: 80,
                     backgroundColor: '#ffffff',
                     flexDirection: 'row',
                     justifyContent: 'flex-start',
@@ -195,40 +193,14 @@ function teamOW({ navigation, route }) {
                                     width: '75%',
                                     padding: 8
                                 }}>
+                                
                                 <View
                                     style={{
                                         paddingHorizontal: 8
                                     }}>
-
-                                    <TouchableOpacity style={ top ? {
-                                        height: 35,
-                                        width: 53,
-                                        flexDirection: 'row',
-                                        borderStyle: 'solid',
-                                        borderRadius: 14,
-                                        borderColor: '#ffffff',
-                                        borderWidth: 1,
-                                        borderTopWidth: 1,
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        elevation: 10,
-                                        backgroundColor: '#ffffff'
-                                    } : {
-                                        height: 35,
-                                        width: 53,
-                                        flexDirection: 'row',
-                                        borderStyle: 'solid',
-                                        borderRadius: 14,
-                                        borderColor: '#E2E2E2',
-                                        borderWidth: 1,
-                                        borderTopWidth: 1,
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                    }}
-                                                      onPress={() => setTop(!top)}
-                                    >
-                                        <Text style={{fontSize: 14, padding: 5, color: top ? '#000000' : '#E2E2E2'} }>
-                                            탑
+                                    <TouchableOpacity style={ damage ? styles.positioned : styles.position} onPress={() => setDamage(!damage)}>
+                                        <Text style={{fontSize: 14, padding: 5, color: damage ? '#000000' : '#E2E2E2'}}>
+                                            공격
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
@@ -237,77 +209,27 @@ function teamOW({ navigation, route }) {
                                     style={{
                                         paddingHorizontal: 8
                                     }}>
-                                    <TouchableOpacity style={ mid ? styles.positioned : styles.position} onPress={() => setMid(!mid)}>
-                                        <Text style={{fontSize: 14, padding: 5, color: mid ? '#000000' : '#E2E2E2'}}>
-                                            미드
+                                    <TouchableOpacity style={ tank ? styles.positioned : styles.position} onPress={() => setTank(!tank)}>
+                                        <Text style={{fontSize: 14, padding: 5, color: tank ? '#000000' : '#E2E2E2'}}>
+                                            돌격
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
 
+                                
                                 <View
                                     style={{
                                         paddingHorizontal: 8
                                     }}>
-                                    <TouchableOpacity style={jungle ? styles.positioned : styles.position} onPress={() => setJungle(!jungle)}>
-                                        <Text style={{fontSize: 14, padding: 5, color: jungle ? '#000000' : '#E2E2E2'}}>
-                                            정글
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                            <View
-                                style={{
-                                    flexDirection: 'row',
-                                    justifyContent: 'flex-start',
-                                    alignItems: 'center',
-                                    width: '75%',
-                                    padding: 8
-                                }}>
-
-                                <View
-                                    style={{
-                                        paddingHorizontal: 8
-                                    }}>
-                                    <TouchableOpacity style={bottom ? styles.positioned : styles.position} onPress={() => setBottom(!bottom)}>
-                                        <Text style={{fontSize: 14, padding: 5, color: bottom ? '#000000' : '#E2E2E2'}}>
-                                            원딜
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-
-                                <View
-                                    style={{
-                                        paddingHorizontal: 8
-                                    }}>
-                                    <TouchableOpacity style={support ? {height: 35,
-                                            width: 73,
-                                            flexDirection: 'row',
-                                            borderStyle: 'solid',
-                                            borderRadius: 14,
-                                            borderColor: '#ffffff',
-                                            borderWidth: 1,
-                                            borderTopWidth: 1,
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            elevation: 10,
-                                            backgroundColor: '#ffffff'} :
-                                        {height: 35,
-                                            width: 73,
-                                            flexDirection: 'row',
-                                            borderStyle: 'solid',
-                                            borderRadius: 14,
-                                            borderColor: '#E2E2E2',
-                                            borderWidth: 1,
-                                            borderTopWidth: 1,
-                                            alignItems: 'center',
-                                            justifyContent: 'center',}}
-                                                      onPress={() => setSupport(!support)}>
+                                    <TouchableOpacity style={ support ? styles.positioned : styles.position} onPress={() => setSupport(!support)}>
                                         <Text style={{fontSize: 14, padding: 5, color: support ? '#000000' : '#E2E2E2'}}>
-                                            서포터
+                                            지원
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
+
                             </View>
+                            
                         </View>
                     </View>
                 </View>
@@ -401,7 +323,7 @@ function teamOW({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(1, tier, 'LOL', count, minutes, intro, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), tier: tier, game: 'LOL'})}>
+                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(1, tier, 'OW', count, minutes, intro, (damage?' 공격 ':'') + (tank?' 돌격 ':'') + (support?' 지원':'')), tier: tier, game: 'OW'})}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             작성하기

@@ -5,7 +5,7 @@ import axios from 'axios';
 const qs = require('qs');
 const date = new Date();
 
-// roomsLOL에서 한것과 동일. 새로고침시에 기다리기, Data get방식, post방식 요청
+// rooms에서 한것과 동일. 새로고침시에 기다리기, Data get방식, post방식 요청
 const wait = (timeout) => {
     return new Promise(resolve => {
       setTimeout(resolve, timeout);
@@ -59,7 +59,7 @@ function joinedOW({ navigation, route }) {
     const onRefresh = React.useCallback(async() => {
         setRefreshing(true);
 
-        setMember(await getDatas(server.ip + '/category/member?roomID=' + roomID + '&game=LOL'));
+        setMember(await getDatas(server.ip + '/category/member?roomID=' + roomID + '&game=OW'));
         setIsUser(await getDatas(server.ip + '/category/ismember?roomID=' + roomID + '&uID=1') == '' ? false : true);
         wait(2000).then(() => setRefreshing(false));
       }, []);

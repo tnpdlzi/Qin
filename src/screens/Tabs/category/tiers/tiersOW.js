@@ -8,7 +8,7 @@ const tiers = [
     {id: 'PLATINUM'},
     {id: 'DIAMOND'},
     {id: 'MASTER'},
-    {id: 'GRAND-MASTER'}
+    {id: 'GRANDMASTER'}
 ];
 
 function tiersOW({ navigation }) {

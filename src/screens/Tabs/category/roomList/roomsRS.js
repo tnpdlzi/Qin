@@ -31,15 +31,15 @@ function roomsRS({ navigation, route }) {
     let endTime, roomID;    
     let isMyRoom = (myRoom.length)==0?false:true;
 
-    console.log('룸 LIST에 들어왔을 때 나의 방이 있는지 여부 : ' + isMyRoom);
+    console.log('레식 티어 : ' + tier);
 
     // 새로고침 onRefresh로 구현. onRefresh를 호출하면 setDatas, setMyRoom으로 hook 다시 불러옴. 그에 따라 화면도 다시 render
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = React.useCallback(async() => {
         setRefreshing(true);
 
-        setDatas(await getDatas(server.ip + '/category/roomlist?tier=' + tier + '&game=LOL'))
-        setMyRoom(await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=LOL&uID=1'))
+        setDatas(await getDatas(server.ip + '/category/roomlist?tier=' + tier + '&game=RS'))
+        setMyRoom(await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=RS&uID=1'))
     
         wait(2000).then(() => setRefreshing(false));
       }, []);
@@ -118,7 +118,7 @@ function roomsRS({ navigation, route }) {
                             </Text>
                         </View>
                         <TouchableOpacity
-                            onPress={() => navigation.navigate('teamLOL', {tier: tier})}
+                            onPress={() => navigation.navigate('teamRS', {tier: tier})}
                             style={{
                                 flexDirection: 'row',
                                 justifyContent: 'flex-end',
@@ -150,7 +150,7 @@ function roomsRS({ navigation, route }) {
                             paddingVertical: 20,
                         }}
                         // 서버에서 api 호출해 받은 데이터를 다음 화면으로 파라미터 전달
-                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas(server.ip + '/category/title?roomID=' + data.roomID), data.roomID, await getDatas(server.ip + '/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
+                        onPress={async () => navigation.navigate('joinedRS', {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + data.roomID + '&game=RS'), await getDatas(server.ip + '/category/title?roomID=' + data.roomID), data.roomID, await getDatas(server.ip + '/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
                         <View
                             style={{
                                 flexDirection: 'row',
@@ -241,7 +241,7 @@ function roomsRS({ navigation, route }) {
                                         justifyContent: 'space-between',
                                         width: '100%',
                                     }}
-                                    onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas(server.ip + '/category/title?roomID=' + data.roomID), data.roomID, await getDatas(server.ip + '/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
+                                    onPress={async () => navigation.navigate('joinedRS', {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + data.roomID + '&game=RS'), await getDatas(server.ip + '/category/title?roomID=' + data.roomID), data.roomID, await getDatas(server.ip + '/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
                                     <View
                                         style={{
                                             flexDirection: 'row',

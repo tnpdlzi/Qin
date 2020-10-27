@@ -31,7 +31,7 @@ function roomsLOL({ navigation, route }) {
     let endTime, roomID;    
     let isMyRoom = (myRoom.length)==0?false:true;
 
-    console.log('룸 LIST에 들어왔을 때 나의 방이 있는지 여부 : ' + isMyRoom);
+    console.log('롤 티어 : ' + tier);
 
     // 새로고침 onRefresh로 구현. onRefresh를 호출하면 setDatas, setMyRoom으로 hook 다시 불러옴. 그에 따라 화면도 다시 render
     const [refreshing, setRefreshing] = useState(false);
