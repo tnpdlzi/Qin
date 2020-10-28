@@ -1,16 +1,19 @@
 import React, {Component, useEffect, useState} from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, TextInput} from 'react-native';
 import axios from "axios";
+import Modal from 'react-native-modal';
+
 
 const IP = 'http://';
-const test_uID = 109;
+const test_uID = 2;
 function createRoom ({Navigation}){
     const [chatName, setChatName] = useState("");
     const [chatInfo ,setChatInfo] = useState("");
     const [memberCounter, setMemberCounter] = useState(50);
     const [newText, setNewText] = useState(""); //유저의 input을 담기위한 Hook
     const [hashList, setHashList] = useState([]);
-
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modal2Visible, setModal2Visible] = useState(false);
     //Hash Tag 추가하는 함수
     function addHash(){
         console.log("add");
@@ -27,7 +30,11 @@ function createRoom ({Navigation}){
         if(chatName.length > 0){
             if(hashList.length > 0){
                 roomCreate();
+            }else{
+                setModal2Visible(!modal2Visible);
             }
+        }else{
+            setModal2Visible(!modal2Visible);
         }
     }
 
@@ -37,10 +44,11 @@ function createRoom ({Navigation}){
         "chatName" : chatName,
         "chatInfo" : chatInfo,
         "hashList" : hashList,
-        "maxMum" : memberCounter,
+        "maxNum" : memberCounter,
     })
     .then(function(response){
-        console.log(response.data);
+        setMemberCounter(50);
+        setModalVisible(!modalVisible);
     })
     .catch(function(error){
         console.log(error);
@@ -89,6 +97,56 @@ function createRoom ({Navigation}){
     
     return (
         <View style = {styles.container}>
+            <Modal
+            transparent = {true}
+            isVisible = {modalVisible}
+            backdropColor = {'black'}
+            backdropOpacity = {0.5}
+            >
+                <View style = {{height: 150,backgroundColor:"white",borderRadius:20}}>
+                    <View style = {{flexDirection:"row",alignContent:"center"}}>
+                        <TouchableOpacity style={{paddingTop: 1, paddingLeft:9,flex:0.5}}
+                            onPress = {() => setModalVisible(!modalVisible)}>
+                            <Image
+                                style={{height: 60, width: 30, resizeMode: 'cover',justifyContent:"center"}}
+                                source={require('../../../../image/cancel.png')}/>
+                        </TouchableOpacity>
+                        <Image
+                            style={{height: 70, width: 60, resizeMode: 'cover',alignSelf:"flex-end"}}
+                            source={require('../../../../image/complain.png')}/>
+                    </View>
+                    
+                    <View style = {{backgroundColor: "white",borderRadius:20, justifyContent:"center",alignItems:"center"}}>
+                        <Text>채팅방이 생성되었습니다.</Text>
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal
+            transparent = {true}
+            isVisible = {modal2Visible}
+            backdropColor = {'black'}
+            backdropOpacity = {0.5}
+            >
+                <View style = {{height: 150,backgroundColor:"white",borderRadius:20}}>
+                    <View style = {{flexDirection:"row",alignContent:"center"}}>
+                        <TouchableOpacity style={{paddingTop: 1, paddingLeft:9,flex:0.5}}
+                            onPress = {() => setModal2Visible(!modal2Visible)}>
+                            <Image
+                                style={{height: 60, width: 30, resizeMode: 'cover',justifyContent:"center"}}
+                                source={require('../../../../image/cancel.png')}/>
+                        </TouchableOpacity>
+                        <Image
+                            style={{height: 70, width: 60, resizeMode: 'cover',alignSelf:"flex-end"}}
+                            source={require('../../../../image/complain.png')}/>
+                    </View>
+                    
+                    <View style = {{backgroundColor: "white",borderRadius:20, justifyContent:"center",alignItems:"center"}}>
+                        <Text> 채팅방 이름/키워드를 입력해주세요.</Text>
+                    </View>
+                </View>
+            </Modal>
+
             <View style = {styles.name_Info}>
                 <Image
                     style={{height: 100, width: 50, resizeMode: 'cover',alignSelf:"center", marginLeft:15, marginRight: 15,}}

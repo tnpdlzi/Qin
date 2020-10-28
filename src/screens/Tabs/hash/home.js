@@ -8,7 +8,7 @@ const winHeight = Dimensions.get('window').height;
 const winWidth  = Dimensions.get('window').width;
 const IP = 'http://';
 
-const test_uID = 109; //임시 uID 이후 로그인 유지 방법을 통해서 다른 변수로 대체될 예정
+const test_uID = 2; //임시 uID 이후 로그인 유지 방법을 통해서 다른 변수로 대체될 예정
 
 let hash_rank = [];
 
@@ -29,6 +29,9 @@ function HashHome({ navigation}) {
     const [resData, setResData] = useState([]); //search_hash 를 이용한 axios통신
     const [modalVisible, setModalVisible] = useState(false);
     const [modalData, setModalData] = useState("");
+    const [modal2Visible, setModal2Visible] = useState(false);
+    const [modal3Visible, setModal3Visible] = useState(false);
+    const [modal4Visible, setModal4Visible] = useState(false);
     //const topRank;
     //검색할 Hash Tag목록 추가
     function addHash(){
@@ -46,7 +49,11 @@ function HashHome({ navigation}) {
     })
     .then(function(response){  // 유저의 채팅창 조인 후 어떻게 해야할지 논의 필요!!!!!
         if(response.data == "already join"){
-            console.log(response.data);      
+            setModal2Visible(!modal2Visible);     
+        }else if(response.data == "banded"){
+            setModal3Visible(!modal3Visible);
+        }else if(response.data == "success"){
+            console.log("이후 채팅방으로 이동할 예정");
         }
     })
     .catch(function(error){
@@ -119,7 +126,7 @@ function HashHome({ navigation}) {
                         <View style = {styles.chatRoomModalMid}>
                             <View style = {{flexDirection: "row", justifyContent: "space-between", flex: 0.15}}>
                                 <Text style = {{fontSize:22,}}>{modalData.chatName}</Text>
-                                <Text style = {{paddingTop:10}}>{modalData.total}/100명</Text>
+                                <Text style = {{paddingTop:10}}>{modalData.total}/{modalData.maxNum}명</Text>
                             </View>
                             <View style = {{backgroundColor: "white",flex: 0.5,borderBottomColor: "gray", borderBottomWidth:1.5, flexDirection:"row"}}>
                                 <View style = {{paddingTop:10}}>
@@ -136,7 +143,7 @@ function HashHome({ navigation}) {
                         </View>
                         <View style = {styles.chatRoomModalBot}>
                             <TouchableOpacity style = {{flex: 0.4}}
-                            onPress = {() => chatRoomEnter()}
+                            onPress = {() => setModalVisible(!modalVisible,chatRoomEnter())}
                             >
                                 <View style = {{flex : 1, backgroundColor: "#00255A", borderRadius: 20, justifyContent: "center", alignItems:"center"}}>
                                     <Text style = {{color: "white", fontSize: 15}}>채팅 참여하기</Text>
@@ -146,6 +153,57 @@ function HashHome({ navigation}) {
                     </View>
                 </View>
             </Modal>
+            {/* 이미 채팅방에 입장되어 있을때 */}
+            <Modal
+            transparent = {true}
+            isVisible = {modal2Visible}
+            backdropColor = {'black'}
+            backdropOpacity = {0.5}
+            >
+                <View style = {{height: 150,backgroundColor:"white",borderRadius:20}}>
+                    <View style = {{flexDirection:"row",alignContent:"center"}}>
+                        <TouchableOpacity style={{paddingTop: 1, paddingLeft:9,flex:0.5}}
+                            onPress = {() => setModal2Visible(!modal2Visible)}>
+                            <Image
+                                style={{height: 60, width: 30, resizeMode: 'cover',justifyContent:"center"}}
+                                source={require('../../../image/cancel.png')}/>
+                        </TouchableOpacity>
+                        <Image
+                            style={{height: 70, width: 60, resizeMode: 'cover',alignSelf:"flex-end"}}
+                            source={require('../../../image/complain.png')}/>
+                    </View>
+                    
+                    <View style = {{backgroundColor: "white",borderRadius:20, justifyContent:"center",alignItems:"center"}}>
+                        <Text>이미 채팅방에 참가되어있습니다.</Text>
+                    </View>
+                </View>
+            </Modal>
+            {/* 채팅방에서 강퇴 당한 이력이 있을때 */}
+            <Modal
+            transparent = {true}
+            isVisible = {modal3Visible}
+            backdropColor = {'black'}
+            backdropOpacity = {0.5}
+            >
+                <View style = {{height: 150,backgroundColor:"white",borderRadius:20}}>
+                    <View style = {{flexDirection:"row",alignContent:"center"}}>
+                        <TouchableOpacity style={{paddingTop: 1, paddingLeft:9,flex:0.5}}
+                            onPress = {() => setModal3Visible(!modal3Visible)}>
+                            <Image
+                                style={{height: 60, width: 30, resizeMode: 'cover',justifyContent:"center"}}
+                                source={require('../../../image/cancel.png')}/>
+                        </TouchableOpacity>
+                        <Image
+                            style={{height: 70, width: 60, resizeMode: 'cover',alignSelf:"flex-end"}}
+                            source={require('../../../image/complain.png')}/>
+                    </View>
+                    
+                    <View style = {{backgroundColor: "white",borderRadius:20, justifyContent:"center",alignItems:"center"}}>
+                        <Text>강퇴당한 채팅방에는 다시 입장이 불가능합니다.</Text>
+                    </View>
+                </View>
+            </Modal>
+
             {/* 검색창 구현*/}
             <View style={styles.search_bar_view}>
                     <Text style ={{fontSize: 20}}>#</Text>
