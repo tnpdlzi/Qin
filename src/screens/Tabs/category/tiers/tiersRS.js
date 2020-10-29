@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import server from '../../../../../server.json'
+import axios from 'axios';
 
 const tiers = [
     {id: 'COPPER'},
@@ -10,18 +12,52 @@ const tiers = [
     {id: 'DIAMOND'},
     {id: 'CHAMPIONS'},
 ];
+// url로부터 데이터 get
+let getDatas = async (url) => await axios.get(url)
+    .then(function (response) {
+        console.log(response.data)
+        return response.data
+    })
+    .catch(function (error) {
+        console.log(url)
+        console.log('error : ' + error);
+    });
 
 function tiersRS({ navigation }) {
+
+    const [gameID, setGameID] = useState([]);
+    console.log(gameID);
+
+    useEffect(() => {
+            const unfetched = navigation.addListener('focus', async () => {
+                setGameID(await getDatas(server.ip + '/category/gameID?uID=1&game=RS'))
+            });
+        
+            return unfetched;
+        }, [navigation]);
+
 
     return (
             <View style={styles.container}>
                 <View style={styles.gameImage}>
                     <View style={styles.item}>
+
+                        {gameID.length > 0 ? 
+                        <Image
+                        style={{height: 80, width: 80, resizeMode: 'contain'}}
+                        source={require('../../../../image/id_y.png')}
+                        />
+                        : 
                         <Image
                             style={{height: 80, width: 80, resizeMode: 'contain'}}
                             source={require('../../../../image/id_g.png')}
-                        />
-                        <Text style={{paddingEnd: 40}}>등록이 필요합니다.</Text>
+                        />}
+                        
+                        {gameID.length > 0 ? 
+                        <Text style={{paddingEnd: 40, fontSize: 18}}>{gameID[0].gameID}</Text>
+                        : 
+                        <Text style={{paddingEnd: 40}}>등록이 필요합니다.</Text>}
+                        
                     </View>
                     <Image
                         style={{
