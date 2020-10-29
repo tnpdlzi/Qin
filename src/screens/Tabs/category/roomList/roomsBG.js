@@ -57,8 +57,9 @@ function roomsBG({ navigation, route }) {
 
         // 이 네비게이션이 focus되면 실행. onRefresh()를 실행해주겠다! 이걸로 자동 새로고침이 됨
         useEffect(() => {
-            const unfetched = navigation.addListener('focus', () => {
-              onRefresh();
+            const unfetched = navigation.addListener('focus', async() => {
+                setDatas(await getDatas(server.ip + '/category/roomlist?tier=' + tier + '&game=BG'))
+                setMyRoom(await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=BG&uID=1'))
             });
         
             return unfetched;
