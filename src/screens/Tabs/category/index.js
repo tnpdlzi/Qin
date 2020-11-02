@@ -20,6 +20,9 @@ import teamOW from './team/teamOW';
 import teamBG from './team/teamBG';
 import teamRS from './team/teamRS'
 import teamComplete from "./team/teamComplete";
+
+import MailHome from '../mailBox/home'
+
 // 네비게이터 스택 선언, 인덱스에서 선언해주어야 함. 여기 써지는 스크린들이 navigation에 등록됨. 그래서 다른 곳에서 불러다 쓸 수 있음
 const Stack = createStackNavigator();
 // 카테고리 스크린이라는 함수로 부름
@@ -43,7 +46,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             {/*여기부터는 각각 스크린에 대한 선언들. component들은 다 import되어 있음*/}
@@ -61,7 +67,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
             <Stack.Screen
@@ -78,7 +84,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
             <Stack.Screen
@@ -95,7 +101,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
             <Stack.Screen
@@ -112,7 +118,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
             <Stack.Screen
@@ -129,7 +135,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
             <Stack.Screen
@@ -146,7 +152,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
             <Stack.Screen
@@ -163,7 +169,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
 
@@ -181,7 +187,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
             <Stack.Screen
@@ -198,7 +204,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
             <Stack.Screen
@@ -215,7 +221,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
 
@@ -233,7 +239,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
             <Stack.Screen
@@ -250,7 +256,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
             <Stack.Screen
@@ -267,7 +273,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
 
@@ -286,7 +292,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
             <Stack.Screen
@@ -303,7 +309,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
             <Stack.Screen
@@ -320,7 +326,7 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
                 }}
             />
             
@@ -338,7 +344,27 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                }}
+            />
+            <Stack.Screen
+                name="MailHome"
+                component={MailHome}
+                options={{
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                        <Image
+                            source={require('../../../image/menu_1.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
+                        />
+                    </TouchableOpacity>,
+                    headerTitle: () =>
+                        <View style={{ alignItems: "center", flex:1 }}>
+                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
+                        </View>
+                    ,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
         </Stack.Navigator>
