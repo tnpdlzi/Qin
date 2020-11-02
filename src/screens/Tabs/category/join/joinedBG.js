@@ -44,6 +44,7 @@ function joinedBG({ navigation, route }) {
     const [isJoined, setIsJoined] = useState(member[0].uID == 1 ? true : false); // 방에 첫번째 들어온 사람(만든사람)이 나인지 확인해 나면은 true, 아니면 false로 세팅, 그리고 이게 트루면 나는 이미 joined된거
     const [isError, setIsError] = useState(false);
     const [isUser, setIsUser] = useState(userIn == '' ? false : true); // 방에 내가 들어와있는지 확인
+    const [isLeader, setIsLeader] = useState(member[0].uID == 1 ? true : false); // 방에 첫번째 들어온 사람(만든사람)이 나인지 확인해 나면은 true, 아니면 false로 세팅, 그리고 이게 트루면 나는 이미 joined된거
 
     console.log('내가 이 방에 있는지 여부(방금 들어온거 포함) : ' + isJoined);
     console.log('내가 방에 들어와 있는지 확인(원래 있었는지 확인) : ' + isUser);
@@ -198,7 +199,31 @@ function joinedBG({ navigation, route }) {
                         </View>
                     );
                 })}
-                
+                <View
+                    style={isLeader ? {alignItems: 'center', paddingBottom: 30, paddingTop: 20} : {width: 0, height: 0}}>
+                    <TouchableOpacity
+                        style={{
+                            height: 50,
+                            width: 180,
+                            flexDirection: 'row',
+                            borderStyle: 'solid',
+                            borderRadius: 100,
+                            borderColor: '#00255a',
+                            borderWidth: 1,
+                            borderTopWidth: 1,
+                            backgroundColor: '#00255a',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                        onPress={async () => {await getDatas(server.ip + '/category/matched?roomID=' + roomID); await getDatas(server.ip + '/mail/evalMail?roomID=' + roomID + '&game=BG&uID=1'); setIsLeader(false); }}>
+
+
+                        <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
+                            매치완료
+                        </Text>
+
+                    </TouchableOpacity>
+                </View>
                 
                 <View
                     style={isJoined ? {width: 0, height: 0} : isUser ? {width:0, height: 0} : {alignItems: 'center', paddingBottom: 30, paddingTop: 20}}>
