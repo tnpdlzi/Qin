@@ -29,7 +29,7 @@ function MailHome({ navigation, route }) {
     const [datas, setDatas] = useState([]);
 
     const [modalVisible, setModalVisible] = useState(new Array(datas.length).fill(false));
-    console.log('데이타스길이 : ' + datas.length)
+    const [okModal, setOkModal] = useState(false);
 
     let arr = new Array(modalVisible.length).fill(false);
 
@@ -235,7 +235,12 @@ function MailHome({ navigation, route }) {
                                                         width: '45%', height: 20, alignSelf: 'center'
                                                         , justifyContent: 'center'
                                                     }}
-                                                    onPress={() => { }}>
+                                                    onPress={() => {
+                                                        
+                                                        arr[index]=false;
+                                                        setModalVisible(arr);
+                                                        setOkModal(true);
+                                                    }}>
                                                     <Text style={{ color: "gray", fontWeight: "bold", textAlign: "center", fontSize: 16 }}>싫어요</Text>
                                                 </TouchableOpacity>
 
@@ -246,8 +251,82 @@ function MailHome({ navigation, route }) {
                                                         width: '45%', height: 20, alignSelf: 'center'
                                                         , justifyContent: 'center'
                                                     }}
-                                                    onPress={() => { }}>
+                                                    onPress={() => {
+                                                        
+                                                        arr[index]=false;
+                                                        setModalVisible(arr);
+                                                        setOkModal(true);
+                                                    }}>
                                                     <Text style={{ color: "black", fontWeight: "bold", textAlign: "center", fontSize: 16 }}>좋아요</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            
+
+                                        </View>
+                                    </View>
+                                </Modal>
+
+                                <Modal
+                                    animationIn={"slideInUp"} //default 'slideInUp'
+                                    animationOut={'slideOutDown'} //default 'slideOutDown'
+                                    isVisible={okModal}
+                                    transparent={true} //default 'true'
+                                    backdropColor={'black'} //default 'black'
+                                    backdropOpacity={0.5} //default 0.7
+                                    onBackButtonPress={() => {
+                                        setOkModal(false)
+                                    }}
+                                    onBackdropPress={() => setOkModal(false)}
+                                >
+                                    <View style={styles.centeredView}>
+                                        <View style={{
+                                            width: '90%',
+                                            height: 270,
+                                            backgroundColor: "white",
+                                            borderRadius: 20,
+                                            alignItems: 'center',
+                                            shadowColor: "#000",
+                                            shadowOffset: {
+                                                width: 0,
+                                                height: 2
+                                            },
+                                            shadowOpacity: 0.25,
+                                            shadowRadius: 3.84,
+                                            elevation: 5,
+                                        }}>
+                                            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                                                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20}}>
+                                                    <Image style={{ width: 100, height: 100, }} source={require('../../../image/id_y.png')} />
+                                                    <Text style={{ fontSize: 20, fontWeight: 'bold', paddingEnd: 40 }}>평가완료</Text>
+                                                </View>
+
+                                                <View style={{
+                                                    width: '70%', height: '15%', alignSelf: 'center',
+                                                    flexDirection: 'row', marginBottom: 40
+                                                }}>
+                                                    <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+                                                        <Text style={{ fontSize: 14, fontWeight: 'bold', marginTop: '5%' }}>매너지수를 평가해주셔서 감사합니다.</Text>
+                                                        <Text style={{ color: '#e2e2e2', fontSize: 12, fontWeight: 'bold', marginTop: '5%' }}>메시지는 자동으로 삭제됩니다.</Text>
+                                                    </View>
+                                                
+                                                </View>
+                                            </View>
+                                            
+                                    
+                                            
+                                            <View style={{ width: '80%', height: 1, backgroundColor: "#E2E2E2", alignSelf: "center" }} />
+                                            
+                                            
+
+                                            <View style={{width:'100%', flexDirection:'row', marginTop: 20, justifyContent:'center'}}>
+
+                                                <TouchableOpacity
+                                                    style={{
+                                                        width: '45%', height: 20, alignSelf: 'center'
+                                                        , justifyContent: 'center'
+                                                    }}
+                                                    onPress={() => {setOkModal(false) }}>
+                                                    <Text style={{ color: "black", fontWeight: "bold", textAlign: "center", fontSize: 16 }}>확인</Text>
                                                 </TouchableOpacity>
                                             </View>
                                             
