@@ -236,10 +236,13 @@ function MailHome({ navigation, route }) {
                                                         , justifyContent: 'center'
                                                     }}
                                                     onPress={() => {
-                                                        
+
                                                         arr[index]=false;
                                                         setModalVisible(arr);
                                                         setOkModal(true);
+                                                        getDatas(server.ip + '/mail/bad?&uID=' + data.uID1);
+                                                        getDatas(server.ip + '/mail/deleteMail?&fgID=' + data.fgID);
+
                                                     }}>
                                                     <Text style={{ color: "gray", fontWeight: "bold", textAlign: "center", fontSize: 16 }}>싫어요</Text>
                                                 </TouchableOpacity>
@@ -256,6 +259,9 @@ function MailHome({ navigation, route }) {
                                                         arr[index]=false;
                                                         setModalVisible(arr);
                                                         setOkModal(true);
+                                                        getDatas(server.ip + '/mail/good?&uID=' + data.uID1);
+                                                        getDatas(server.ip + '/mail/deleteMail?&fgID=' + data.fgID);
+
                                                     }}>
                                                     <Text style={{ color: "black", fontWeight: "bold", textAlign: "center", fontSize: 16 }}>좋아요</Text>
                                                 </TouchableOpacity>
@@ -274,9 +280,10 @@ function MailHome({ navigation, route }) {
                                     backdropColor={'black'} //default 'black'
                                     backdropOpacity={0.5} //default 0.7
                                     onBackButtonPress={() => {
-                                        setOkModal(false)
+                                        setOkModal(false);
+                                        onRefresh();
                                     }}
-                                    onBackdropPress={() => setOkModal(false)}
+                                    onBackdropPress={() => {setOkModal(false); onRefresh();}}
                                 >
                                     <View style={styles.centeredView}>
                                         <View style={{
@@ -325,7 +332,8 @@ function MailHome({ navigation, route }) {
                                                         width: '45%', height: 20, alignSelf: 'center'
                                                         , justifyContent: 'center'
                                                     }}
-                                                    onPress={() => {setOkModal(false) }}>
+                                                    onPress={() => {setOkModal(false); onRefresh();
+                                                    }}>
                                                     <Text style={{ color: "black", fontWeight: "bold", textAlign: "center", fontSize: 16 }}>확인</Text>
                                                 </TouchableOpacity>
                                             </View>
