@@ -107,7 +107,7 @@ function MailHome({ navigation, route }) {
                                                         paddingBottom: 10
                                                     }}>
                                                     <Text style={{fontSize: 14, fontWeight: 'bold'}}>
-                                                        {data.userName}     {data.image}
+                                                        {data.userName}
                                                     </Text>
 
                                                 </View>
