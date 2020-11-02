@@ -31,7 +31,7 @@ function HashHome({ navigation}) {
     const [modalData, setModalData] = useState("");
     const [modal2Visible, setModal2Visible] = useState(false);
     const [modal3Visible, setModal3Visible] = useState(false);
-    const [modal4Visible, setModal4Visible] = useState(false);
+
     //const topRank;
     //검색할 Hash Tag목록 추가
     function addHash(){

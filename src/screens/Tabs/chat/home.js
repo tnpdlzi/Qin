@@ -10,15 +10,19 @@ export default function ChatHome({ navigation }) {
 
     //페이지 로드시 채팅방리스트 한 번만 불러옴
     useEffect(() => {
-        socket.emit('load chatList');
+        socket.emit('load chatList',{'uID' : 2});
     },[]);
+
     socket.on('return chatList', (data) => {
         setChatList(data);
-        //console.log(data);
+        console.log(data);
     })
+    
     
     //FlatList renderItem
     const renderItem = ({ item }) => {
+        console.log("item 출력");
+        console.log(item.sendTime);
         return(
             <TouchableOpacity
             onPress={() => navigation.navigate('chatRoom', {roomTitle: item.chatName})}
@@ -31,10 +35,10 @@ export default function ChatHome({ navigation }) {
                 </View>
                 <View style={{ flexDirection: 'column', justifyContent: 'space-evenly', width: "65%" }}>
                     <Text style={styles.title}>{item.chatName}</Text>
-                    <Text style={styles.title}>미리보기</Text>
+                    <Text style={styles.title}>{item.message}</Text>
                 </View>
                 <View style={{ justifyContent: 'flex-end', width: "30%" }}>
-                    <Text style={styles.title}>12:10</Text>
+                    <Text style={styles.title}>{item.sendTime}</Text>
                 </View>
             </View>
         </TouchableOpacity>
