@@ -30,6 +30,17 @@ let postDatas = async (url, uID, roomID, position) => await axios({
     })
   });
 
+let postMails = async (roomID, game) => await axios.get(server.ip + '/mail/evalMail?roomID=' + roomID)
+    .then( async (response) => await axios({
+    method: 'post',
+    url: server.ip + '/mail/sendMails',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+      uID: response.data,
+      game: game
+    })
+  }));
+
 function joinedLOL({ navigation, route }) {
 
     let members = route.params.memtitle[0];
@@ -224,7 +235,7 @@ function joinedLOL({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => {await getDatas(server.ip + '/category/matched?roomID=' + roomID); await getDatas(server.ip + '/mail/evalMail?roomID=' + roomID + '&game=LOL&uID=1'); setIsLeader(false); }}>
+                        onPress={async () => {await getDatas(server.ip + '/category/matched?roomID=' + roomID); await postMails(roomID, 'LOL'); setIsLeader(false); }}>
 
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>

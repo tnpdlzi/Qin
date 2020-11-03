@@ -30,7 +30,16 @@ let postDatas = async (url, uID, roomID, position) => await axios({
       position: position
     })
   });
-
+let postMails = async (roomID, game) => await axios.get(server.ip + '/mail/evalMail?roomID=' + roomID)
+    .then( async (response) => await axios({
+    method: 'post',
+    url: server.ip + '/mail/sendMails',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+      uID: response.data,
+      game: game
+    })
+  }));
 function joinedOW({ navigation, route }) {
 
     let members = route.params.memtitle[0];
@@ -223,7 +232,7 @@ function joinedOW({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => {await getDatas(server.ip + '/category/matched?roomID=' + roomID); await getDatas(server.ip + '/mail/evalMail?roomID=' + roomID + '&game=OW&uID=1'); setIsLeader(false); }}>
+                        onPress={async () => {await getDatas(server.ip + '/category/matched?roomID=' + roomID); await postMails(roomID, 'OW'); setIsLeader(false); }}>
 
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
