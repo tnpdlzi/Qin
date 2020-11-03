@@ -31,11 +31,20 @@ let postDatas = async (tier) => await axios.get(server.ip + '/category/getRooms?
     data: qs.stringify({
       results: response.data
     })
-  })).then(async () => await axios.get(server.ip + '/category/roomList?tier=' + tier + '&game=BG')
+  }))
+  .catch(function (error) {
+      console.log('error : ' + error);
+  }).then(async () => await axios.get(server.ip + '/category/roomList?tier=' + tier + '&game=BG')
+  .catch(function (error) {
+      console.log('error : ' + error);
+  })
   .then(function (response) {
       console.log(response.data)
     return response.data
-}));
+  })
+  .catch(function (error) {
+      console.log('error : ' + error);
+  }));
 
 
 
