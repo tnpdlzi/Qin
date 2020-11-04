@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, RefreshControl} from 'react-native';
+import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, RefreshControl, TouchableHighlight} from 'react-native';
 import server from '../../../../../server.json'
 import axios from 'axios';
+import {Avatar, Accessory} from 'react-native-elements';
+import Modal from 'react-native-modal';
 const qs = require('qs');
 
 // roomsLOL에서 한것과 동일. 새로고침시에 기다리기, Data get방식, post방식 요청
@@ -50,11 +52,14 @@ function joinedLOL({ navigation, route }) {
 
     console.log('방의 ID값 : ' + roomID);
 
-    const [member, setMember] = useState(members)
+    const [member, setMember] = useState(members);
+    const [mDatas, setMDatas] = useState([]);
     const [isJoined, setIsJoined] = useState(member[0].uID == 1 ? true : false); // 방에 첫번째 들어온 사람(만든사람)이 나인지 확인해 나면은 true, 아니면 false로 세팅, 그리고 이게 트루면 나는 이미 joined된거
     const [isError, setIsError] = useState(false);
     const [isUser, setIsUser] = useState(userIn == '' ? false : true); // 방에 내가 들어와있는지 확인
     const [isLeader, setIsLeader] = useState(member[0].uID == 1 ? true : false); // 방에 첫번째 들어온 사람(만든사람)이 나인지 확인해 나면은 true, 아니면 false로 세팅, 그리고 이게 트루면 나는 이미 joined된거
+    const [modalVisible, setModalVisible] = useState(new Array(member.length).fill(false));
+    let arr = new Array(modalVisible.length).fill(false);
 
     console.log('내가 이 방에 있는지 여부(방금 들어온거 포함) : ' + isJoined);
     console.log('내가 방에 들어와 있는지 확인(원래 있었는지 확인) : ' + isUser);
@@ -158,7 +163,7 @@ function joinedLOL({ navigation, route }) {
                     let intime = rdate.toString().substr(16, 5);
 
                     return (
-                        <View style={{
+                        <TouchableOpacity style={{
                             width: '100%',
                             height: 60,
                             backgroundColor: '#ffffff',
@@ -167,7 +172,13 @@ function joinedLOL({ navigation, route }) {
                             borderBottomWidth: 0.5,
                             borderBottomColor: 'gray',
                             justifyContent: 'space-between',
-                        }} >
+                        }} 
+                        onPress={async() => {
+                            arr[index]=true;
+                            setModalVisible(arr);
+                            setMDatas(await getDatas(server.ip + '/category/mGames?uID=' + data.uID));
+                            console.log('mDatas = ' + mDatas)
+                        }}>
                             <View style={{
                                 width: '100%',
                                 height: '100%',
@@ -216,7 +227,114 @@ function joinedLOL({ navigation, route }) {
                                     </View>
                                 </View>
                             </View>
-                        </View>
+                            <Modal
+                                    animationIn={"slideInUp"} //default 'slideInUp'
+                                    animationOut={'slideOutDown'} //default 'slideOutDown'
+                                    isVisible={modalVisible[index]}
+                                    transparent={true} //default 'true'
+                                    backdropColor={'black'} //default 'black'
+                                    backdropOpacity={0.5} //default 0.7
+                                    onBackButtonPress={() => {
+                                        arr[index]=false;
+                                        setModalVisible(arr);
+                                    }}
+                                    onBackdropPress={() => setModalVisible(false)}
+                                >
+                                    <View style={styles.centeredView}>
+                                        <View style={
+                                            {
+                                                width: '90%',
+                                                height: 300 + 75 * mDatas.length,
+                                                backgroundColor: "white",
+                                                borderRadius: 20,
+                                                alignItems: 'flex-start',
+                                                shadowColor: "#000",
+                                                shadowOffset: {
+                                                    width: 0,
+                                                    height: 2
+                                                },
+                                                shadowOpacity: 0.25,
+                                                shadowRadius: 3.84,
+                                                elevation: 5,
+                                            }
+                                        }>
+                                            <TouchableOpacity onPress={() => { 
+                                                arr[index]=false;
+                                                setModalVisible(arr);
+                                            }}
+                                            >
+                                                <Image style={{ width: 70, height: 70, }} source={require('../../../../image/cancel.png')} />
+                                            </TouchableOpacity>
+                                            <View style={{
+                                                width: '70%', height: '15%', alignSelf: 'center',
+                                                flexDirection: 'row', marginBottom: 20
+                                            }}>
+                                                <View style={{ width: '70%', }}>
+                                                    <Text style={{ fontSize: 16, fontWeight: 'bold', marginTop: '5%' }}>{data.userName}</Text>
+                                                    <Text style={{ fontSize: 12, marginTop: '3%' }}>{data.intro}</Text>
+                                                </View>
+                                                <View style={{ width: '30%', alignItems: 'center' , justifyContent: 'flex-start', marginTop: '5%'}}>
+                                                    <Avatar
+                                                        rounded
+                                                        style={{ width: '70%', height: '70%'}}
+                                                        source={require('../../../../image/profile.png')}
+                                                    />
+                                                </View>
+                                            </View>
+                                            
+                                            <View style={{ width: '70%', height: 1, backgroundColor: "#E2E2E2", alignSelf: "center" }} />
+                                            
+                                            <View style={{ width: '70%', height: '10%', alignSelf: 'center', flexDirection: 'row', paddingTop: 20 }}>
+                                                <View style={{ width: '50%', flexDirection: 'row', alignItems: 'center', }}>
+                                                    <Text style={{ color: '#363636', fontSize: 12, fontWeight: 'bold' }}>매너 지수   </Text>
+                                                    <Text style={{ color: '#FFC81A', fontSize: 12, fontWeight: 'bold' }}>{data.good}</Text>
+                                                </View>
+                                                <View style={{ width: '50%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
+                                                    <Text style={{ color: '#363636', fontSize: 12, fontWeight: 'bold' }}>비매너 지수   </Text>
+                                                    <Text style={{ color: '#00255A', fontSize: 12, fontWeight: 'bold' }}>{data.bad}</Text>
+                                                </View>
+                                            </View>
+                                            
+                                            {mDatas.map((mData, index) => {
+                                                return(
+                                                    <View style={{ width: '70%', alignSelf: 'center', paddingTop: 10, marginBottom: 0 }}>
+                                                        
+                                                        <View style={{height: 50, justifyContent:'center'}} >
+                                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                <Text style={{ fontSize: 20, color: '#FFC81A' }}>{'\u2022 '} </Text>
+                                                                <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{mData.game}</Text>
+                                                            </View>
+                                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '} </Text>
+                                                                <Text style={{ fontSize: 12 }}>{mData.gameID}</Text>
+                                                                <Text style={{ fontSize: 12 }}> </Text>
+                                                                <Text style={{ fontSize: 12 }}>({mData.tierID})</Text>
+                                                            </View>
+                                                        </View>
+                                                        
+                                                    </View>
+                                                );
+                                            })}
+
+                                            <View style={{ width: '70%', height: 1, backgroundColor: "#E2E2E2", alignSelf: "center", marginTop: 20 }} />
+                                            <View style={{ width: '100%', flexDirection: 'row', marginTop: 30, justifyContent: 'center'}}>
+                                                <TouchableHighlight
+                                                    style={{
+                                                        width: '45%', height: 40, backgroundColor: "#00255A", alignSelf: 'center'
+                                                        , borderRadius: 20, elevation: 2, justifyContent: 'center'
+                                                    }}
+                                                    onPress={() => {
+                                                        arr[index]=false;
+                                                        setModalVisible(arr);
+                                                    }}>
+                                                    <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>친구추가</Text>
+                                                </TouchableHighlight>
+                                            </View>                                            
+                                        </View>
+                                    </View>
+                                </Modal>
+                        </TouchableOpacity>
+                        
                     );
                 })}
                 <View
@@ -505,7 +623,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         elevation: 10,
         backgroundColor: '#ffffff'
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 0,
+    },
 });
 
 export default joinedLOL;
