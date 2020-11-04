@@ -3,6 +3,8 @@ import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, RefreshCont
 import server from '../../../../../server.json'
 import axios from 'axios';
 
+const qs = require('qs');
+
 // refresh가 완료될 때 까지 wait
 const wait = (timeout) => {
     return new Promise(resolve => {
@@ -21,6 +23,28 @@ let getDatas = async (url) => await axios.get(url)
         console.log('error : ' + error);
     });
 
+let postDatas = async (tier) => await axios.get(server.ip + '/category/getRooms?tier=' + tier + '&game=LOL')
+    .then(async (response) => await axios({
+    method: 'post',
+    url: server.ip + '/category/updateRooms',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+      results: response.data
+    })
+  }))
+  .catch(function (error) {
+      console.log('error : ' + error);
+  }).then(async () => await axios.get(server.ip + '/category/roomList?tier=' + tier + '&game=LOL')
+  .catch(function (error) {
+      console.log('error : ' + error);
+  })
+  .then(function (response) {
+      console.log(response.data)
+    return response.data
+  })
+  .catch(function (error) {
+      console.log('error : ' + error);
+  }));
 
 function roomsLOL({ navigation, route }) {
 
@@ -38,7 +62,7 @@ function roomsLOL({ navigation, route }) {
     const onRefresh = React.useCallback(async() => {
         setRefreshing(true);
 
-        setDatas(await getDatas(server.ip + '/category/roomlist?tier=' + tier + '&game=LOL'))
+        setDatas(await postDatas(tier))
         setMyRoom(await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=LOL&uID=1'))
     
         wait(2000).then(() => setRefreshing(false));
@@ -58,7 +82,7 @@ function roomsLOL({ navigation, route }) {
         // 이 네비게이션이 focus되면 실행. onRefresh()를 실행해주겠다! 이걸로 자동 새로고침이 됨
         useEffect(() => {
             const unfetched = navigation.addListener('focus', async() => {
-                setDatas(await getDatas(server.ip + '/category/roomlist?tier=' + tier + '&game=LOL'))
+                setDatas(await postDatas(tier))
                 setMyRoom(await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=LOL&uID=1'))
             });
         
