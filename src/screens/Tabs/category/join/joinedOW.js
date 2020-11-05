@@ -311,19 +311,55 @@ function joinedOW({ navigation, route }) {
                                             })}
 
                                             <View style={{ width: '70%', height: 1, backgroundColor: "#E2E2E2", alignSelf: "center", marginTop: 20 }} />
-                                            <View style={{ width: '100%', flexDirection: 'row', marginTop: 30, justifyContent: 'center'}}>
-                                                <TouchableHighlight
-                                                    style={{
-                                                        width: '45%', height: 40, backgroundColor: "#00255A", alignSelf: 'center'
-                                                        , borderRadius: 20, elevation: 2, justifyContent: 'center'
-                                                    }}
-                                                    onPress={() => {
-                                                        arr[index]=false;
-                                                        setModalVisible(arr);
-                                                    }}>
-                                                    <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>친구추가</Text>
-                                                </TouchableHighlight>
-                                            </View>                                            
+                                            {isLeader ? 
+
+                                                <View style={{ width: '100%', flexDirection: 'row', marginTop: 30, justifyContent: 'center'}}>
+                                                    <TouchableHighlight
+                                                        style={{
+                                                            width: '35%', height: 40, backgroundColor: "#FFFFFF", alignSelf: 'center'
+                                                            , borderRadius: 20, elevation: 2, justifyContent: 'center', borderColor: '#00255A', borderWidth: 1
+                                                        }}
+                                                        onPress={async() => {
+                                                            arr[index]=false;
+                                                            setModalVisible(arr);
+                                                            getDatas(server.ip + '/category/ban?roomID=' + roomID + '&uID=' + data.uID);
+                                                            setMember(await getDatas(server.ip + '/category/member?roomID=' + roomID + '&game=OW'));
+                                                        }}>
+                                                        <Text style={{ color: "#00255A", fontWeight: "bold", textAlign: "center" }}>강퇴하기</Text>
+                                                    </TouchableHighlight>
+                                                    <View style={{width: '5%'}}/>
+                                                    <TouchableHighlight
+                                                        style={{
+                                                            width: '35%', height: 40, backgroundColor: "#00255A", alignSelf: 'center'
+                                                            , borderRadius: 20, elevation: 2, justifyContent: 'center'
+                                                        }}
+                                                        onPress={() => {
+                                                            arr[index]=false;
+                                                            setModalVisible(arr);
+                                                            postFriend(1, data.uID);
+                                                        }}>
+                                                        <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>친구추가</Text>
+                                                    </TouchableHighlight>
+                                                </View>                                            
+
+                                                : 
+                                                <View style={{ width: '100%', flexDirection: 'row', marginTop: 30, justifyContent: 'center'}}>
+
+                                                    <TouchableHighlight
+                                                        style={{
+                                                            width: '45%', height: 40, backgroundColor: "#00255A", alignSelf: 'center'
+                                                            , borderRadius: 20, elevation: 2, justifyContent: 'center'
+                                                        }}
+                                                        onPress={() => {
+                                                            arr[index]=false;
+                                                            setModalVisible(arr);
+                                                            getDatas(server.ip + '/category/ban?roomID=' + roomID + '&uID=' + data.uID)
+                                                        }}>
+                                                        <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>친구추가</Text>
+                                                    </TouchableHighlight>
+                                                </View>                                            
+
+                                            }                                           
                                         </View>
                                     </View>
                                 </Modal>
