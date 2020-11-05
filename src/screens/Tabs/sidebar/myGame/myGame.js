@@ -124,8 +124,8 @@ function myGame({ navigation }) {
                                 <Text style={{fontSize:16, fontWeight:'bold', marginLeft:15}}>게임 등록</Text>
                             </View>
                             <View style={{ width:'100%', height:40, borderRadius:10, borderWidth: 2, borderColor:'#A5A5A5', marginBottom:40}}>
-                                <TextInput style={{ color:'#A5A5A5', justifyContent:'center'}} 
-                                    defaultValue='게임 이름을 검색해주세요.'/>
+                                <TextInput style={{ justifyContent:'center'}} 
+                                    placeholder='게임 이름을 검색해주세요.' placeholderTextColor='#A5A5A5'/>
                             </View>
                             <View style={{ width: '100%', borderWidth: 0.15, backgroundColor:'#E2E2E2'}} />
                             <View style={{ width: '100%', height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
@@ -168,9 +168,9 @@ function myGame({ navigation }) {
                                 <Image source={require("../../../../image/registered_1.png")} style={{ width: 30, height: 35 }} />
                                 <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 15 }}>아이디 입력</Text>
                             </View>
-                            <View style={{ width: '100%', height: 40, borderRadius: 10, borderWidth: 2, borderColor: '#A5A5A5', marginBottom: 40 }}>
-                                <TextInput style={{ color: '#A5A5A5', justifyContent: 'center' }}
-                                    defaultValue='해당 게임의 아이디(닉네임)을 입력하세요.' />
+                            <View style={{ width: '100%', height: 40, borderBottomWidth: 2, borderBottomColor:'#A5A5A5', marginBottom: 40 }}>
+                                <TextInput style={{ justifyContent: 'center' }}
+                                    placeholder='해당 게임의 아이디(닉네임)을 입력하세요.' placeholderTextColor='#A5A5A5'/>
                             </View>
                             <View style={{ width: '100%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                             <View style={{ width: '100%', height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
@@ -256,8 +256,9 @@ function myGame({ navigation }) {
                                 <Image source={require("../../../../image/registered_1.png")} style={{ width: 30, height: 35 }} />
                                 <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 15 }}>장르 선택</Text>
                             </View>
-                            <View>
-
+                            <View style={{ width: '100%', height: 40, borderRadius: 10, borderWidth: 2, borderColor: '#A5A5A5', marginBottom: 40 }}>
+                                <TextInput style={{ justifyContent: 'center' }}
+                                    placeholder='게임 장르를 검색해주세요.' placeholderTextColor='#A5A5A5' />
                             </View>
                             <View style={{ width: '100%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                             <View style={{ width: '100%', height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
