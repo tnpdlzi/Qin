@@ -5,8 +5,8 @@ import ChatScreen from './chat';
 import FriendScreen from './friend';
 import HashScreen from './hash'
 import { View, Text, StyleSheet, Image } from 'react-native';
-import myGame from "./sidebar/game/myGame";
-import myProfile from "./sidebar/profile/myProfile";
+import myGame from "./sidebar/myGame";
+import myProfile from "./sidebar/myProfile";
 
 // 아래쪽의 탭 네비게이터를 쓰겠다는 선언
 const Tab = createBottomTabNavigator();

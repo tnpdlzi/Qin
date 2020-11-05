@@ -91,7 +91,7 @@ function DrawerScreen({ navigation }) {
                     </Text>
 
                     <Text  style={{fontSize: 14, color: '#000000', paddingVertical: 5}}>
-                        비매 너지수
+                        비매너 지수
                     </Text>
 
                     <View style={{paddingVertical: 25}}>
@@ -114,7 +114,7 @@ function DrawerScreen({ navigation }) {
 
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.navigate('myGameScreen');
+                            navigation.navigate('myGame');
                         }}
                     >
                         <Text  style={{fontSize: 14, color: '#000000', paddingVertical: 5}}>
@@ -123,7 +123,7 @@ function DrawerScreen({ navigation }) {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.navigate('myProfileScreen');
+                            navigation.navigate('myProfile');
                         }}
                     >
                         <Text  style={{fontSize: 14, color: '#000000', paddingVertical: 5}}>

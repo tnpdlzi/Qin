@@ -1,8 +1,9 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Text } from 'react-native';
 
 import MailHome from './home';
+import FriendHome from './../friend';
 // 네비게이터 스택 선언, 인덱스에서 선언해주어야 함. 여기 써지는 스크린들이 navigation에 등록됨. 그래서 다른 곳에서 불러다 쓸 수 있음
 const Stack = createStackNavigator();
 // 카테고리 스크린이라는 함수로 부름
@@ -16,17 +17,19 @@ export default function MailScreen({ navigation }) {
                 name="Home"
                 component={MailHome}
                 options={{
-                    headerLeft: () => <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate("FriendHome")}>
                         <Image
-                            source={require('../../../image/menu_1.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
+                            source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain' }}
                         />
                     </TouchableOpacity>,
                     headerTitle: () =>
-                        <View style={{ alignItems: "center", flex:1 }}>
-                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
+                        <View style={{ alignItems: "center", flex: 1 }}>
+                            <Text style={{ fontSize: 16 }}>메시지</Text>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () =>
+                        <View />
+                    ,
                 }}
             />
             

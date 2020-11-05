@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, FlatList, Image, StyleSheet, TouchableOpacity, TouchableHighlight} from 'react-native';
 import {Avatar, Accessory} from 'react-native-elements';
 import Modal from 'react-native-modal';
+import server from '../../../../server.json';
+import axios from 'axios';
+
+
+let getDatas = async (url) => await axios.get(url)
+    .then(function (response) {
+        console.log(response.data)
+        return response.data
+    })
+    .catch(function (error) {
+        console.log(url)
+        console.log('error : ' + error);
+    });
 
 function MemoryHome({ navigation }) {
     
-    const [modalVisible, setModalVisible] = useState(new Array(4).fill(false)); //hook: useState는 현재의 state값과 이 값을 업데이트하는 함수를 쌍으로 제공.
+    const [modalVisible, setModalVisible] = useState([]); //hook: useState는 현재의 state값과 이 값을 업데이트하는 함수를 쌍으로 제공.
     //useState 괄호안은 초기값을 나타낸다.
     const [myModalVisible, setMyModalVisible] = useState(false);
+    const [friendprofile, setFriendprofile] = useState([]);
     
     let arr = new Array(modalVisible.length).fill(false);
 
@@ -18,32 +32,40 @@ function MemoryHome({ navigation }) {
         comment:"아이디 주인",
     };
 
-    const friendprofile=[
-        {
-            uid:0,
-            image:"",
-            name:"류대현",
-            comment:"자기소개1",
-        },
-        {
-            uid: 1,
-            image: "",
-            name: "박진곤",
-            comment: "자기소개2",
-        },
-        {
-            uid: 2,
-            image: "",
-            name: "이규빈",
-            comment: "자기소개3",
-        },
-        {
-            uid: 3,
-            image: "",
-            name: "이동건",
-            comment: "무빙건",
-        },
-    ];
+    // const friendprofile=[
+    //     {
+    //         uid:0,
+    //         image:"",
+    //         name:"류대현",
+    //         comment:"자기소개1",
+    //     },
+    //     {
+    //         uid: 1,
+    //         image: "",
+    //         name: "박진곤",
+    //         comment: "자기소개2",
+    //     },
+    //     {
+    //         uid: 2,
+    //         image: "",
+    //         name: "이규빈",
+    //         comment: "자기소개3",
+    //     },
+    //     {
+    //         uid: 3,
+    //         image: "",
+    //         name: "이동건",
+    //         comment: "무빙건",
+    //     },
+    // ];
+
+    useEffect(() => {
+        const unfetched = navigation.addListener('focus', async () => {
+            setFriendprofile(await getDatas(server.ip + '/friend/friendList?uID=1'))
+        });
+
+        return unfetched;
+    }, [navigation]);
 
     return ( 
         <ScrollView style={{ backgroundColor: "#F7F7F7", paddingLeft:15, paddingRight:15 }}
@@ -199,7 +221,7 @@ function MemoryHome({ navigation }) {
                             <View style={{ height: 77, width: 77, alignItems: 'center', justifyContent: 'center', }}>
                                 <Avatar
                                     rounded
-                                    style={{ width: '70%', height: '70%', }}
+                                    style={{ width: '70%', height: '70%'}}
                                     source={require('../../../image/profile.png')}
                                 />
                             </View>

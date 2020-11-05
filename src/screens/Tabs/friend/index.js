@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 import { Image, View, TouchableOpacity, Text } from 'react-native';
 
 import friendList from './home';
-import myProf from './myProf';
-import manageProf from './manageProf';
+import myProf from '../sidebar/myProfile/myProf';
+
+import MailHome from '../mailBox/home';
 
 // 네비게이터 스택 선언, 인덱스에서 선언해주어야 함. 여기 써지는 스크린들이 navigation에 등록됨. 그래서 다른 곳에서 불러다 쓸 수 있음
 const Stack = createStackNavigator();
@@ -35,7 +36,10 @@ export default function MemoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain' }} />
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_g.png')} style={{ height: 80, width: 80, resizeMode: 'contain' }} />,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height: 80, width: 80, resizeMode: 'contain' }} />
+                    </TouchableOpacity>
+                    ,
                 }}
             />
 
@@ -43,7 +47,7 @@ export default function MemoryScreen({ navigation }) {
                 name="myProf"
                 component={myProf}
                 options={{
-                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('FriendHome')}>
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate("FriendHome")}>
                         <Image
                             source={require('../../../image/back.png')} style={{height:50, width:50, resizeMode:'contain'}}
                         />
@@ -70,9 +74,24 @@ export default function MemoryScreen({ navigation }) {
             />
 
             <Stack.Screen
-                name="manageProf"
-                component={manageProf}
-                options={{ title: 'manageProf' }}
+                name="MailHome"
+                component={MailHome}
+                options={{
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                        <Image
+                            source={require('../../../image/menu_1.png')} style={{ height: 50, width: 50, resizeMode: 'contain' }}
+                        />
+                    </TouchableOpacity>,
+                    headerTitle: () =>
+                        <View style={{ alignItems: "center", flex: 1 }}>
+                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain' }} />
+                        </View>
+                    ,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height: 80, width: 80, resizeMode: 'contain' }} />
+                    </TouchableOpacity>
+                    ,
+                }}
             />
 
         </Stack.Navigator>
