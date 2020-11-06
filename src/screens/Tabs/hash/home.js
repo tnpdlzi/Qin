@@ -3,16 +3,17 @@ import { Dimensions,ScrollView, StyleSheet, View, Text, TextInput, Image, Toucha
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
 import Modal from 'react-native-modal';
+import server from '../../../../server.json';
 
 const winHeight = Dimensions.get('window').height;
 const winWidth  = Dimensions.get('window').width;
-const IP = 'http://';
+const IP = server.ip;
 
 const test_uID = 2; //임시 uID 이후 로그인 유지 방법을 통해서 다른 변수로 대체될 예정
 
 let hash_rank = [];
 
-let getTopRank = async () => await axios.get(IP + ':8080/hash/topRank')
+let getTopRank = async () => await axios.get(IP + '/hash/topRank')
     .then(function(response){
         console.log(response.data);
         hash_rank = response.data;
@@ -43,7 +44,7 @@ function HashHome({ navigation}) {
         }
     }
     //chatRoomListModal에서 채팅 참여하기 버튼 클릭 시 chatRoomEnter하기 위한 함수
-    const chatRoomEnter = async () => await axios.post(IP + ':8080/hash/chatRoomEnter',{ 
+    const chatRoomEnter = async () => await axios.post(IP + '/hash/chatRoomEnter',{ 
         "uID" : test_uID, 
         "chatID" : modalData.chatID //유저가 선택한 chatRoom에 대한 정보를 담은 Modal 변수
     })
@@ -61,7 +62,7 @@ function HashHome({ navigation}) {
     });
 
     //Hash Tag목록을 기반으로 목록의 Hash Tag를 모두 포함하는 ChatRoom의 Data를 받아온다.
-    let getDatas = async () => await axios.post(IP + ':8080/hash/hashSearch', {
+    let getDatas = async () => await axios.post(IP + '/hash/hashSearch', {
         "uID": "1",
         "hashList" : search_hash
     })

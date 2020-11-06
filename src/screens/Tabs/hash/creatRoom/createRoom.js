@@ -2,10 +2,11 @@ import React, {Component, useEffect, useState} from 'react';
 import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, TextInput} from 'react-native';
 import axios from "axios";
 import Modal from 'react-native-modal';
+import server from '../../../../../server.json';
 
-
-const IP = 'http://';
+const IP = server.ip;
 const test_uID = 2;
+console.log(IP);
 function createRoom ({Navigation}){
     const [chatName, setChatName] = useState("");
     const [chatInfo ,setChatInfo] = useState("");
@@ -39,7 +40,7 @@ function createRoom ({Navigation}){
     }
 
     //필수 필드 다 채웠을때 호출될 함수
-    const roomCreate = async () => await axios.post(IP + ':8080/hash/roomCreate',{
+    const roomCreate = async () => await axios.post(IP + ':/hash/roomCreate',{
         "uID" : test_uID,
         "chatName" : chatName,
         "chatInfo" : chatInfo,
@@ -265,14 +266,14 @@ const styles = StyleSheet.create({
     },
     input:{
         borderBottomColor: "gray",
-        width : "75%",
+        width : "80%",
         borderBottomWidth: 2,
-        fontSize: 15
+        fontSize: 14
     },
     hashInput:{
         flexDirection:"row",
         height: 50,
-        width: '50%',
+        width: '70%',
         marginTop:10,
         alignItems: 'center',
         flexDirection: 'row',
