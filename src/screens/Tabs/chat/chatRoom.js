@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, View, Image, TextInput, StyleSheet, FlatList, KeyboardAvoidingView } from 'react-native';
+import { Text, TouchableOpacity, View, Image, TextInput, StyleSheet, FlatList, KeyboardAvoidingView, BackHandler } from 'react-native';
 import SocketIOClient from "socket.io-client";
 import Modal from "react-native-modal";
 import {Avatar} from 'react-native-elements';
@@ -18,20 +18,22 @@ export default class chatRoom extends Component {
             chatMessages: [], //현재 채팅방에 나타낼 메시지
             messageData: [], //DB에 불러온 메시지 데이터
             chatMember: [], //채팅방 참여 멤버
-            modalVisible: true, //관리 모달
+            modalVisible: false, //관리 모달
             banModalVisible: false, //강퇴 모달
             chatInfo: [], //채팅방 정보(방장, 1대1 채팅여부 (+ 추가될 수 있음)),
             banID: 0, //강퇴 모달에 전달할 uID
             banName: "" //강퇴 모달에 전달할 userName
         }
+        this.backButtonClick = this.backButtonClick.bind(this);
         this.socket.emit('load Message', this.state.chatID); //채팅방 접속시 메시지 로드
         this.socket.emit('load Member', this.state.chatID); //채팅방 접속시 멤버 로드
         this.socket.emit('load Info', this.state.chatID); //채팅방 접속시 채팅방 정보 로드
+        this.onBackButtonPress = () => {console.log('hello')};
     }
-    
+
     componentDidMount() {
         this.socket.on('return Message', (data) => {
-            data.map(element => this.setState({messageData: [...this.state.messageData, element]})); //DB에서 불러온 메시지 데이터들을 모두 저장
+            data.map(element => this.setState({ messageData: [...this.state.messageData, element] })); //DB에서 불러온 메시지 데이터들을 모두 저장
             //console.log(data);
         })
         this.socket.on('return Member', (data) => {
@@ -47,6 +49,18 @@ export default class chatRoom extends Component {
             ruID = this.state.chatInfo[0].ruID;
             //console.log(data);
         })
+        
+        BackHandler.addEventListener('hardwareBackPress', this.backButtonClick);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.backButtonClick);
+    }
+    
+    //채팅방 나갈 시 socket disconnect
+    backButtonClick() {
+        this.socket.disconnect();
+        return false;
     }
 
     //메세지 전송
@@ -59,7 +73,7 @@ export default class chatRoom extends Component {
             ('00' + date.getUTCMinutes()).slice(-2) + ':' +
             ('00' + date.getUTCSeconds()).slice(-2);
         if(this.state.chatMessage.length > 0) {
-            this.socket.emit('send Message', {message: this.state.chatMessage, sendTime: date, uID: 1}, this.state.chatID); //메시지 보내기 + DB에 저장
+            this.socket.emit('send Message', {chatID: this.state.chatID, message: this.state.chatMessage, sendTime: date, uID: 1}); //메시지 보내기 + DB에 저장
             this.setState({chatMessage: ""});
         }
     }
@@ -257,7 +271,10 @@ export default class chatRoom extends Component {
 
                 {/* 상단바 */}
                 <View style={styles.headerBar}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
+                    <TouchableOpacity onPress={() => {
+                        this.props.navigation.navigate('Home')
+                        this.socket.disconnect();
+                    }}>
                         <Image
                             source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain' }}
                         />
