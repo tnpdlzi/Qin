@@ -1,7 +1,30 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {View, Text, Button, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import { Avatar} from 'react-native-elements';
+import server from '../../../../server.json';
+import axios from 'axios';
+
+let getDatas = async (url) => await axios.get(url)
+    .then(function (response) {
+        console.log(response.data)
+        return response.data
+    })
+    .catch(function (error) {
+        console.log(url)
+        console.log('error : ' + error);
+    });
 
 function DrawerScreen({ navigation }) {
+
+    const [myProfile, setMyProfile] = useState([]);
+
+    // useEffect(() => {
+    //     const unfetched = navigation.addListener('focus', async () => {
+    //         setMyProfile(await getDatas(server.ip + '/friend/myProfile?uID=1'))
+    //     });
+    //     return unfetched;
+    // }, [navigation]);
+
     return (
 
         <View style={styles.container}>
@@ -36,13 +59,10 @@ function DrawerScreen({ navigation }) {
                     </View>
 
                     <TouchableOpacity>
-                        <Image
-                            style={{
-                                height: 100,
-                                width: 100,
-                                resizeMode: 'cover',
-                            }}
-                            source={require('../../../../src/image/my.png')}
+                        <Avatar
+                            rounded
+                            source={require('../../../../src/image/lol_bg.png')}
+                            size='large'
                         />
                     </TouchableOpacity>
 
@@ -85,14 +105,35 @@ function DrawerScreen({ navigation }) {
                     width: '100%',
                     backgroundColor: '#ffffff',
                 }}>
+                    <View style={{ width: '100%', height: 40, borderWidth: 1, flexDirection: 'row', alignItems:'center'}}>
+                        <View style={{ width: '50%', height: '100%', borderWidth: 1, flexDirection: 'row', alignItems: 'center'}}>
+                            <Text style={{ fontSize: 14, color: '#000000', paddingVertical: 5 }}>
+                                매너 지수
+                            </Text>
+                            <Text style={{ marginLeft: '5%' }}>
+                                20
+                            </Text>
+                        </View>
 
-                    <Text  style={{fontSize: 14, color: '#000000', paddingVertical: 5}}>
-                        매너 지수
-                    </Text>
+                        <View style={{ width: '50%', height: 8, alignItems: 'flex-start', borderWidth: 1, borderColor: '#E2E2E2' }}>
+                            <View style={{ width: '20%', height: '100%', backgroundColor: '#FFC81A' }} />
+                        </View>
+                    </View>
 
-                    <Text  style={{fontSize: 14, color: '#000000', paddingVertical: 5}}>
-                        비매너 지수
-                    </Text>
+                    <View style={{ width: '100%', height: 40, borderWidth: 1, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ width: '50%', height: '100%', borderWidth: 1, flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 14, color: '#000000', paddingVertical: 5 }}>
+                                비매너 지수
+                            </Text>
+                            <Text style={{ marginLeft: '5%' }}>
+                                7
+                            </Text>
+                        </View>
+
+                        <View style={{ width: '50%', height: 8, alignItems: 'flex-start', borderWidth: 1, borderColor: '#E2E2E2' }}>
+                            <View style={{ width: '20%', height: '100%', backgroundColor: '#00255A' }} />
+                        </View>
+                    </View>
 
                     <View style={{paddingVertical: 25}}>
                         <View style={{

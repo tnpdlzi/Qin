@@ -12,8 +12,12 @@ import axios from 'axios';
 
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
-        console.log(response.data)
-        return response.data
+        if(response.data==""){
+            return [];
+        }
+        else{
+            return response.data;
+        }
     })
     .catch(function (error) {
         console.log(url)
@@ -39,6 +43,9 @@ function myGame({ navigation }) {
     useEffect(() => {
         const unfetched = navigation.addListener('focus', async () => {
             setMyMProfile(await getDatas(server.ip + '/friend/myMProfile?uID=1'))
+            // console.log("ㅇㅇㅇ: " + myMProfile.length);
+            // console.log(typeOf(myMProfile));
+            console.log("TEST : " +myMProfile);
         });
 
         return unfetched;
@@ -63,8 +70,30 @@ function myGame({ navigation }) {
                     </View>
                 </View>
                 
-                
-                {myMProfile.map((mData, index) => {
+                {myMProfile.length==0 ?
+                    <View style={styles.content}>
+                        <Text style={{ color:'#A5A5A5'}}>게임 정보를 입력해주세요.</Text>
+                    </View>
+                    :
+                    myMProfile.map((mData, index) => {
+                            return (
+                                <View style={styles.content}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Text style={{ fontSize: 18, color: '#FFC81A' }}>{'\u2022   '}</Text>
+                                        <Text style={{ fontSize: 13, fontWeight: 'bold' }}>{mData.game}</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Text style={{ fontSize: 18, color: '#A5A5A5' }}>{'\u2022   '}</Text>
+                                        <Text style={{ fontSize: 11 }}>{mData.gameID}</Text>
+                                        <Text style={{ fontSize: 11 }}> </Text>
+                                        <Text style={{ fontSize: 11 }}>({mData.tierID})</Text>
+                                    </View>
+                                </View>
+                            );
+                    })
+                }
+
+                {/* {myMProfile.map((mData, index) => {
                     return (
                         <View style={styles.content}>
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -79,7 +108,7 @@ function myGame({ navigation }) {
                             </View>
                         </View>
                     );
-                })}
+                })} */}
                 
                 
                 <View style={styles.title}>
@@ -102,7 +131,6 @@ function myGame({ navigation }) {
 
                 <View style={styles.content}>
                     {myMProfile.map((mData, index) => {
-                        let dg = mData.gDegree;
                         return (
                             <View style={{ flexDirection: 'row', alignItems: 'center', height: 35 }}>
                                 <View style={{ width: '50%', height: '100%', alignItems: 'center', flexDirection: 'row' }}>
@@ -113,7 +141,7 @@ function myGame({ navigation }) {
                                 </View>
                                 <View style={{ width: '50%', height: '100%', alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end' }}>
                                     <View style={{ width: '90%', height: 8, borderWidth: 1, alignItems: 'flex-start', borderColor: '#E2E2E2' }}>
-                                        <View style={{ width: '20%' , height: '100%', backgroundColor: '#00255A' }} />
+                                        <View style={{ width: mData.gDegree+'%' , height: '100%', backgroundColor: '#00255A' }} />
                                     </View>
                                 </View>
                             </View>
