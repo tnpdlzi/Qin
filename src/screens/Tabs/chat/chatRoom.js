@@ -28,13 +28,12 @@ export default class chatRoom extends Component {
         this.socket.emit('load Message', this.state.chatID); //채팅방 접속시 메시지 로드
         this.socket.emit('load Member', this.state.chatID); //채팅방 접속시 멤버 로드
         this.socket.emit('load Info', this.state.chatID); //채팅방 접속시 채팅방 정보 로드
-        this.onBackButtonPress = () => {console.log('hello')};
     }
 
     componentDidMount() {
         this.socket.on('return Message', (data) => {
             data.map(element => this.setState({ messageData: [...this.state.messageData, element] })); //DB에서 불러온 메시지 데이터들을 모두 저장
-            //console.log(data);
+            console.log(data);
         })
         this.socket.on('return Member', (data) => {
             data.map(element => this.setState({chatMember: [...this.state.chatMember, element]})); //불러온 채팅방 참여자들을 모두 저장
@@ -82,6 +81,7 @@ export default class chatRoom extends Component {
     manageRoom() {
         this.setState({modalVisible: true});
     }
+
     //강퇴
     banMember(banID){
         let findItem = this.state.chatMember.find((item) => {
@@ -91,6 +91,7 @@ export default class chatRoom extends Component {
         this.state.chatMember.splice(idx, 1);
         this.socket.emit('ban Member', this.state.chatID, banID);
     }
+
     render() {
         //메시지 renderItem
         const renderItem = ({ item, index }) => {
@@ -111,20 +112,34 @@ export default class chatRoom extends Component {
                         </View>
                         :
                         <View style={{ flexDirection: 'row' }}>
-                            <Image
-                                source={require('../../../image/profile.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
-                            />
-                            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                                <View style={{ flexDirection: 'column' }}>
-                                    <Text style={{ fontSize: 12 }}>  {item.userName}</Text>
+                            {index > 0 && item.uID == this.state.messageData[index - 1].uID ?
+                                <View style={{ flexDirection: 'row' }}>
+                                    <View style={{ height: 50, width: 50 }}></View>
                                     <View style={styles.otherMessage}>
                                         <Text style={{ color: "black", fontSize: 17 }}>{item.message}</Text>
                                     </View>
+                                    <View style={{ justifyContent: 'flex-end' }}>
+                                        <View style={{ justifyContent: 'flex-start' }}><Text style={{ fontSize: 10 }}>{item.sendTime.slice(11, 16)}</Text></View>
+                                    </View>
                                 </View>
-                                <View style={{ justifyContent: 'flex-end' }}>
-                                    <View style={{ justifyContent: 'flex-start' }}><Text style={{ fontSize: 10 }}>{item.sendTime.slice(11, 16)}</Text></View>
+                                :
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Image
+                                        source={require('../../../image/profile.png')} style={{ height: 50, width: 50, resizeMode: 'contain' }}
+                                    />
+                                    <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                        <View style={{ flexDirection: 'column' }}>
+                                            <Text style={{ fontSize: 12 }}>  {item.userName}</Text>
+                                            <View style={styles.otherMessage}>
+                                                <Text style={{ color: "black", fontSize: 17 }}>{item.message}</Text>
+                                            </View>
+                                        </View>
+                                        <View style={{ justifyContent: 'flex-end' }}>
+                                            <View style={{ justifyContent: 'flex-start' }}><Text style={{ fontSize: 10 }}>{item.sendTime.slice(11, 16)}</Text></View>
+                                        </View>
+                                    </View>
                                 </View>
-                            </View>
+                            }
                         </View>}
                 </View>
             );
@@ -135,32 +150,42 @@ export default class chatRoom extends Component {
             let isClickable = false;
             return (
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
-                    <View style={{height: 60, width: 60, alignItems: 'center', justifyContent: 'center', marginLeft: 10}}>
-                        <Avatar
-                            rounded
-                            style={{ width: '130%', height: '130%', }}
-                            source={require('../../../image/chat_profile.png')}
-                        />
-                    </View>
-                    
                     {item.uID == ruID? isClickable = true : isClickable = false /* 방장일 때 자기 자신은 선택 불가*/} 
                     {ruID == 1 ? //내가 방장이라면 전부 터치가능, 아니면 터치 아예 안됨 //추후 수정(여기에 사용자 아이디 입력)
-                    <TouchableOpacity
-                        onLongPress={() => 
-                            {
+                        <TouchableOpacity
+                            onLongPress={() => {
                                 this.setState({ banModalVisible: true })
-                                this.setState({banID: item.uID})
-                                this.setState({banName: item.userName})
+                                this.setState({ banID: item.uID })
+                                this.setState({ banName: item.userName })
                             }}
                             disabled={isClickable}
                         >
-                            <View>
-                                <Text style={{ fontSize: 17, paddingRight: 10 }}>{item.userName}</Text>
+                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
+                                <View style={{ height: 60, width: 60, alignItems: 'center', justifyContent: 'center', marginLeft: 10 }}>
+                                    <Avatar
+                                        rounded
+                                        style={{ width: '130%', height: '130%', }}
+                                        source={require('../../../image/chat_profile.png')}
+                                    />
+
+                                </View>
+                                <View>
+                                    <Text style={{ fontSize: 17, paddingRight: 10 }}>{item.userName}</Text>
+                                </View>
                             </View>
                         </TouchableOpacity>
                         :
-                        <View>
-                            <Text style={{ fontSize: 17, paddingRight: 10 }}>{item.userName}</Text>
+                        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
+                            <View style={{ height: 60, width: 60, alignItems: 'center', justifyContent: 'center', marginLeft: 10 }}>
+                                <Avatar
+                                    rounded
+                                    style={{ width: '130%', height: '130%', }}
+                                    source={require('../../../image/chat_profile.png')}
+                                />
+                            </View>
+                            <View>
+                                <Text style={{ fontSize: 17, paddingRight: 10 }}>{item.userName}</Text>
+                            </View>
                         </View>
                     }
 
