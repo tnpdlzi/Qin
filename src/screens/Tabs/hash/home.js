@@ -305,35 +305,36 @@ function HashHome({ navigation}) {
                     let resDataHashList = (el.hash).split('#');
                     if(el.isDeleted != 1){
                         return(
-                            <View style = {styles.chatRoom}>
-                                <View style = {{width: winHeight * 0.07, alignItems: "center", justifyContent: "center"}}>
-                                <TouchableOpacity onPress = {()=> setModalVisible(!modalVisible,setModalData(el))}>
-                                    <Image style={styles.chatRoomIcon} source={require('../../../image/my.png')}/>
+                            <View>
+                                <TouchableOpacity style = {styles.chatRoom} onPress = {()=> setModalVisible(!modalVisible,setModalData(el))}>
+                                    <View style = {{width: winHeight * 0.07, alignItems: "center", justifyContent: "center"}}>
+                                        <Image style={styles.chatRoomIcon} source={require('../../../image/my.png')}/>
+                                    </View>
+                                    <View style = {{flex: 1, flexDirection:"column"}}>
+                                        <View style = {{ flex: 1, height: winHeight * 0.04, paddingTop: 7, flexDirection:"row", paddingLeft:10}}>
+                                            <Text style={{fontSize: 17, flex:1}}>{el.chatName}</Text>
+                                            <Text style = {{paddingTop: 2, fontSize: 13}}>{el.total}명</Text>
+                                        </View>
+                                        <View style = {{flex: 0.8}}>
+                                            <ScrollView 
+                                            horizontal={true}
+                                            showsHorizontalScrollIndicator={true}
+                                            onMomentumScrollEnd={() => {
+                                            console.log('Scrolling is End');
+                                            }}>
+                                            {resDataHashList.map((el2, index)=>{
+                                                return (
+                                                    <View style = {{paddingLeft: 7}}>
+                                                        <Text style = {{fontSize: 13, color: 'gray'}}>#{el2}</Text>
+                                                    </View>
+                                                )
+                                            })}
+                                            </ScrollView>
+                                        </View>
+                                    </View>
                                 </TouchableOpacity>
-                                </View>
-                                <View style = {{flex: 1, flexDirection:"column"}}>
-                                    <View style = {{ flex: 1, height: winHeight * 0.04, paddingTop: 7, flexDirection:"row", paddingLeft:10}}>
-                                        <Text style={{fontSize: 17, flex:1}}>{el.chatName}</Text>
-                                        <Text style = {{paddingTop: 2, fontSize: 13}}>{el.total}명</Text>
-                                    </View>
-                                    <View style = {{flex: 0.8}}>
-                                        <ScrollView 
-                                        horizontal={true}
-                                        showsHorizontalScrollIndicator={true}
-                                        onMomentumScrollEnd={() => {
-                                        console.log('Scrolling is End');
-                                        }}>
-                                        {resDataHashList.map((el2, index)=>{
-                                            return (
-                                                <View style = {{paddingLeft: 7}}>
-                                                    <Text style = {{fontSize: 13, color: 'gray'}}>#{el2}</Text>
-                                                </View>
-                                            )
-                                        })}
-                                        </ScrollView>
-                                    </View>
-                                </View>
                             </View>
+                            
                         )
                     }
                 })}
