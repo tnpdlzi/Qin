@@ -100,30 +100,42 @@ function createRoom ({navigation}){
     return (
         //생성하기 버튼 누르고 나서 이벤트를 처리한 결과를 보여주는 모달들
         <View style = {styles.container}>
-            <Modal
-            transparent = {true}
-            isVisible = {modalVisible}
-            backdropColor = {'black'}
-            backdropOpacity = {0.5}
-            >
-                <View style = {{height: 150,backgroundColor:"white",borderRadius:20}}>
-                    <View style = {{flexDirection:"row",alignContent:"center"}}>
-                        <TouchableOpacity style={{paddingTop: 1, paddingLeft:9,flex:0.5}}
-                            onPress = {() => setModalVisible(!modalVisible,navigation.goBack(null))}>
-                            <Image
-                                style={{height: 60, width: 30, resizeMode: 'cover',justifyContent:"center"}}
-                                source={require('../../../../image/cancel.png')}/>
-                        </TouchableOpacity>
-                        <Image
-                            style={{height: 70, width: 60, resizeMode: 'cover',alignSelf:"flex-end"}}
-                            source={require('../../../../image/complain.png')}/>
+                <Modal
+                transparent = {true}
+                isVisible = {modalVisible}
+                backdropColor = {'black'}
+                backdropOpacity = {0.5}
+                >
+                    <View style = {{flex: 1, alignItems:"center", justifyContent:"center"}}>
+                        <View style = {{height: 170,backgroundColor:"white",borderRadius:20, alignItems:"center", width: '75%'}}>
+                            <View style = {{flexDirection:"row",alignContent:"center", justifyContent: "center"}}>
+                                <Image
+                                    style={{height: 70, width: 60, resizeMode: 'cover',alignSelf:"flex-end"}}
+                                    source={require('../../../../image/complain.png')}/>
+                            </View>
+                            
+                            <View style = {{backgroundColor: "white",borderRadius:20, justifyContent:"center",alignItems:"center", marginBottom: 20}}>
+                                <Text>채팅방이 생성되었습니다.</Text>
+                            </View>
+
+                            <View style={{ width: '60%', height: 1, backgroundColor: "#E2E2E2", alignSelf: "center" }} />
+                            <View style={{width:'100%', flexDirection:'row', marginTop: 20, justifyContent:'center'}}>
+
+                                <TouchableOpacity
+                                    style={{
+                                        width: '45%', height: 20, alignSelf: 'center'
+                                        , justifyContent: 'center'
+                                    }}
+                                    onPress={() => {setModalVisible(!modalVisible,navigation.goBack(null));
+                                    }}>
+                                    <Text style={{ color: "black", fontWeight: "bold", textAlign: "center", fontSize: 16 }}>확인</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                     </View>
                     
-                    <View style = {{backgroundColor: "white",borderRadius:20, justifyContent:"center",alignItems:"center"}}>
-                        <Text>채팅방이 생성되었습니다.</Text>
-                    </View>
-                </View>
-            </Modal>
+                </Modal>
+            
 
             <Modal
             transparent = {true}
