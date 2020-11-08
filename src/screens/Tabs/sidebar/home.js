@@ -105,8 +105,8 @@ function DrawerScreen({ navigation }) {
                     width: '100%',
                     backgroundColor: '#ffffff',
                 }}>
-                    <View style={{ width: '100%', height: 40, borderWidth: 1, flexDirection: 'row', alignItems:'center'}}>
-                        <View style={{ width: '50%', height: '100%', borderWidth: 1, flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{ width: '100%', height: 40, flexDirection: 'row', alignItems:'center'}}>
+                        <View style={{ width: '50%', height: '100%', flexDirection: 'row', alignItems: 'center'}}>
                             <Text style={{ fontSize: 14, color: '#000000', paddingVertical: 5 }}>
                                 매너 지수
                             </Text>
@@ -120,8 +120,8 @@ function DrawerScreen({ navigation }) {
                         </View>
                     </View>
 
-                    <View style={{ width: '100%', height: 40, borderWidth: 1, flexDirection: 'row', alignItems: 'center' }}>
-                        <View style={{ width: '50%', height: '100%', borderWidth: 1, flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ width: '100%', height: 40, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ width: '50%', height: '100%', flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={{ fontSize: 14, color: '#000000', paddingVertical: 5 }}>
                                 비매너 지수
                             </Text>

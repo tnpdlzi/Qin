@@ -29,7 +29,8 @@ function myGame({ navigation }) {
     const [gameListModalVisible, setgameListModalVisible] = useState([false, false, false]);
     const [genreModalVisible, setgenreModalVisible] = useState([false,false]);
 
-    const [myMProfile, setMyMProfile] = useState([]);
+    const [myProfileGame, setMyProfileGame] = useState([]);
+    const [myProfileGenre, setMyProfileGenre] = useState([]);
 
     let arr_gameList = new Array(gameListModalVisible.length).fill(false);
     let arr_genre = new Array(genreModalVisible.length).fill(false);
@@ -42,10 +43,8 @@ function myGame({ navigation }) {
 
     useEffect(() => {
         const unfetched = navigation.addListener('focus', async () => {
-            setMyMProfile(await getDatas(server.ip + '/friend/myMProfile?uID=1'))
-            // console.log("ㅇㅇㅇ: " + myMProfile.length);
-            // console.log(typeOf(myMProfile));
-            console.log("TEST : " +myMProfile);
+            setMyProfileGame(await getDatas(server.ip + '/friend/myProfileGame?uID=1'))
+            setMyProfileGenre(await getDatas(server.ip + '/friend/myProfileGenre?uID=1'))
         });
 
         return unfetched;
@@ -70,12 +69,12 @@ function myGame({ navigation }) {
                     </View>
                 </View>
                 
-                {myMProfile.length==0 ?
+                {myProfileGame.length==0 ?
                     <View style={styles.content}>
                         <Text style={{ color:'#A5A5A5'}}>게임 정보를 입력해주세요.</Text>
                     </View>
                     :
-                    myMProfile.map((mData, index) => {
+                    myProfileGame.map((mData, index) => {
                             return (
                                 <View style={styles.content}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -91,25 +90,7 @@ function myGame({ navigation }) {
                                 </View>
                             );
                     })
-                }
-
-                {/* {myMProfile.map((mData, index) => {
-                    return (
-                        <View style={styles.content}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Text style={{ fontSize: 18, color: '#FFC81A' }}>{'\u2022   '}</Text>
-                                <Text style={{ fontSize: 13, fontWeight: 'bold' }}>{mData.game}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Text style={{ fontSize: 18, color: '#A5A5A5' }}>{'\u2022   '}</Text>
-                                <Text style={{ fontSize: 11 }}>{mData.gameID}</Text>
-                                <Text style={{ fontSize: 11 }}> </Text>
-                                <Text style={{ fontSize: 11 }}>({mData.tierID})</Text>
-                            </View>
-                        </View>
-                    );
-                })} */}
-                
+                }             
                 
                 <View style={styles.title}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', width:'60%' }}>
@@ -130,23 +111,27 @@ function myGame({ navigation }) {
                 
 
                 <View style={styles.content}>
-                    {myMProfile.map((mData, index) => {
-                        return (
-                            <View style={{ flexDirection: 'row', alignItems: 'center', height: 35 }}>
-                                <View style={{ width: '50%', height: '100%', alignItems: 'center', flexDirection: 'row' }}>
-                                    <Text style={{ fontSize: 18, color: '#A5A5A5' }}>{'\u2022   '}</Text>
-                                    <Text style={{ fontSize: 13, fontWeight: 'bold' }}>{mData.genre}</Text>
-                                    <Text style={{ fontSize: 11 }}>  </Text>
-                                    <Text style={{ fontSize: 13, }}>({mData.gDegree}%)</Text>
-                                </View>
-                                <View style={{ width: '50%', height: '100%', alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                                    <View style={{ width: '90%', height: 8, borderWidth: 1, alignItems: 'flex-start', borderColor: '#E2E2E2' }}>
-                                        <View style={{ width: mData.gDegree+'%' , height: '100%', backgroundColor: '#00255A' }} />
+                    {myProfileGenre.length==0 ?
+                        <Text style={{ color: '#A5A5A5' }}>장르 정보를 입력해주세요.</Text>
+                    :
+                        myProfileGenre.map((mData, index) => {
+                            return (
+                                <View style={{ flexDirection: 'row', alignItems: 'center', height: 35 }}>
+                                    <View style={{ width: '50%', height: '100%', alignItems: 'center', flexDirection: 'row' }}>
+                                        <Text style={{ fontSize: 18, color: '#A5A5A5' }}>{'\u2022   '}</Text>
+                                        <Text style={{ fontSize: 13, fontWeight: 'bold' }}>{mData.genre}</Text>
+                                        <Text style={{ fontSize: 11 }}>  </Text>
+                                        <Text style={{ fontSize: 13, }}>({mData.gDegree}%)</Text>
+                                    </View>
+                                    <View style={{ width: '50%', height: '100%', alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                        <View style={{ width: '90%', height: 8, borderWidth: 1, alignItems: 'flex-start', borderColor: '#E2E2E2' }}>
+                                            <View style={{ width: mData.gDegree + '%', height: '100%', backgroundColor: '#00255A' }} />
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-                        );
-                    })}                    
+                            );
+                        })
+                    }                
                 </View>
 
                 <Text style={{ fontSize:12, color:'#A5A5A5', marginTop:20, marginBottom:20}}>찾으시는 게임 장르가 없다면, 문의를 통해 메일로 요청해주십시오.</Text>

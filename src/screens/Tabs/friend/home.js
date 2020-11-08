@@ -20,7 +20,8 @@ function MemoryHome({ navigation }) {
     const [modalVisible, setModalVisible] = useState([]); 
     
     const [myProfile, setMyProfile] = useState([]);
-    const [myMProfile, setMyMProfile] = useState([]);
+    const [myProfileGame, setMyProfileGame] = useState([]);
+    const [myProfileGenre, setMyProfileGenre] = useState([]);
     const [friendList, setFriendList] = useState([]);
     const [friendProfile, setFriendProfile] = useState([]);
     
@@ -33,7 +34,6 @@ function MemoryHome({ navigation }) {
             console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
             console.log(myProfile[0])
             setFriendList(await getDatas(server.ip + '/friend/friendList?uID=1'))
-            //setFriendProfile(await getDatas(server.ip + '/friend/friendProfile?uID=1'))
         });
         return unfetched;
     }, [navigation]);
@@ -46,13 +46,13 @@ function MemoryHome({ navigation }) {
                 return (
                     <TouchableOpacity onPress={async () => {
                         setMyModalVisible(!myModalVisible);
-                        setMyMProfile(await getDatas(server.ip + '/friend/myMProfile?uID=1'));
+                        setMyProfileGame(await getDatas(server.ip + '/friend/myProfileGame?uID=1'));
+                        setMyProfileGenre(await getDatas(server.ip + '/friend/myProfileGenre?uID=1'));
                     }}>
                         <View style={styles.myProfile}>
                             <View style={{width:'40%', height:'100%', flexDirection:'row', alignItems:'center', justifyContent:'flex-start'}}>
                                 <Avatar
                                     rounded
-                                    // style={{ width: '50%', height: '50%', }}
                                     size='medium'
                                     source={require('../../../image/profile.png')}
                                 />
@@ -118,7 +118,7 @@ function MemoryHome({ navigation }) {
 
                                     <View style={{ width: '80%', alignSelf: 'center' }}>
 
-                                        {myMProfile.map((mData, index) => {
+                                        {myProfileGame.map((mData, index) => {
                                             return (
                                                 <View style={{ height: 70, justifyContent: 'center' }} >
                                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -141,7 +141,7 @@ function MemoryHome({ navigation }) {
 
                                     <View style={{ width: '80%', alignSelf: 'center' }}>
 
-                                        {myMProfile.map((mData, index) => {
+                                        {myProfileGenre.map((mData, index) => {
                                             return (
                                                 <View style={{ height: 35, flexDirection: 'row', alignItems: 'center' }}>
                                                     <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
