@@ -67,7 +67,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             <Stack.Screen
@@ -84,7 +87,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             <Stack.Screen
@@ -101,7 +107,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             <Stack.Screen
@@ -118,7 +127,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             <Stack.Screen
@@ -135,7 +147,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             <Stack.Screen
@@ -152,7 +167,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             <Stack.Screen
@@ -169,7 +187,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
 
@@ -187,7 +208,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             <Stack.Screen
@@ -204,7 +228,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             <Stack.Screen
@@ -221,7 +248,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
 
@@ -239,7 +269,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             <Stack.Screen
@@ -256,7 +289,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             <Stack.Screen
@@ -273,7 +309,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
 
@@ -292,7 +331,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             <Stack.Screen
@@ -309,7 +351,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             <Stack.Screen
@@ -326,7 +371,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             
@@ -344,7 +392,10 @@ export default function CategoryScreen({ navigation }) {
                             <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
-                    headerRight: () => <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>,
+                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
+                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
+                        </TouchableOpacity>
+                    ,
                 }}
             />
             <Stack.Screen
