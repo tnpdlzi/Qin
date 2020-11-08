@@ -18,19 +18,22 @@ let getDatas = async (url) => await axios.get(url)
 
 function MemoryHome({ navigation }) {
     
-    const [modalVisible, setModalVisible] = useState([]); //hook: useState는 현재의 state값과 이 값을 업데이트하는 함수를 쌍으로 제공.
-    //useState 괄호안은 초기값을 나타낸다.
     const [myModalVisible, setMyModalVisible] = useState(false);
-    const [friendprofile, setFriendprofile] = useState([]);
+    const [modalVisible, setModalVisible] = useState([]); 
+    
+    const [myProfile, setMyProfile] = useState([]);
+    const [myMProfile, setMyMProfile] = useState([]);
+    const [friendList, setFriendList] = useState([]);
+    const [friendProfile, setFriendProfile] = useState([]);
     
     let arr = new Array(modalVisible.length).fill(false);
 
-    const myProfile={
-        uid:100,
-        image:"",
-        name:"이지훈",
-        comment:"아이디 주인",
-    };
+    // const myProfile={
+    //     uid:100,
+    //     image:"",
+    //     name:"이지훈",
+    //     comment:"아이디 주인",
+    // };
 
     // const friendprofile=[
     //     {
@@ -61,7 +64,9 @@ function MemoryHome({ navigation }) {
 
     useEffect(() => {
         const unfetched = navigation.addListener('focus', async () => {
-            setFriendprofile(await getDatas(server.ip + '/friend/friendList?uID=1'))
+            setMyProfile(await getDatas(server.ip + '/friend/myProfile?uID=1'))
+            setFriendList(await getDatas(server.ip + '/friend/friendList?uID=1'))
+            //setFriendProfile(await getDatas(server.ip + '/friend/friendProfile?uID=1'))
         });
 
         return unfetched;
@@ -71,7 +76,10 @@ function MemoryHome({ navigation }) {
         <ScrollView style={{ backgroundColor: "#F7F7F7", paddingLeft:15, paddingRight:15 }}
             showsHorizontalScrollIndicator={true}>
 
-            <TouchableOpacity onPress={() => setMyModalVisible(!myModalVisible)}>
+            <TouchableOpacity onPress={async() => {
+                setMyModalVisible(!myModalVisible);
+                setMyMProfile(await getDatas(server.ip + '/friend/myMProfile?uID=1'));
+            }}>
                 <View style={styles.myProfile}>
                     <View style={{height:77, width: 77,alignItems:'center', justifyContent:'center',}}>
                         <Avatar
@@ -81,10 +89,10 @@ function MemoryHome({ navigation }) {
                         />
                     </View>
                     <View style={{ width: 77, }}>
-                        <Text style={{ fontSize: 15, fontWeight: "bold" }}>{myProfile.name}</Text>
+                        <Text style={{ fontSize: 15, fontWeight: "bold" }}>{myProfile.userName}</Text>
                     </View>
                     <View style={{ width: '59%', alignItems: 'flex-end' }}>
-                        <Text style={{ fontSize: 12 }} >{myProfile.comment}</Text>
+                        <Text style={{ fontSize: 12 }} >{myProfile.intro}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -109,8 +117,8 @@ function MemoryHome({ navigation }) {
                             flexDirection: 'row',
                         }}>
                             <View style={{ width: '70%', }}>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: '5%' }}>{myProfile.name}</Text>
-                                <Text style={{ fontSize: 10, marginTop: '2%' }}>{myProfile.comment}</Text>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: '5%' }}>{myProfile.userName}</Text>
+                                <Text style={{ fontSize: 10, marginTop: '2%' }}>{myProfile.intro}</Text>
                             </View>
                             <View style={{ width: '30%', alignItems: 'center', justifyContent: 'flex-start' }}>
                                 <Avatar
@@ -124,43 +132,36 @@ function MemoryHome({ navigation }) {
                         <View style={{ width: '80%', height: '10%', alignSelf: 'center', flexDirection: 'row' }}>
                             <View style={{ width: '50%', flexDirection: 'row', alignItems: 'center', }}>
                                 <Text style={{ color: '#363636', fontSize: 10, fontWeight: 'bold' }}>매너 지수   </Text>
-                                <Text style={{ color: '#FFC81A', fontSize: 10, fontWeight: 'bold' }}>20</Text>
+                                <Text style={{ color: '#FFC81A', fontSize: 10, fontWeight: 'bold' }}>{myProfile.good}</Text>
                             </View>
                             <View style={{ width: '50%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
                                 <Text style={{ color: '#363636', fontSize: 10, fontWeight: 'bold' }}>비매너 지수   </Text>
-                                <Text style={{ color: '#00255A', fontSize: 10, fontWeight: 'bold' }}>7</Text>
+                                <Text style={{ color: '#00255A', fontSize: 10, fontWeight: 'bold' }}>{myProfile.bad}</Text>
                             </View>
                         </View>
                         
                         <View style={{ width: '80%', height: 2, backgroundColor: "#E2E2E2", alignSelf: "center" }} />
                         
+                        <ScrollView style={{width:'100%'}}>
+
                         <View style={{ width: '80%', alignSelf: 'center' }}>
 
-                            <View style={{ height: 70, justifyContent: 'center' }} >
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={{ fontSize: 20, color: '#FFC81A' }}>{'\u2022 '}</Text>
-                                    <Text style={{ fontSize: 12, fontWeight: 'bold' }}>LEAGUE OF LEGEND</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
-                                    <Text style={{ fontSize: 10 }}>dlwlgns110</Text>
-                                    <Text style={{ fontSize: 10 }}> </Text>
-                                    <Text style={{ fontSize: 10 }}>(SILVER)</Text>
-                                </View>
-                            </View>
-
-                            <View style={{ height: 70, justifyContent: 'center' }} >
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={{ fontSize: 20, color: '#FFC81A' }}>{'\u2022 '}</Text>
-                                    <Text style={{ fontSize: 12, fontWeight: 'bold' }}>LEAGUE OF LEGEND</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
-                                    <Text style={{ fontSize: 10 }}>dlwlgns110</Text>
-                                    <Text style={{ fontSize: 10 }}> </Text>
-                                    <Text style={{ fontSize: 10 }}>(SILVER)</Text>
-                                </View>
-                            </View>
+                            {myMProfile.map((mData, index) => {
+                                return (
+                                    <View style={{ height: 70, justifyContent: 'center' }} >
+                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                            <Text style={{ fontSize: 20, color: '#FFC81A' }}>{'\u2022 '}</Text>
+                                            <Text style={{ fontSize: 12, fontWeight: 'bold' }}>{mData.game}</Text>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                            <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
+                                            <Text style={{ fontSize: 10 }}>{mData.gameID}</Text>
+                                            <Text style={{ fontSize: 10 }}> </Text>
+                                            <Text style={{ fontSize: 10 }}>({mData.tierID})</Text>
+                                        </View>
+                                    </View>
+                                );
+                            })}
 
                         </View>
                         
@@ -168,23 +169,22 @@ function MemoryHome({ navigation }) {
                         
                         <View style={{ width: '80%', alignSelf: 'center' }}>
                             
-                            <View style={{ height: 35, flexDirection: 'row', alignItems: 'center' }}>
-                                <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
-                                <Text style={{ fontSize: 12, fontWeight: 'bold' }}>RPG</Text>
-                                <Text style={{ fontSize: 10 }}> </Text>
-                                <Text style={{ fontSize: 10 }}>(20%)</Text>
-                            </View>
-
-                            <View style={{ height: 35, flexDirection: 'row', alignItems: 'center' }}>
-                                <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
-                                <Text style={{ fontSize: 12, fontWeight: 'bold' }}>FPS</Text>
-                                <Text style={{ fontSize: 10 }}> </Text>
-                                <Text style={{ fontSize: 10 }}>(40%)</Text>
-                            </View>
+                            {myMProfile.map((mData, index) => {
+                                return (
+                                    <View style={{ height: 35, flexDirection: 'row', alignItems: 'center' }}>
+                                        <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
+                                        <Text style={{ fontSize: 12, fontWeight: 'bold' }}>{mData.genre}</Text>
+                                        <Text style={{ fontSize: 10 }}> </Text>
+                                        <Text style={{ fontSize: 10 }}>({mData.gDegree}%)</Text>
+                                    </View>
+                                );
+                            })}
 
                         </View>
 
-                        <View style={{ width: '100%', flexDirection: 'row', marginTop: 30, justifyContent: 'center'}}>
+                        </ScrollView>
+
+                        <View style={{ width: '100%', flexDirection: 'row', marginTop: 30, justifyContent: 'center', marginBottom:'10%'}}>
                             <TouchableHighlight
                                 style={{
                                     width: '45%', height: 40, backgroundColor: "#00255A", alignSelf: 'center'
@@ -210,12 +210,13 @@ function MemoryHome({ navigation }) {
 
             <FlatList
             keyExtractor={item => item.toString()}
-            data={friendprofile}
+            data={friendList}
             renderItem={({item})=> 
                 <View>
-                    <TouchableOpacity onPress={() => {
-                        arr[item.uid]=true;
+                    <TouchableOpacity onPress={async() => {
+                        arr[item.uID]=true;
                         setModalVisible(arr);
+                        setFriendProfile(await getDatas(server.ip + '/friend/friendProfile?uID=' + item.uID));
                     }}>
                         <View style={styles.friendProfile}>
                             <View style={{ height: 77, width: 77, alignItems: 'center', justifyContent: 'center', }}>
@@ -226,10 +227,10 @@ function MemoryHome({ navigation }) {
                                 />
                             </View>
                             <View style={{ width: 77, }}>
-                                <Text style={{ fontSize: 13 }}>{item.name}</Text>
+                                <Text style={{ fontSize: 13 }}>{item.userName}</Text>
                             </View>
                             <View style={{ width: '59%', alignItems: 'flex-end' }}>
-                                <Text style={{ fontSize: 12 }} >{item.comment}</Text>
+                                <Text style={{ fontSize: 12 }} >{item.intro}</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -238,7 +239,7 @@ function MemoryHome({ navigation }) {
                     <Modal
                         animationIn={"slideInUp"} //default 'slideInUp'
                         animationOut={'slideOutDown'} //default 'slideOutDown'
-                        isVisible={modalVisible[item.uid]}
+                        isVisible={modalVisible[item.uID]}
                         transparent={true} //default 'true'
                         backdropColor={'black'} //default 'black'
                         backdropOpacity={0.5} //default 0.7
@@ -248,10 +249,11 @@ function MemoryHome({ navigation }) {
                         }}
                         onBackdropPress={() => setModalVisible(false)}
                     >
+                        
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
                                 <TouchableOpacity onPress={() => { 
-                                    arr[item.uid]=false;
+                                    arr[item.uID]=false;
                                     setModalVisible(arr);
                                 }}>
                                     <Image style={{ width: 50, height: 50, }} source={require('../../../image/cancel.png')} />
@@ -261,8 +263,8 @@ function MemoryHome({ navigation }) {
                                     flexDirection: 'row',
                                 }}>
                                     <View style={{ width: '70%', }}>
-                                        <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: '5%' }}>{item.name}</Text>
-                                        <Text style={{ fontSize: 10, marginTop: '2%' }}>{item.comment}</Text>
+                                        <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: '5%' }}>{item.userName}</Text>
+                                        <Text style={{ fontSize: 10, marginTop: '2%' }}>{item.intro}</Text>
                                     </View>
                                     <View style={{ width: '30%', alignItems: 'center' , justifyContent: 'flex-start'}}>
                                         <Avatar
@@ -278,43 +280,37 @@ function MemoryHome({ navigation }) {
                                 <View style={{ width: '80%', height: '10%', alignSelf: 'center', flexDirection: 'row' }}>
                                     <View style={{ width: '50%', flexDirection: 'row', alignItems: 'center', }}>
                                         <Text style={{ color: '#363636', fontSize: 10, fontWeight: 'bold' }}>매너 지수   </Text>
-                                        <Text style={{ color: '#FFC81A', fontSize: 10, fontWeight: 'bold' }}>20</Text>
+                                        <Text style={{ color: '#FFC81A', fontSize: 10, fontWeight: 'bold' }}>{item.good}</Text>
                                     </View>
                                     <View style={{ width: '50%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
                                         <Text style={{ color: '#363636', fontSize: 10, fontWeight: 'bold' }}>비매너 지수   </Text>
-                                        <Text style={{ color: '#00255A', fontSize: 10, fontWeight: 'bold' }}>7</Text>
+                                        <Text style={{ color: '#00255A', fontSize: 10, fontWeight: 'bold' }}>{item.bad}</Text>
                                     </View>
                                 </View>
-                                
+
                                 <View style={{ width: '80%', height: 2, backgroundColor: "#E2E2E2", alignSelf: "center" }} />
+
+                                <ScrollView style={{ width: '100%' }}>
                                 
                                 <View style={{ width: '80%', alignSelf: 'center' }}>
                                     
-                                    <View style={{height: 70, justifyContent:'center'}} >
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 20, color: '#FFC81A' }}>{'\u2022 '}</Text>
-                                            <Text style={{ fontSize: 12, fontWeight: 'bold' }}>LEAGUE OF LEGEND</Text>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
-                                            <Text style={{ fontSize: 10 }}>dlwlgns110</Text>
-                                            <Text style={{ fontSize: 10 }}> </Text>
-                                            <Text style={{ fontSize: 10 }}>(SILVER)</Text>
-                                        </View>
-                                    </View>
-
-                                    <View style={{ height: 70, justifyContent: 'center' }} >
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 20, color: '#FFC81A' }}>{'\u2022 '}</Text>
-                                            <Text style={{ fontSize: 12, fontWeight: 'bold' }}>LEAGUE OF LEGEND</Text>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
-                                            <Text style={{ fontSize: 10 }}>dlwlgns110</Text>
-                                            <Text style={{ fontSize: 10 }}> </Text>
-                                            <Text style={{ fontSize: 10 }}>(SILVER)</Text>
-                                        </View>
-                                    </View>
+                                    {friendProfile.map((mData, index)=> {
+                                        return(
+                                            <View style={{ height: 70, justifyContent: 'center' }} >
+                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                    <Text style={{ fontSize: 20, color: '#FFC81A' }}>{'\u2022 '}</Text>
+                                                    <Text style={{ fontSize: 12, fontWeight: 'bold' }}>{mData.game}</Text>
+                                                </View>
+                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                    <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
+                                                    <Text style={{ fontSize: 10 }}>{mData.gameID}</Text>
+                                                    <Text style={{ fontSize: 10 }}> </Text>
+                                                    <Text style={{ fontSize: 10 }}>({mData.tierID})</Text>
+                                                </View>
+                                            </View>
+                                        );
+                                    })}
+                                    
                                     
                                 </View>
                                 
@@ -322,23 +318,22 @@ function MemoryHome({ navigation }) {
                                 
                                 <View style={{ width: '80%', alignSelf: 'center' }}>
                                     
-                                    <View style={{ height: 35, flexDirection: 'row', alignItems: 'center' }}>
-                                        <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
-                                        <Text style={{ fontSize: 12, fontWeight: 'bold' }}>RPG</Text>
-                                        <Text style={{ fontSize: 10 }}> </Text>
-                                        <Text style={{ fontSize: 10 }}>(20%)</Text>
-                                    </View>
-
-                                    <View style={{ height: 35, flexDirection: 'row', alignItems: 'center' }}>
-                                        <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
-                                        <Text style={{ fontSize: 12, fontWeight: 'bold' }}>FPS</Text>
-                                        <Text style={{ fontSize: 10 }}> </Text>
-                                        <Text style={{ fontSize: 10 }}>(40%)</Text>
-                                    </View>
+                                    {friendProfile.map((mData, index) => {
+                                        return (
+                                            <View style={{ height: 35, flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
+                                                <Text style={{ fontSize: 12, fontWeight: 'bold' }}>{mData.genre}</Text>
+                                                <Text style={{ fontSize: 10 }}> </Text>
+                                                <Text style={{ fontSize: 10 }}>({mData.gDegree}%)</Text>
+                                            </View>
+                                        );
+                                    })}
 
                                 </View>
+                                
+                                </ScrollView>
 
-                                <View style={{width:'100%', flexDirection:'row', marginTop:30, justifyContent:'center'}}>
+                                <View style={{width:'100%', flexDirection:'row', marginTop:30, justifyContent:'center', marginBottom:'10%'}}>
                                     <TouchableHighlight
                                         style={{
                                             width: '45%', height: 40, backgroundColor: "#00255A", alignSelf: 'center'
@@ -348,8 +343,6 @@ function MemoryHome({ navigation }) {
                                         <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>1:1 채팅</Text>
                                     </TouchableHighlight>
                                 </View>
-                                
-
                             </View>
                         </View>
                     </Modal>
@@ -379,7 +372,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         width: '90%',
-        //height: '85%',
+        height: '85%',
         backgroundColor: "white",
         borderRadius: 20,
         alignItems: 'flex-start',

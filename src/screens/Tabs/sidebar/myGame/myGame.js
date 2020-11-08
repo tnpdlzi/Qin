@@ -1,17 +1,49 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { View, Text, Button, Image, StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-native';
 import Styles from '../../../../styles';
 import Slider from '@react-native-community/slider';
 import { ScrollView, TextInput} from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
+import DropDownPicker from 'react-native-dropdown-picker';
+import Icon from 'react-native-vector-icons/Feather';
+import server from '../../../../../server.json';
+import axios from 'axios';
+
+
+let getDatas = async (url) => await axios.get(url)
+    .then(function (response) {
+        console.log(response.data)
+        return response.data
+    })
+    .catch(function (error) {
+        console.log(url)
+        console.log('error : ' + error);
+    });
 
 function myGame({ navigation }) {
 
     const [gameListModalVisible, setgameListModalVisible] = useState([false, false, false]);
     const [genreModalVisible, setgenreModalVisible] = useState([false,false]);
 
+    const [myMProfile, setMyMProfile] = useState([]);
+
     let arr_gameList = new Array(gameListModalVisible.length).fill(false);
     let arr_genre = new Array(genreModalVisible.length).fill(false);
+
+    let tierList = [{ value: 'UNRANKED' }, { value: 'IRON' }, { value: 'BRONZE' }, { value: 'SILVER' }, { value: 'GOLD' }, { value: 'PLATINUM' }, { value: 'DIAMOND' }, { value: 'MASTER' }];
+
+    let items = [
+        { label: 'Item 1', value: 'item1' },
+        { label: 'Item 2', value: 'item2', selected: true, disabled: true }];
+
+    useEffect(() => {
+        const unfetched = navigation.addListener('focus', async () => {
+            setMyMProfile(await getDatas(server.ip + '/friend/myMProfile?uID=1'))
+        });
+
+        return unfetched;
+    }, [navigation]);
+
 
     return (
         <View style={{width:'100%', height:'100%', backgroundColor:'#F7F7F7', paddingLeft:'10%', paddingRight:'10%'}}>
@@ -30,23 +62,25 @@ function myGame({ navigation }) {
                         </TouchableOpacity>
                     </View>
                 </View>
-
-                <View style={styles.content}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={{ fontSize: 18, color: '#FFC81A' }}>{'\u2022   '}</Text>
-                        <Text style={{ fontSize: 13, fontWeight: 'bold' }}>LEAGUE OF LEGEND</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 18, color: '#A5A5A5' }}>{'\u2022   '}</Text>
-                        <Text style={{ fontSize: 11}}>dlwlgns110</Text>
-                        <Text style={{ fontSize: 11 }}> </Text>
-                        <Text style={{ fontSize: 11 }}>(SILVER)</Text>
-                    </View>
-                </View>
                 
-                <View style={styles.content}>
-                    <Text>aaa</Text>
-                </View>
+                
+                {myMProfile.map((mData, index) => {
+                    return (
+                        <View style={styles.content}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 18, color: '#FFC81A' }}>{'\u2022   '}</Text>
+                                <Text style={{ fontSize: 13, fontWeight: 'bold' }}>{mData.game}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 18, color: '#A5A5A5' }}>{'\u2022   '}</Text>
+                                <Text style={{ fontSize: 11 }}>{mData.gameID}</Text>
+                                <Text style={{ fontSize: 11 }}> </Text>
+                                <Text style={{ fontSize: 11 }}>({mData.tierID})</Text>
+                            </View>
+                        </View>
+                    );
+                })}
+                
                 
                 <View style={styles.title}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', width:'60%' }}>
@@ -62,36 +96,29 @@ function myGame({ navigation }) {
                         </TouchableOpacity>
                     </View>
                 </View>
+                    
+
+                
 
                 <View style={styles.content}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center',height:35}}>
-                        <View style={{ width: '50%', height: '100%', alignItems: 'center', flexDirection:'row'}}>
-                            <Text style={{ fontSize: 18, color: '#A5A5A5' }}>{'\u2022   '}</Text>
-                            <Text style={{ fontSize: 13, fontWeight: 'bold' }}>RPG</Text>
-                            <Text style={{ fontSize: 11 }}>  </Text>
-                            <Text style={{ fontSize: 13, }}>(20%)</Text>
-                        </View>
-                        <View style={{width:'50%', height:'100%', alignItems:'center', flexDirection:'row', justifyContent:'flex-end'}}>
-                            <View style={{ width: '90%', height: 8, borderWidth: 1, alignItems: 'flex-start', borderColor: '#E2E2E2'}}>
-                                <View style={{ width: '20%', height:'100%', backgroundColor: '#00255A'}} />
+                    {myMProfile.map((mData, index) => {
+                        let dg = mData.gDegree;
+                        return (
+                            <View style={{ flexDirection: 'row', alignItems: 'center', height: 35 }}>
+                                <View style={{ width: '50%', height: '100%', alignItems: 'center', flexDirection: 'row' }}>
+                                    <Text style={{ fontSize: 18, color: '#A5A5A5' }}>{'\u2022   '}</Text>
+                                    <Text style={{ fontSize: 13, fontWeight: 'bold' }}>{mData.genre}</Text>
+                                    <Text style={{ fontSize: 11 }}>  </Text>
+                                    <Text style={{ fontSize: 13, }}>({mData.gDegree}%)</Text>
+                                </View>
+                                <View style={{ width: '50%', height: '100%', alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                    <View style={{ width: '90%', height: 8, borderWidth: 1, alignItems: 'flex-start', borderColor: '#E2E2E2' }}>
+                                        <View style={{ width: '20%' , height: '100%', backgroundColor: '#00255A' }} />
+                                    </View>
+                                </View>
                             </View>
-                        </View>
-                    </View>
-
-                    <View style={{ flexDirection: 'row', alignItems: 'center', height: 35 }}>
-                        <View style={{ width: '50%', height: '100%', alignItems: 'center', flexDirection: 'row' }}>
-                            <Text style={{ fontSize: 18, color: '#A5A5A5' }}>{'\u2022   '}</Text>
-                            <Text style={{ fontSize: 13, fontWeight: 'bold' }}>RPG</Text>
-                            <Text style={{ fontSize: 11 }}>  </Text>
-                            <Text style={{ fontSize: 13, }}>(20%)</Text>
-                        </View>
-                        <View style={{ width: '50%', height: '100%', alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end'}}>
-                            <View style={{ width: '90%', height: 8, borderWidth: 1, alignItems: 'flex-start', borderColor: '#E2E2E2' }}>
-                                <View style={{ width: '20%', height: '100%', backgroundColor: '#00255A' }} />
-                            </View>
-                        </View>
-                    </View>
-                    
+                        );
+                    })}                    
                 </View>
 
                 <Text style={{ fontSize:12, color:'#A5A5A5', marginTop:20, marginBottom:20}}>찾으시는 게임 장르가 없다면, 문의를 통해 메일로 요청해주십시오.</Text>
@@ -99,7 +126,7 @@ function myGame({ navigation }) {
                 <TouchableHighlight
                     style={{
                         width: '40%', height: 40, backgroundColor: "#00255A", alignSelf: 'center'
-                        , borderRadius: 20, elevation: 2, justifyContent: 'center'
+                        , borderRadius: 20, elevation: 2, justifyContent: 'center', marginBottom:'10%'
                     }}
                     onPress={() => { }}>
                     <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>문의하기</Text>
@@ -119,14 +146,19 @@ function myGame({ navigation }) {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <View style={{width:'100%', alignItems:'center', paddingLeft:'10%', paddingRight:'10%'}}>
-                            <View style={{ height:50, flexDirection: 'row', alignItems:'center', justifyContent:'center', marginTop:25, marginBottom:25 }}>
+                            <View style={{ height:50, flexDirection: 'row', alignItems:'center', justifyContent:'center', marginTop:20, marginBottom:20 }}>
                                 <Image source={require("../../../../image/registered_1.png")} style={{ width: 30, height: 35 }} />
                                 <Text style={{fontSize:16, fontWeight:'bold', marginLeft:15}}>게임 등록</Text>
                             </View>
-                            <View style={{ width:'100%', height:40, borderRadius:10, borderWidth: 2, borderColor:'#A5A5A5', marginBottom:40}}>
+                            <View style={{ width:'100%', height:40, borderRadius:10, borderWidth: 2, borderColor:'#A5A5A5', marginBottom:20}}>
                                 <TextInput style={{ justifyContent:'center'}} 
                                     placeholder='게임 이름을 검색해주세요.' placeholderTextColor='#A5A5A5'/>
                             </View>
+
+                            <View>
+                                
+                            </View>
+
                             <View style={{ width: '100%', borderWidth: 0.15, backgroundColor:'#E2E2E2'}} />
                             <View style={{ width: '100%', height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
                                 <View style={{width:'50%', alignItems:'center', justifyContent:'center'}}>
@@ -209,12 +241,25 @@ function myGame({ navigation }) {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <View style={{ width: '100%', alignItems: 'center', paddingLeft: '10%', paddingRight: '10%' }}>
-                            <View style={{ height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 35, marginBottom: 35 }}>
+                            <View style={{ height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 20 }}>
                                 <Image source={require("../../../../image/registered_1.png")} style={{ width: 30, height: 35 }} />
                                 <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 15 }}>티어 선택</Text>
                             </View>
-                            <View>
-
+                            <View style={{width:'100%',height:50, marginBottom:20}}>
+                                <DropDownPicker
+                                    items={[
+                                        { label: 'USA', value: 'usa'},
+                                        { label: 'UK', value: 'uk'},
+                                        { label: 'France', value: 'france'},
+                                    ]}
+                                    style={{ alignItems: 'center', borderWidth: 2, borderColor: '#A5A5A5'}}
+                                    dropDownStyle={{ marginTop: 15, borderWidth: 2, borderColor:'#A5A5A5', paddingLeft:'10%'}}
+                                    containerStyle={{ height: 40 }}
+                                    itemStyle={{justifyContent:'flex-start'}}
+                                    placeholder='티어를 선택해주세요.'
+                                    placeholderStyle={{ color:'#A5A5A5'}}
+                                    arrowStyle={{width:0, height:0}}
+                                />
                             </View>
                             <View style={{ width: '100%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                             <View style={{ width: '100%', height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
