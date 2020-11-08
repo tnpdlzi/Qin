@@ -9,7 +9,9 @@ const winHeight = Dimensions.get('window').height;
 const winWidth  = Dimensions.get('window').width;
 const IP = server.ip;
 
+
 const test_uID = 2; //임시 uID 이후 로그인 유지 방법을 통해서 다른 변수로 대체될 예정
+let hash = [];
 
 let hash_rank = [];
 
@@ -23,6 +25,8 @@ let getTopRank = async () => await axios.get(IP + '/hash/topRank')
     });
 getTopRank();
 
+
+
 function HashHome({ navigation}) {
     
     const [search_hash, setSearch_Hash] = useState([]);   //검색할 HashTag 목록들
@@ -33,6 +37,7 @@ function HashHome({ navigation}) {
     const [modal2Visible, setModal2Visible] = useState(false);
     const [modal3Visible, setModal3Visible] = useState(false);
 
+    
     //const topRank;
     //검색할 Hash Tag목록 추가
     function addHash(){
@@ -62,14 +67,14 @@ function HashHome({ navigation}) {
     });
 
     //Hash Tag목록을 기반으로 목록의 Hash Tag를 모두 포함하는 ChatRoom의 Data를 받아온다.
-    let getDatas = async () => await axios.post(IP + '/hash/hashSearch', {
+    let getDatas = async (search_hash) => await axios.post(IP + '/hash/hashSearch', {
         "uID": "1",
         "hashList" : search_hash
     })
     .then(function(response){
         if(response.data == ""){ //seach_hash 를 이용해서 통신한 결과가 없을 경우 ResData를 빈 배열로 초기화
-            setResData([]);
-        }else setResData(response.data);
+            return [];
+        }else return response.data;
     })
     .catch(function(error){
         console.log("에러 :" + error);
@@ -78,10 +83,17 @@ function HashHome({ navigation}) {
     //useEffect함수는 두번 째 매개변수의 변수에 변경이 발생했을때 첫번째 매개변수의 내용을 실행한다.
     useEffect(()=>{
         //search_hash가 변하면 실행되어 getDatas를 호출한다.
-        if(search_hash.length != 0){
-            getDatas();
-        } 
-        else setResData([]); //search_hash가 없다면 resData도 없어야 한다.
+        (async () =>{
+            if(search_hash.length != 0){
+                setResData(await getDatas(search_hash));
+                hash = search_hash;
+            } 
+            else{
+                setResData([]); //search_hash가 없다면 resData도 없어야 한다.
+                hash = [];
+            }
+        })()
+        
     },[search_hash]);
 
     
@@ -95,7 +107,15 @@ function HashHome({ navigation}) {
             }
         })
     };
-
+    React.useEffect(()=>{
+        const unfetched = navigation.addListener('focus', async()=>{
+            console.log(hash);
+            if(hash.length > 0){
+                setResData(await getDatas(hash));
+            }
+        });
+        return unfetched;
+    }, [navigation]);
     
 
     //채팅방 

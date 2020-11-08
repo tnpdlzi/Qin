@@ -3,11 +3,12 @@ import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, TextInput} 
 import axios from "axios";
 import Modal from 'react-native-modal';
 import server from '../../../../../server.json';
-
 const IP = server.ip;
+
 const test_uID = 2;
+
 console.log(IP);
-function createRoom ({Navigation}){
+function createRoom ({navigation}){
     const [chatName, setChatName] = useState("");
     const [chatInfo ,setChatInfo] = useState("");
     const [memberCounter, setMemberCounter] = useState(50);
@@ -40,7 +41,7 @@ function createRoom ({Navigation}){
     }
 
     //필수 필드 다 채웠을때 호출될 함수
-    const roomCreate = async () => await axios.post(IP + ':/hash/roomCreate',{
+    const roomCreate = async () => await axios.post(IP + '/hash/roomCreate',{
         "uID" : test_uID,
         "chatName" : chatName,
         "chatInfo" : chatInfo,
@@ -97,6 +98,7 @@ function createRoom ({Navigation}){
     }
     
     return (
+        //생성하기 버튼 누르고 나서 이벤트를 처리한 결과를 보여주는 모달들
         <View style = {styles.container}>
             <Modal
             transparent = {true}
@@ -107,7 +109,7 @@ function createRoom ({Navigation}){
                 <View style = {{height: 150,backgroundColor:"white",borderRadius:20}}>
                     <View style = {{flexDirection:"row",alignContent:"center"}}>
                         <TouchableOpacity style={{paddingTop: 1, paddingLeft:9,flex:0.5}}
-                            onPress = {() => setModalVisible(!modalVisible)}>
+                            onPress = {() => setModalVisible(!modalVisible,navigation.goBack(null))}>
                             <Image
                                 style={{height: 60, width: 30, resizeMode: 'cover',justifyContent:"center"}}
                                 source={require('../../../../image/cancel.png')}/>
@@ -147,7 +149,7 @@ function createRoom ({Navigation}){
                     </View>
                 </View>
             </Modal>
-
+            {/* 채팅방의 이름과 정보를 입력하는 공간의 View */}
             <View style = {styles.name_Info}>
                 <Image
                     style={{height: 100, width: 50, resizeMode: 'cover',alignSelf:"center", marginLeft:15, marginRight: 15,}}
@@ -167,6 +169,7 @@ function createRoom ({Navigation}){
                     </TextInput>
                 </View>
             </View>
+            {/* 해쉬태그를 입력할 UI의 뷰 */}
             <View style = {styles.hashTags}>
                 <View style = {styles.hashInput}>
                     <Text style ={{fontSize: 20}}>#</Text>
@@ -199,6 +202,7 @@ function createRoom ({Navigation}){
                     </ScrollView>
                 </View>
             </View>
+            {/* 채팅방 인원을 결정하는 UI 부분 */}
             <View style = {styles.MemberNum}>
                 <Text style ={{fontSize:15,color:"gray"}}>채팅방의 최대 모집 인원을 설정해 주세요.</Text>
                 <Text style ={{fontSize:15,color:"gray"}}>(10명 단위 / 최대 100명)</Text>
@@ -230,10 +234,12 @@ function createRoom ({Navigation}){
     )
 }
 const styles = StyleSheet.create({
+    //메인 container
     container:{
         flex:1,
         backgroundColor:"white",
     },
+    //채팅방 이름과 정보를 나타내는 스타일
     name_Info:{
         height:120,
         flexDirection : "row",
@@ -242,34 +248,24 @@ const styles = StyleSheet.create({
         borderBottomColor:"gray",
         justifyContent : "center"
     },
+    //해쉬태그를 입력하고 입력한 목록을 보여주는 창
     hashTags:{
         height : 250,
         alignItems:"center",
     },
+    //채팅방 최대 인원수 설정 창
     MemberNum:{
         height : 100,
         alignItems:"center"
     },
-    inputView:{
-        flexDirection : "row",
-        width: "80%",
-        borderColor : "gray",
-        borderWidth:2,
-        marginTop:20,
-    },
-    nameView:{
-        flex:1,
-        flexDirection: "row",
-        width : "85%",
-        backgroundColor:"blue",
-        justifyContent:"center"
-    },
+    //채팅방의 정보와 이름을 입력하는 창
     input:{
         borderBottomColor: "gray",
         width : "80%",
         borderBottomWidth: 2,
         fontSize: 14
     },
+    //해쉬태그 입력하는 창
     hashInput:{
         flexDirection:"row",
         height: 50,
@@ -282,6 +278,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         justifyContent:"center",
     },
+    //추가된 HashTag들을 보여주는 창
     hashText:{
         paddingLeft: 10,
         height: 50,
