@@ -14,6 +14,7 @@ import Styles from '../../../../styles';
 import find_id_final from './find_id_final';
 import Modal from 'react-native-modal';
 import axios from 'axios';
+import server from '../../../../../server.json';
 
 
 // 10월21일부
@@ -49,7 +50,7 @@ function find_id({ navigation }) {
         }
     }
 
-    let searchName = async () => await axios.post('http://220.149.231.179:8080/users/searchName', {
+    let searchName = async () => await axios.post(server.ip + '/users/searchName', {
         userName: userName
     })
         .then(function(response){
@@ -72,7 +73,7 @@ function find_id({ navigation }) {
             console.log("에러 :" + error);
         });
 
-    let searchPhone = async () => await axios.post('http://220.149.231.179:8080/users/searchPhone', {
+    let searchPhone = async () => await axios.post(server.ip + '/users/searchPhone', {
         userName: userName,
         phone: phone
     })
@@ -99,7 +100,7 @@ function find_id({ navigation }) {
 
 
     // let userID;
-    let passID = async () => await axios.post('http://220.149.231.179:8080/users/passID', {
+    let passID = async () => await axios.post(server.ip + '/users/passID', {
         userName: userName,
         userID: userID
     })

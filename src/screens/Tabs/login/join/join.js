@@ -14,6 +14,7 @@ import Styles from '../../../../styles';
 import join_final from './join_final';
 import Modal from 'react-native-modal';
 import axios from 'axios';
+import server from '../../../../../server.json'
 
 //import RNPickerSelect from 'react-native-picker-select';
 // import {Dropdown} from 'react-native-material-dropdown';
@@ -28,7 +29,7 @@ function join({ navigation, route }) {
 
     let [randomNumber, setrandomNumber] = useState("");
 
-    let emailAuth = async () => await axios.post('http://220.149.231.179:8080/users/emailAuth', {
+    let emailAuth = async () => await axios.post(server.ip + '/users/emailAuth', {
         userID: userID,
     })
         .then(function(response){

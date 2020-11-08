@@ -4,7 +4,7 @@ import Styles from '../../../../styles';
 import find_pw_new from './find_pw_new';
 import Modal from 'react-native-modal';
 import axios from 'axios';
-
+import server from '../../../../../server.json'
 
 
 // 10월21일부
@@ -20,7 +20,7 @@ function find_pw({ navigation }) {
 
 
 
-    let searchQuestion = async () => await axios.post('http://220.149.231.179:8080/users/searchQuestion', {
+    let searchQuestion = async () => await axios.post(server.ip + '/users/searchQuestion', {
         userName: userName
     })
         .then(function(response){
@@ -45,7 +45,7 @@ function find_pw({ navigation }) {
         });
 
 
-    let searchName = async () => await axios.post('http://220.149.231.179:8080/users/searchName', {
+    let searchName = async () => await axios.post(server.ip + '/users/searchName', {
         userName: userName
     })
         .then(function(response){
@@ -62,7 +62,7 @@ function find_pw({ navigation }) {
             console.log("에러 :" + error);
         });
 
-    let searchID = async () => await axios.post('http://220.149.231.179:8080/users/searchID', {
+    let searchID = async () => await axios.post(server.ip + '/users/searchID', {
         userName: userName,
         userID: userID,
         phone: phone
@@ -82,7 +82,7 @@ function find_pw({ navigation }) {
             console.log("에러 :" + error);
         });
 
-    let searchAns = async () => await axios.post('http://220.149.231.179:8080/users/searchAns', {
+    let searchAns = async () => await axios.post(server.ip + '/users/searchAns', {
         userName: userName,
         userID: userID,
         userAns: userAns,
@@ -102,7 +102,7 @@ function find_pw({ navigation }) {
             console.log("에러 :" + error);
         });
 
-    let searchPhone = async () => await axios.post('http://220.149.231.179:8080/users/searchPhone', {
+    let searchPhone = async () => await axios.post(server.ip + '/users/searchPhone', {
         userName: userName,
         phone: phone
     })

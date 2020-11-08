@@ -14,6 +14,7 @@ import Styles from '../../../../styles';
 import find_pw_final from './find_pw_final';
 import Modal from 'react-native-modal';
 import axios from 'axios';
+import server from '../../../../../server.json'
 
 
 // 10월21일부
@@ -23,7 +24,7 @@ function find_pw_new({ navigation, route }) {
 
     const [modalVisible1, setModalVisible1] = useState(false);
 
-    let updatePW = async () => await axios.post('http://220.149.231.179:8080/users/updatePW', {
+    let updatePW = async () => await axios.post(server.ip + '/users/updatePW', {
         userPW: userPW,
         userName: userName,
 
