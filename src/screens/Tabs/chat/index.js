@@ -21,8 +21,7 @@ export default function ChatScreen({ navigation }) {
                     </TouchableOpacity>,
                     headerTitle: () =>
                         <View style={{ alignItems: "center", flex:1 }}>
-                            {/* <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/> */}
-                            <Text style={{fontSize: 17}}>채팅</Text>
+                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
                         </View>
                     ,
                     headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
