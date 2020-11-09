@@ -2,12 +2,7 @@
 import React, { Component } from 'react';
 import {View, Text, Button, TouchableOpacity, Image, StyleSheet, TextInput} from 'react-native';
 import Styles from '../../../styles';
-
-
 import LoginHome from '../home';
-
-
-
 // 10월21일부
 
 function find_pw_final({ navigation, route }) {

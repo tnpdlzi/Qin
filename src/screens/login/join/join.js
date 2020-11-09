@@ -60,17 +60,16 @@ function join({ navigation, route }) {
     let [check1, setCheck1] = useState("");
     let [check2, setCheck2] = useState("");
 
-    let searchName = async () => await axios.post('http://220.149.231.179:8080/users/searchName', {
+    let searchName = async () => await axios.post(server.ip +'/users/searchName', {
         userName: userName
     })
         .then(function(response){
             if(response.data == false){ //seach_hash 를 이용해서 통신한 결과가 없을 경우 ResData를 빈 배열로 초기화
                 //setResData(response.data);
                 changeM("닉네임")
-                {setModalVisible2(!modalVisible2);}
+                {setModalVisible10(!modalVisible10);}
                 console.log("없는 아이디래");
                 console.log(response.data);
-                userName = response.data;
                 setCheck1(1);
                 //없는 아이디
             }
@@ -79,7 +78,7 @@ function join({ navigation, route }) {
                 {setModalVisible1(!modalVisible1);}
                 console.log("있는 아이디래");
                 console.log(response.data);
-                userName = response.data;
+
                 setCheck1(0);
             // 있는 아이디
             }
@@ -103,22 +102,24 @@ function join({ navigation, route }) {
         }
     }
 
-    let search_ID = async () => await axios.post('http://220.149.231.179:8080/users/search_ID', {
+    let search_ID = async () => await axios.post(server.ip + '/users/search_ID', {
         userID: userID
     })
         .then(function(response){
             if(response.data == false){ //seach_hash 를 이용해서 통신한 결과가 없을 경우 ResData를 빈 배열로 초기화
                 //setResData(response.data);
                 changeM("아이디")
+
                 {setModalVisible2(!modalVisible2);}
 
                 console.log(response.data);
-                userID = response.data;
+
                 setCheck2(1);
                 //없는 아이디
             }
             else {
                 changeM("아이디")
+
                 {setModalVisible1(!modalVisible1);}
 
                 console.log(response.data);
@@ -137,7 +138,7 @@ function join({ navigation, route }) {
 
     let [phone, setPhone] = useState("");
 
-    let register = async () => await axios.post('http://220.149.231.179:8080/users/register', {
+    let register = async () => await axios.post(server.ip + '/users/register', {
         userName: userName,
         userID: userID,
         password: pwc,
@@ -164,6 +165,7 @@ function join({ navigation, route }) {
     const [modalVisible7, setModalVisible7] = useState(false);
     const [modalVisible8, setModalVisible8] = useState(false);
     const [modalVisible9, setModalVisible9] = useState(false);
+    const [modalVisible10, setModalVisible10] = useState(false);
 
 
     let [pw, changeP] = useState(require('../../../image/pw_unchecked.png'));
@@ -795,6 +797,58 @@ function join({ navigation, route }) {
                 </View>
             </Modal>
             </View>
+                <View>
+                    <Modal
+                        animationIn={"slideInUp"} //default 'slideInUp'
+                        animationOut={'slideOutDown'} //default 'slideOutDown'
+                        isVisible={modalVisible10}
+                        transparent={true} //default 'true'
+                        backdropColor={'black'} //default 'black'
+                        backdropOpacity={0.5} //default 0.7
+                        onBackButtonPress={() => { setModalVisible10(!modalVisible10); }}
+
+                    >
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}
+                                  onBackDropPress={() => { setModalVisible10(!modalVisible10); }}>
+
+                                <View style={{
+                                    flexDirection: 'row',
+                                    backgroundColor: '#ffffff',
+                                    width: '100%',
+                                    alignItems: 'center',
+                                    justifyContent: "space-around",
+                                    paddingHorizontal: 50,
+                                }}>
+                                    <Image
+                                        style={{
+                                            height: 70,
+                                            width: 70,
+                                            resizeMode: 'center',
+                                        }}
+                                        source={require('../../../image/name_y.png')}
+                                    />
+                                    <Text style={{fontSize: 13, color: '#000000',paddingRight: 20,}}>중복 확인</Text>
+                                </View>
+
+                                <Text style={{fontSize: 12, color: '#5f5e5e',borderBottomColor: '#d6d9dc',
+                                    borderBottomStyle: 'solid',
+                                    borderBottomWidth: 1,paddingBottom: 20, paddingRight: 40, paddingLeft: 40, paddingTop: 20}}>{userName}는 사용 가능한 {modal_message} 입니다.</Text>
+
+
+                                <TouchableHighlight
+                                    style={{ ...styles.openButton,}}
+                                    onPress={() => {
+                                        setModalVisible10(!modalVisible10);
+                                    }}
+                                >
+                                    <Text style={{fontSize: 14, color: '#000000',paddingTop: 25,}}>확인</Text>
+                                </TouchableHighlight>
+                            </View>
+                        </View>
+                    </Modal>
+                </View>
+
 
                 <View>
                     <Modal

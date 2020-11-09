@@ -1,9 +1,9 @@
 import {View, Text, Button, TouchableOpacity, Image, StyleSheet, TextInput} from 'react-native';
 import React, {Component, useState} from 'react';
-import LoginHome from '../home';
+
 import find_pw from '../find_pw/find_pw';
 import axios from 'axios';
-
+import LoginHome from '../home';
 
 
 // 10월21일부

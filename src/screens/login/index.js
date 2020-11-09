@@ -19,13 +19,13 @@ const Stack = createStackNavigator();
 export default function LoginScreen({ navigation }) {
     return (
         <Stack.Navigator>
+
             <Stack.Screen
                 name="LoginHome"
                 component={LoginHome}
                 options={{
                 headerShown: false,
             }}
-
             />
 
             {/*여기부터는 각각 스크린에 대한 선언들. component들은 다 import되어 있음*/}
