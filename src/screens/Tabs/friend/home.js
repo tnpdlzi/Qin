@@ -22,8 +22,9 @@ function MemoryHome({ navigation }) {
     const [myProfile, setMyProfile] = useState([]);
     const [myProfileGame, setMyProfileGame] = useState([]);
     const [myProfileGenre, setMyProfileGenre] = useState([]);
-    const [friendList, setFriendList] = useState([]);
     const [friendProfile, setFriendProfile] = useState([]);
+    const [friendProfileGame, setFriendProfileGame] = useState([]);
+    const [friendProfileGenre, setFriendProfileGenre] = useState([]);
     
     let arr = new Array(modalVisible.length).fill(false);
 
@@ -31,9 +32,7 @@ function MemoryHome({ navigation }) {
     useEffect(() => {
         const unfetched = navigation.addListener('focus', async () => {
             setMyProfile(await getDatas(server.ip + '/friend/myProfile?uID=1'))
-            console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-            console.log(myProfile[0])
-            setFriendList(await getDatas(server.ip + '/friend/friendList?uID=1'))
+            setFriendProfile(await getDatas(server.ip + '/friend/friendProfile?uID=1'))
         });
         return unfetched;
     }, [navigation]);
@@ -46,8 +45,8 @@ function MemoryHome({ navigation }) {
                 return (
                     <TouchableOpacity onPress={async () => {
                         setMyModalVisible(!myModalVisible);
-                        setMyProfileGame(await getDatas(server.ip + '/friend/myProfileGame?uID=1'));
-                        setMyProfileGenre(await getDatas(server.ip + '/friend/myProfileGenre?uID=1'));
+                        setMyProfileGame(await getDatas(server.ip + '/friend/profileGame?uID=1'));
+                        setMyProfileGenre(await getDatas(server.ip + '/friend/profileGenre?uID=1'));
                     }}>
                         <View style={styles.myProfile}>
                             <View style={{width:'40%', height:'100%', flexDirection:'row', alignItems:'center', justifyContent:'flex-start'}}>
@@ -185,13 +184,14 @@ function MemoryHome({ navigation }) {
 
             <FlatList
             keyExtractor={item => item.toString()}
-            data={friendList}
+            data={friendProfile}
             renderItem={({item})=> 
                 <View>
                     <TouchableOpacity onPress={async() => {
                         arr[item.uID]=true;
                         setModalVisible(arr);
-                        setFriendProfile(await getDatas(server.ip + '/friend/friendProfile?uID=' + item.uID));
+                        setFriendProfileGame(await getDatas(server.ip + '/friend/profileGame?uID=' + item.uID));
+                        setFriendProfileGenre(await getDatas(server.ip + '/friend/profileGenre?uID=' + item.uID))
                     }}>
                         <View style={styles.friendProfile}>
                             <View style={{ width: '40%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
@@ -268,7 +268,7 @@ function MemoryHome({ navigation }) {
                                 
                                 <View style={{ width: '80%', alignSelf: 'center' }}>
                                     
-                                    {friendProfile.map((mData, index)=> {
+                                    {friendProfileGame.map((mData, index)=> {
                                         return(
                                             <View style={{ height: 70, justifyContent: 'center' }} >
                                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -292,7 +292,7 @@ function MemoryHome({ navigation }) {
                                 
                                 <View style={{ width: '80%', alignSelf: 'center' }}>
                                     
-                                    {friendProfile.map((mData, index) => {
+                                    {friendProfileGenre.map((mData, index) => {
                                         return (
                                             <View style={{ height: 35, flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={{ fontSize: 20, color: '#A5A5A5' }}>{'\u2022 '}</Text>
