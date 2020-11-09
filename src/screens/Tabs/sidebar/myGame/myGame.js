@@ -43,8 +43,8 @@ function myGame({ navigation }) {
 
     useEffect(() => {
         const unfetched = navigation.addListener('focus', async () => {
-            setMyProfileGame(await getDatas(server.ip + '/friend/myProfileGame?uID=1'))
-            setMyProfileGenre(await getDatas(server.ip + '/friend/myProfileGenre?uID=1'))
+            setMyProfileGame(await getDatas(server.ip + '/friend/profileGame?uID=1'))
+            setMyProfileGenre(await getDatas(server.ip + '/friend/profileGenre?uID=1'))
         });
 
         return unfetched;
@@ -76,7 +76,7 @@ function myGame({ navigation }) {
                     :
                     myProfileGame.map((mData, index) => {
                             return (
-                                <View style={styles.content}>
+                                <TouchableOpacity style={styles.content}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <Text style={{ fontSize: 18, color: '#FFC81A' }}>{'\u2022   '}</Text>
                                         <Text style={{ fontSize: 13, fontWeight: 'bold' }}>{mData.game}</Text>
@@ -87,7 +87,7 @@ function myGame({ navigation }) {
                                         <Text style={{ fontSize: 11 }}> </Text>
                                         <Text style={{ fontSize: 11 }}>({mData.tierID})</Text>
                                     </View>
-                                </View>
+                                </TouchableOpacity>
                             );
                     })
                 }             
@@ -116,7 +116,7 @@ function myGame({ navigation }) {
                     :
                         myProfileGenre.map((mData, index) => {
                             return (
-                                <View style={{ flexDirection: 'row', alignItems: 'center', height: 35 }}>
+                                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', height: 35 }}>
                                     <View style={{ width: '50%', height: '100%', alignItems: 'center', flexDirection: 'row' }}>
                                         <Text style={{ fontSize: 18, color: '#A5A5A5' }}>{'\u2022   '}</Text>
                                         <Text style={{ fontSize: 13, fontWeight: 'bold' }}>{mData.genre}</Text>
@@ -128,7 +128,7 @@ function myGame({ navigation }) {
                                             <View style={{ width: mData.gDegree + '%', height: '100%', backgroundColor: '#00255A' }} />
                                         </View>
                                     </View>
-                                </View>
+                                </TouchableOpacity>
                             );
                         })
                     }                
