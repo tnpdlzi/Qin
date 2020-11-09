@@ -4,7 +4,7 @@ import CategoryScreen from './category';
 import ChatScreen from './chat';
 import FriendScreen from './friend';
 import HashScreen from './hash'
-import LoginScreen from '../login'
+
 import { View, Text, StyleSheet, Image } from 'react-native';
 
 // 아래쪽의 탭 네비게이터를 쓰겠다는 선언

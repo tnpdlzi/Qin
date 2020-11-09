@@ -1,6 +1,6 @@
 import React, {Component, useState, useEffect} from 'react';
 import {View, Text, Button, TouchableOpacity, Image, StyleSheet, TextInput, ScrollView} from 'react-native';
-import Styles from '../../styles';
+
 import join from './join/join';
 import find_id from './find_id/find_id';
 import find_pw from './find_pw/find_pw';
@@ -26,7 +26,7 @@ let getDatas = async (url) => await axios.get(url)
 function LoginHome({ navigation }) {
 
     const [logIn, setLogIn] = useState(false);
-    let [textC, changeTextC] = useState(require('../../../src/image/login_unchecked.png'));
+    let [textC, changeTextC] = useState(require('../../image/login_unchecked.png'));
 
     const [userID, setUserID] = useState('');
     const [password, setPassword] = useState('');
@@ -160,14 +160,14 @@ function LoginHome({ navigation }) {
 
             }}>
                 <TouchableOpacity onPress={() => setLogIn(!logIn)}>
-                <Image
-                    style={{
-                        height: 50,
-                        width: 50,
-                        resizeMode: 'center',
-                    }}
-                    source={textC}
-                />
+                    <Image
+                        style={{
+                            height: 50,
+                            width: 50,
+                            resizeMode: 'center',
+                        }}
+                        source={textC}
+                    />
                 </TouchableOpacity>
                 <Text  style={{fontSize: 10, color: '#504d4d', paddingVertical: 5,paddingLeft: 10, paddingRight: 60,}}>
                     로그인 상태 유지
@@ -218,19 +218,19 @@ function LoginHome({ navigation }) {
                 paddingBottom: 50,
             }}>
                 <TouchableOpacity onPress={() => navigation.navigate(find_id)}>
-                <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: 10,}}>
-                    아이디   l
-                </Text>
+                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: 10,}}>
+                        아이디   l
+                    </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate(find_pw)}>
-                <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: 10,}}>
-                    비밀번호 찾기
-                </Text>
+                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: 10,}}>
+                        비밀번호 찾기
+                    </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate(join)}>
-                <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: 150,}}>
-                    회원가입
-                </Text>
+                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: 150,}}>
+                        회원가입
+                    </Text>
                 </TouchableOpacity>
 
             </View>
