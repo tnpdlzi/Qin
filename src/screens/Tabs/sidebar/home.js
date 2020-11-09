@@ -3,6 +3,8 @@ import {View, Text, Button, StyleSheet, TouchableOpacity, Image} from 'react-nat
 import { Avatar} from 'react-native-elements';
 import server from '../../../../server.json';
 import axios from 'axios';
+import LoginHome from '../../Tabs/sidebar/index'
+
 
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
@@ -188,7 +190,7 @@ function DrawerScreen({ navigation }) {
                 <TouchableOpacity
                     onPress={() => {
                         // Navigate using the `navigation` prop that you received
-                        navigation.navigate('SomeScreen');
+                        navigation.navigate(LoginHome);
                     }}
                 >
                     <View style={{

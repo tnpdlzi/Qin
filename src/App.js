@@ -7,6 +7,7 @@ import myProfile from "./screens/Tabs/sidebar/myProfile";
 import myGame from "./screens/Tabs/sidebar/myGame";
 import SplashScreen from 'react-native-splash-screen';
 import MyScreens from './screens';
+import MySide from './screens/Tabs/sidebar/index';
 // import LoginScreen from './screens/Tabs/login';
 
 // 드로워를 쓰겠다고 선언. 리엑트 네비게이션에 들어있는 함수다!
@@ -34,6 +35,7 @@ export default function MyDrawer() {
                     <Drawer.Screen name="tabs" component={MyTabs} />
                     <Drawer.Screen name="myProfile" component={myProfile}/>
                     <Drawer.Screen name="myGame" component={myGame} />
+                    <Drawer.Screen name="side" component={MySide} />
                 </Drawer.Navigator>
             </NavigationContainer>
         </>

@@ -6,7 +6,8 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import LoginHome from './login/home';
 import MyTabs from '../screens/Tabs/index';
 import CategoryScreen from '../screens/Tabs/index'
-
+import DrawerScreen from './Tabs/sidebar/home'
+import MySide from './Tabs/sidebar/index';
 // import {TouchableOpacity} from "react-native-gesture-handler";
 import {createStackNavigator} from '@react-navigation/stack';
 import join from './login/join/join';
@@ -52,11 +53,21 @@ function MyScreens() {
 
             {/*여기부터는 각각 스크린에 대한 선언들. component들은 다 import되어 있음*/}
 
-            <Stack.Screen
-                name="CategoryScreen"
-                component={CategoryScreen}
-            />
 
+            <Stack.Screen options={
+                {
+                    headerShown : false,
+                }}
+                name="DrawerScreen"
+                component={DrawerScreen}
+            />
+            <Stack.Screen options={
+                {
+                    headerShown : false,
+                }}
+                name="MySide"
+                component={MySide}
+            />
             <Stack.Screen options={
                 {
                     headerShown : false,
