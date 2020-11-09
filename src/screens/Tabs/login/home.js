@@ -4,15 +4,34 @@ import Styles from '../../../styles';
 import join from './join/join';
 import find_id from './find_id/find_id';
 import find_pw from './find_pw/find_pw';
+import server from '../../../../server.json';
+import axios from 'axios';
+import { NavigationActions } from 'react-navigation';
+import CategoryScreen from '../Tabs/index';
 
+
+const qs = require('qs');
+
+let getDatas = async (url) => await axios.get(url)
+    .then(function (response) {
+        console.log(response.data)
+        return response.data
+    })
+    .catch(function (error) {
+        console.log(url)
+        console.log('error : ' + error);
+    });
 
 // 10월21일부
 function LoginHome({ navigation }) {
 
-
-
     const [logIn, setLogIn] = useState(false);
     let [textC, changeTextC] = useState(require('../../../../src/image/login_unchecked.png'));
+
+    const [userID, setUserID] = useState('');
+    const [password, setPassword] = useState('');
+    let userDatas;
+
     useEffect (()=>{
         if(logIn){
             changeTextC(require('../../../../src/image/login_checked.png'));
@@ -93,7 +112,7 @@ function LoginHome({ navigation }) {
                     <TextInput maxLength={25}
                         style={{fontSize: 16, color: '#A5A5A5', paddingLeft: 15,}}
                         placeholder="이메일"
-                        onChangeText = {(text) => setNewTextA(text)}
+                        onChangeText = {async(text) => {setNewTextA(text), await setUserID(text)}}
                     />
                 </View>
 
@@ -123,7 +142,7 @@ function LoginHome({ navigation }) {
                     <TextInput maxLength={14}
                         style={{fontSize: 16, color: '#A5A5A5', paddingLeft: 15,}}
                         placeholder="비밀번호" secureTextEntry={true}
-                        onChangeText = {(text) => setNewTextB(text)}
+                        onChangeText = {async(text) => {setNewTextB(text), await setPassword(text)}}
                     />
                 </View>
 
@@ -153,7 +172,13 @@ function LoginHome({ navigation }) {
                 <Text  style={{fontSize: 10, color: '#504d4d', paddingVertical: 5,paddingLeft: 10, paddingRight: 60,}}>
                     로그인 상태 유지
                 </Text>
-                <TouchableOpacity onPress={() => navigation.navigate('friend')}>
+                <TouchableOpacity onPress={async() => {
+                    userDatas = await getDatas(server.ip + '/users/login?userID=' + userID + '&password=' + password)
+                    // asyncstorage 구현 파트
+                    
+                    navigation.navigate(CategoryScreen)
+                    
+                    }}>
                 <Text  style={{fontSize: 15, color: '#f8f6f6', paddingVertical: 5,paddingLeft: 40, paddingRight: 40, backgroundColor: textB,borderStyle: 'solid',paddingTop: 10, paddingBottom: 10,
                     borderRadius: 30,
                     borderColor: '#898585',
