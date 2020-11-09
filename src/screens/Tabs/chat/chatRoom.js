@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, TouchableOpacity, View, Image, TextInput, StyleSheet, FlatList, KeyboardAvoidingView, BackHandler } from 'react-native';
 import SocketIOClient from "socket.io-client";
 import Modal from "react-native-modal";
-import {Avatar} from 'react-native-elements';
+import { Avatar } from 'react-native-elements';
 import server from '../../../../server.json';
 const url = server.chatIP;
 let ruID; //방장의 id
@@ -10,7 +10,7 @@ let ruID; //방장의 id
 export default class chatRoom extends Component {
     constructor(props) {
         super(props);
-        this.socket = SocketIOClient(url, {jsonp: false});
+        this.socket = SocketIOClient(url, { jsonp: false });
         this.state = {
             chatID: this.props.route.params.roomID, //채팅방 ID
             chatName: this.props.route.params.roomTitle, //채팅방 이름
@@ -33,29 +33,29 @@ export default class chatRoom extends Component {
     componentDidMount() {
         this.socket.on('return Message', (data) => {
             data.map(element => this.setState({ messageData: [...this.state.messageData, element] })); //DB에서 불러온 메시지 데이터들을 모두 저장
-            console.log(data);
+            //console.log(data);
         })
         this.socket.on('return Member', (data) => {
-            data.map(element => this.setState({chatMember: [...this.state.chatMember, element]})); //불러온 채팅방 참여자들을 모두 저장
+            data.map(element => this.setState({ chatMember: [...this.state.chatMember, element] })); //불러온 채팅방 참여자들을 모두 저장
             //console.log(data);
         })
         this.socket.on('send Message', (data) => {
-            this.setState({messageData: [...this.state.messageData, data]}); //보낸 메시지를 서버로부터 되받음
+            this.setState({ messageData: [...this.state.messageData, data] }); //보낸 메시지를 서버로부터 되받음
             //console.log(data);
         })
         this.socket.on('return Info', (data) => {
-            this.setState({chatInfo: data}); //채팅방 정보 저장
+            this.setState({ chatInfo: data }); //채팅방 정보 저장
             ruID = this.state.chatInfo[0].ruID;
             //console.log(data);
         })
-        
+
         BackHandler.addEventListener('hardwareBackPress', this.backButtonClick);
     }
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.backButtonClick);
     }
-    
+
     //채팅방 나갈 시 socket disconnect
     backButtonClick() {
         this.socket.disconnect();
@@ -71,19 +71,19 @@ export default class chatRoom extends Component {
             ('00' + date.getHours()).slice(-2) + ':' +
             ('00' + date.getUTCMinutes()).slice(-2) + ':' +
             ('00' + date.getUTCSeconds()).slice(-2);
-        if(this.state.chatMessage.length > 0) {
-            this.socket.emit('send Message', {chatID: this.state.chatID, message: this.state.chatMessage, sendTime: date, uID: 1}); //메시지 보내기 + DB에 저장
-            this.setState({chatMessage: ""});
+        if (this.state.chatMessage.length > 0) {
+            this.socket.emit('send Message', { chatID: this.state.chatID, message: this.state.chatMessage, sendTime: date, uID: 1 }); //메시지 보내기 + DB에 저장
+            this.setState({ chatMessage: "" });
         }
     }
 
     //채팅방 관리
     manageRoom() {
-        this.setState({modalVisible: true});
+        this.setState({ modalVisible: true });
     }
 
     //강퇴
-    banMember(banID){
+    banMember(banID) {
         let findItem = this.state.chatMember.find((item) => {
             return item.uID === banID;
         });
@@ -144,13 +144,13 @@ export default class chatRoom extends Component {
                 </View>
             );
         };
-        
+
         //채팅방 멤버 renderItem
         const memRenderItem = ({ item, index }) => {
             let isClickable = false;
             return (
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
-                    {item.uID == ruID? isClickable = true : isClickable = false /* 방장일 때 자기 자신은 선택 불가*/} 
+                    {item.uID == ruID ? isClickable = true : isClickable = false /* 방장일 때 자기 자신은 선택 불가*/}
                     {ruID == 1 ? //내가 방장이라면 전부 터치가능, 아니면 터치 아예 안됨 //추후 수정(여기에 사용자 아이디 입력)
                         <TouchableOpacity
                             onLongPress={() => {
@@ -194,7 +194,7 @@ export default class chatRoom extends Component {
                         :
                         <View></View>}
                     {item.uID == ruID ?
-                        <View style={{  alignItems: 'flex-end', flex: 1, marginRight: 20 }}>
+                        <View style={{ alignItems: 'flex-end', flex: 1, marginRight: 20 }}>
                             <Text>방장</Text>
                         </View>
                         :
@@ -219,11 +219,11 @@ export default class chatRoom extends Component {
                     backdropColor={'black'}
                 >
                     <View style={styles.centerView}>
-                        <View style={this.state.chatMember.length < 4? styles.modalView : styles.longModalView }>
-                            <View style={{ flexDirection: 'row', alignItems: "center", height: 50}}>
+                        <View style={this.state.chatMember.length < 4 ? styles.modalView : styles.longModalView}>
+                            <View style={{ flexDirection: 'row', alignItems: "center", height: 50 }}>
                                 <TouchableOpacity
                                     onPress={() => this.setState({ modalVisible: false })}
-                                    style={{top: 5, left: -5 }}
+                                    style={{ top: 5, left: -5 }}
                                 >
                                     <Image
                                         source={require('../../../image/cancel.png')} style={{ height: 80, width: 80, resizeMode: 'contain' }}
@@ -243,7 +243,7 @@ export default class chatRoom extends Component {
                         </View>
                     </View>
                 </Modal>
-                
+
                 {/* 강퇴하기 모달 */}
                 <Modal
                     animationIn="pulse"
@@ -281,7 +281,7 @@ export default class chatRoom extends Component {
                                     <TouchableOpacity
                                         onPress={() => {
                                             this.banMember(this.state.banID);
-                                            this.setState({banModalVisible: false});
+                                            this.setState({ banModalVisible: false });
                                         }}
                                     >
                                         <View style={{ width: 150, alignItems: 'center', justifyContent: 'center', height: 50, marginTop: 5 }}>
@@ -308,8 +308,8 @@ export default class chatRoom extends Component {
                         <Text style={{ fontSize: 17 }}>{this.state.chatName}</Text>
                     </View>
                     <TouchableOpacity
-                        style={{width: 50}}
-                        onPress={()=> this.manageRoom()}    
+                        style={{ width: 50 }}
+                        onPress={() => this.manageRoom()}
                     >
                         <Text style={{ fontWeight: "bold", fontSize: 17 }}>관리</Text>
                     </TouchableOpacity>
@@ -327,18 +327,18 @@ export default class chatRoom extends Component {
                     />
 
                     {/* 텍스트 상자 */}
-                    <View style={{ alignItems: "center", justifyContent: "center", marginTop: 10}}>
+                    <View style={{ alignItems: "center", justifyContent: "center", marginTop: 10 }}>
                         <View style={styles.inputText}>
                             <TextInput
                                 style={{ height: 50, width: '80%', fontSize: 20 }}
                                 value={this.state.chatMessage}
                                 onChangeText={chatMessage => {
-                            this.setState({ chatMessage });
-                        }}
-                    />
-                    <TouchableOpacity
-                        onPress = {() => this.submitMessage()}
-                        >
+                                    this.setState({ chatMessage });
+                                }}
+                            />
+                            <TouchableOpacity
+                                onPress={() => this.submitMessage()}
+                            >
                                 <Image
                                     source={require('../../../image/chat_send.png')} style={{ height: 80, width: 80, resizeMode: 'contain' }}
                                 />
