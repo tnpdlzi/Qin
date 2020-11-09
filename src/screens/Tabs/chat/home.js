@@ -71,11 +71,11 @@ export default class ChatHome extends Component {
 
                         </View>
                         <View style={{ flexDirection: 'column', justifyContent: 'space-evenly', width: "65%", marginLeft: 10 }}>
-                            <Text style={{fontSize: 17 ,fontWeight: 'bold'}}>{item.chatName}</Text>
-                            <Text style={{fontSize: 12}}>{item.message}</Text>
+                            <Text style={{ fontSize: 17, fontWeight: "bold" }}>{item.chatName}</Text>
+                            <Text style={{ fontSize: 13 }}>{item.message}</Text>
                         </View>
                         <View style={{ justifyContent: 'flex-end', width: "30%", marginBottom: 5, marginLeft: 20 }}>
-                            <Text style={{fontSize: 12}}>{item.sendTime.slice(11, 16)}</Text>
+                            <Text style={{ fontSize: 13 }}>{item.sendTime.slice(11, 16)}</Text>
                         </View>
                     </View>
 
