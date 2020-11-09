@@ -4,6 +4,7 @@ import {Avatar, Accessory} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import server from '../../../../server.json';
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
         console.log(response.data)
@@ -15,7 +16,7 @@ let getDatas = async (url) => await axios.get(url)
     });
 
 function MemoryHome({ navigation }) {
-    
+
     const [myModalVisible, setMyModalVisible] = useState(false);
     const [modalVisible, setModalVisible] = useState([]); 
     
@@ -31,8 +32,8 @@ function MemoryHome({ navigation }) {
 
     useEffect(() => {
         const unfetched = navigation.addListener('focus', async () => {
-            setMyProfile(await getDatas(server.ip + '/friend/myProfile?uID=1'))
-            setFriendProfile(await getDatas(server.ip + '/friend/friendProfile?uID=1'))
+            setMyProfile(await getDatas(server.ip + '/friend/myProfile?uID=' + await AsyncStorage.getItem('uID')))
+            setFriendProfile(await getDatas(server.ip + '/friend/friendProfile?uID=' + await AsyncStorage.getItem('uID')))
         });
         return unfetched;
     }, [navigation]);

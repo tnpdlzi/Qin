@@ -1,5 +1,6 @@
 import React, {Component, useState, useEffect} from 'react';
 import {View, Text, Button, TouchableOpacity, Image, StyleSheet, TextInput, ScrollView, ToastAndroid} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import join from './join/join';
 import find_id from './find_id/find_id';
@@ -183,12 +184,13 @@ function LoginHome({ navigation }) {
                     console.log('userDatas 입니다....' + userDatas)
                     // asyncstorage 구현 파트
 
-                    // console.log("이것은 uID입니다..." + userDatas.uID)
+                    // console.log("이것은 uID입니다..." + JSON.stringify(userDatas.uID))
                     // console.log("이것은 userID입니다..." + userDatas.userID)
                     // console.log("이것은 userName입니다..." + userDatas.userName)
                     // console.log("이것은 good입니다..." + userDatas.good)
                     // console.log("이것은 bad입니다..." + userDatas.bad)
                     // console.log("이것은 intro입니다..." + userDatas.intro)
+
                     
                     if(userDatas == false){
                         showPWToast()
@@ -196,6 +198,20 @@ function LoginHome({ navigation }) {
                         showIDToast()
                     }
                      else{
+                        await AsyncStorage.setItem('uID', JSON.stringify(userDatas.uID))
+                        await AsyncStorage.setItem('userID', JSON.stringify(userDatas.userID))
+                        await AsyncStorage.setItem('userName', userDatas.userName)
+                        await AsyncStorage.setItem('good', JSON.stringify(userDatas.good))
+                        await AsyncStorage.setItem('bad', JSON.stringify(userDatas.bad))
+                        await AsyncStorage.setItem('intro', userDatas.intro)
+
+                        console.log("이것은 uID입니다..." + await AsyncStorage.getItem('uID'))
+                        console.log("이것은 userID입니다..." + await AsyncStorage.getItem('userID'))
+                        console.log("이것은 userName입니다..." + await AsyncStorage.getItem('userName'))
+                        console.log("이것은 good입니다..." + await AsyncStorage.getItem('good'))
+                        console.log("이것은 bad입니다..." + await AsyncStorage.getItem('bad'))
+                        console.log("이것은 intro입니다..." + await AsyncStorage.getItem('intro'))
+
                         navigation.navigate(CategoryScreen)
                     }
                     

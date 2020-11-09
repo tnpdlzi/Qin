@@ -19,7 +19,20 @@ import find_pw_new from './login/find_pw/find_pw_new';
 import find_pw_final from './login/find_pw/find_pw_final';
 // import MemoryScreen from '../screens/Tabs/friend/home';
 
+const retrieveData = async () => {
+    try {
+        console.log("이것은 uID입니다..." + JSON.stringify(await AsyncStorage.getItem('uID')))
+        console.log("이것은 userID입니다..." + JSON.stringify(await AsyncStorage.getItem('userID')))
+        console.log("이것은 userName입니다..." + JSON.stringify(await AsyncStorage.getItem('userName')))
+        console.log("이것은 good입니다..." + JSON.stringify(await AsyncStorage.getItem('good')))
+        console.log("이것은 bad입니다..." + JSON.stringify(await AsyncStorage.getItem('bad')))
+        console.log("이것은 intro입니다..." + JSON.stringify(await AsyncStorage.getItem('intro')))
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
 
+  retrieveData
 // 아래쪽의 탭 네비게이터를 쓰겠다는 선언
 const Stack = createStackNavigator();
 // 탭들에 대한 구현 함수로 선언
