@@ -4,7 +4,7 @@ import CategoryScreen from './category';
 import ChatScreen from './chat';
 import FriendScreen from './friend';
 import HashScreen from './hash'
-import LoginScreen from './login'
+import LoginScreen from '../login'
 import { View, Text, StyleSheet, Image } from 'react-native';
 
 // 아래쪽의 탭 네비게이터를 쓰겠다는 선언
@@ -25,16 +25,16 @@ function MyTabs() {
                 keyboardHidesTabBar: true,
             }}
         >
-            <Tab.Screen name="login" component={LoginScreen} options={{
-                // tabBarIcon: ({ tintColor, focused, size }) => (
-                //     <View style={{flex:1, justifyContent:'center', alignItems:'center', height: 0,
-                //         width: 0}}>
-                //         <Image source={focused ? require('../../image/name_y.png') : require('../../image/name_g.png')} style={{ height: 70, width: 70, justifyContent: 'center'}}/>
-                //     </View>
-                // ),
-                tabBarVisible: false,
+            {/*<Tab.Screen name="login" component={LoginScreen} options={{*/}
+            {/*    // tabBarIcon: ({ tintColor, focused, size }) => (*/}
+            {/*    //     <View style={{flex:1, justifyContent:'center', alignItems:'center', height: 0,*/}
+            {/*    //         width: 0}}>*/}
+            {/*    //         <Image source={focused ? require('../../image/name_y.png') : require('../../image/name_g.png')} style={{ height: 70, width: 70, justifyContent: 'center'}}/>*/}
+            {/*    //     </View>*/}
+            {/*    // ),*/}
+            {/*    tabBarVisible: false,*/}
 
-            }} />
+            {/*}} />*/}
 
             <Tab.Screen name="friend" component={FriendScreen} options={
                 {

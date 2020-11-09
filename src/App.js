@@ -6,7 +6,8 @@ import MyTabs from "./screens/Tabs";
 import myProfile from "./screens/Tabs/sidebar/myProfile";
 import myGame from "./screens/Tabs/sidebar/myGame";
 import SplashScreen from 'react-native-splash-screen';
-import LoginScreen from './screens/Tabs/login';
+import MyScreens from './screens';
+// import LoginScreen from './screens/Tabs/login';
 
 // 드로워를 쓰겠다고 선언. 리엑트 네비게이션에 들어있는 함수다!
 const Drawer = createDrawerNavigator();
@@ -29,6 +30,7 @@ export default function MyDrawer() {
                 >
 
                     {/*드로워에 대한 스크린 선언*/}
+                    <Drawer.Screen name="screens" component={MyScreens} />
                     <Drawer.Screen name="tabs" component={MyTabs} />
                     <Drawer.Screen name="myProfile" component={myProfile}/>
                     <Drawer.Screen name="myGame" component={myGame} />
