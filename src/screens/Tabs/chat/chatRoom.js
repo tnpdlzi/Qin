@@ -4,8 +4,10 @@ import SocketIOClient from "socket.io-client";
 import Modal from "react-native-modal";
 import { Avatar } from 'react-native-elements';
 import server from '../../../../server.json';
+import AsyncStorage from '@react-native-community/async-storage';
 const url = server.chatIP;
-let ruID; //방장의 id
+let ruID; //방장의 ID
+let userID; //유저의 ID
 
 export default class chatRoom extends Component {
     constructor(props) {
@@ -22,12 +24,14 @@ export default class chatRoom extends Component {
             banModalVisible: false, //강퇴 모달
             chatInfo: [], //채팅방 정보(방장, 1대1 채팅여부 (+ 추가될 수 있음)),
             banID: 0, //강퇴 모달에 전달할 uID
-            banName: "" //강퇴 모달에 전달할 userName
+            banName: "", //강퇴 모달에 전달할 userName
+            uID: 0
         }
         this.backButtonClick = this.backButtonClick.bind(this);
         this.socket.emit('load Message', this.state.chatID); //채팅방 접속시 메시지 로드
         this.socket.emit('load Member', this.state.chatID); //채팅방 접속시 멤버 로드
         this.socket.emit('load Info', this.state.chatID); //채팅방 접속시 채팅방 정보 로드
+        this.getuID(); //user ID 가져오기
     }
 
     componentDidMount() {
@@ -48,7 +52,6 @@ export default class chatRoom extends Component {
             ruID = this.state.chatInfo[0].ruID;
             //console.log(data);
         })
-
         BackHandler.addEventListener('hardwareBackPress', this.backButtonClick);
     }
 
@@ -60,6 +63,12 @@ export default class chatRoom extends Component {
     backButtonClick() {
         this.socket.disconnect();
         return false;
+    }
+
+    //user ID 가져오기
+    getuID = async () => {
+        userID = await AsyncStorage.getItem('uID');
+        userID = userID.replace(/[^0-9]/g, "");
     }
 
     //메세지 전송
@@ -75,11 +84,6 @@ export default class chatRoom extends Component {
             this.socket.emit('send Message', { chatID: this.state.chatID, message: this.state.chatMessage, sendTime: date, uID: 1 }); //메시지 보내기 + DB에 저장
             this.setState({ chatMessage: "" });
         }
-    }
-
-    //채팅방 관리
-    manageRoom() {
-        this.setState({ modalVisible: true });
     }
 
     //강퇴
@@ -103,7 +107,7 @@ export default class chatRoom extends Component {
                                 <Text style={{ fontSize: 11, margin: 4, textAlign: 'center', color: 'white' }}>{item.sendTime.slice(0, 10)}</Text>
                             </View>}
                     </View>
-                    {item.uID == 1 ? //추후 수정(여기에 사용자 아이디 입력)
+                    {item.uID == userID ? //userID
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                             <View style={{ justifyContent: 'flex-end' }}><Text style={{ fontSize: 10 }}>{item.sendTime.slice(11, 16)}</Text></View>
                             <View style={styles.myMessage}>
@@ -151,7 +155,7 @@ export default class chatRoom extends Component {
             return (
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
                     {item.uID == ruID ? isClickable = true : isClickable = false /* 방장일 때 자기 자신은 선택 불가*/}
-                    {ruID == 1 ? //내가 방장이라면 전부 터치가능, 아니면 터치 아예 안됨 //추후 수정(여기에 사용자 아이디 입력)
+                    {ruID == userID ? //내가 방장이라면 전부 터치가능, 아니면 터치 아예 안됨 //userID
                         <TouchableOpacity
                             onLongPress={() => {
                                 this.setState({ banModalVisible: true })
@@ -167,7 +171,6 @@ export default class chatRoom extends Component {
                                         style={{ width: '130%', height: '130%', }}
                                         source={require('../../../image/chat_profile.png')}
                                     />
-
                                 </View>
                                 <View>
                                     <Text style={{ fontSize: 17, paddingRight: 10 }}>{item.userName}</Text>
@@ -189,7 +192,7 @@ export default class chatRoom extends Component {
                         </View>
                     }
 
-                    {item.uID == 1 ? //본인 프로필은 "나"라고뜸 //추후 수정(여기에 사용자 아이디 입력)
+                    {item.uID == userID ? //본인 프로필은 "나"라고뜸 //userID
                         <View style={{ width: 20, height: 20, borderRadius: 20, backgroundColor: '#00255A', alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: 'white', fontSize: 12 }}>나</Text></View>
                         :
                         <View></View>}
@@ -309,7 +312,7 @@ export default class chatRoom extends Component {
                     </View>
                     <TouchableOpacity
                         style={{ width: 50 }}
-                        onPress={() => this.manageRoom()}
+                        onPress={() => this.setState({ modalVisible: true })}
                     >
                         <Text style={{ fontWeight: "bold", fontSize: 17 }}>관리</Text>
                     </TouchableOpacity>
