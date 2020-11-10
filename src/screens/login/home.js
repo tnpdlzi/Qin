@@ -259,7 +259,7 @@ function LoginHome({ navigation }) {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate(join)}>
-                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: '40%', borderWidth:1}}>
+                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: '40%'}}>
                         회원가입
                     </Text>
                 </TouchableOpacity>
