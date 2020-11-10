@@ -151,7 +151,7 @@ export default class ChatHome extends Component {
                     data={this.state.chatList}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.chatName}
-                    onRefresh={() => this.socket.emit('load chatList', 1)}
+                    onRefresh={() => this.socket.emit('load chatList', userID)}
                     refreshing={false}
                 />
             </View>
