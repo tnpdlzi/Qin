@@ -4,19 +4,23 @@ import SocketIOClient from "socket.io-client";
 import Modal from "react-native-modal";
 import server from '../../../../server.json';
 import { Avatar } from 'react-native-elements';
+import AsyncStorage from '@react-native-community/async-storage';
 const url = server.chatIP;
+let userID;
 
 export default class ChatHome extends Component {
     constructor(props) {
         super(props);
         this.socket = SocketIOClient(url, { jsonp: false });
         this.state = {
-            chatList: [],
+            chatList: [], //채팅방 목록
             modalVisible: false,
-            chatID: 0,
-            ruID: 0,
+            chatID: 0, //나갈 채팅방
+            ruID: 0, //채팅방 방장
         }
-        this.socket.emit('load chatList', 1); //채팅리스트 불러오기
+
+        //채팅리스트 불러오기
+        this.getChatList();
     }
 
     componentDidMount() {
@@ -36,6 +40,14 @@ export default class ChatHome extends Component {
         this.state.chatList.splice(idx, 1);
     }
 
+    //user ID 가져오기 및 채팅방 목록 불러오기
+    getChatList = async () => {
+        userID = await AsyncStorage.getItem('uID');
+        userID = userID.replace(/[^0-9]/g, "");
+        this.socket.emit('load chatList', userID);
+        //console.log(userID);
+    }
+
     render() {
         //FlatList renderItem
         const renderItem = ({ item }) => {
@@ -51,7 +63,7 @@ export default class ChatHome extends Component {
                 >
                     <View style={styles.item}>
                         <View style={{ width: 60, justifyContent: 'center' }}>
-                            {item.onetoone == 0 ?
+                            {item.onetoone == 1 ?
                                 <View style={{ height: 60, width: 60, alignItems: 'center', justifyContent: 'center' }}>
                                     <Avatar
                                         rounded

@@ -22,10 +22,9 @@ export default class chatRoom extends Component {
             chatMember: [], //채팅방 참여 멤버
             modalVisible: false, //관리 모달
             banModalVisible: false, //강퇴 모달
-            chatInfo: [], //채팅방 정보(방장, 1대1 채팅여부 (+ 추가될 수 있음)),
+            chatInfo: [], //채팅방 정보(방장, 1대1 채팅여부),
             banID: 0, //강퇴 모달에 전달할 uID
-            banName: "", //강퇴 모달에 전달할 userName
-            uID: 0
+            banName: "" //강퇴 모달에 전달할 userName
         }
         this.backButtonClick = this.backButtonClick.bind(this);
         this.socket.emit('load Message', this.state.chatID); //채팅방 접속시 메시지 로드
@@ -69,6 +68,7 @@ export default class chatRoom extends Component {
     getuID = async () => {
         userID = await AsyncStorage.getItem('uID');
         userID = userID.replace(/[^0-9]/g, "");
+        //console.log(userID)
     }
 
     //메세지 전송
@@ -81,7 +81,7 @@ export default class chatRoom extends Component {
             ('00' + date.getUTCMinutes()).slice(-2) + ':' +
             ('00' + date.getUTCSeconds()).slice(-2);
         if (this.state.chatMessage.length > 0) {
-            this.socket.emit('send Message', { chatID: this.state.chatID, message: this.state.chatMessage, sendTime: date, uID: 1 }); //메시지 보내기 + DB에 저장
+            this.socket.emit('send Message', { chatID: this.state.chatID, message: this.state.chatMessage, sendTime: date, uID: userID }); //메시지 보내기 + DB에 저장
             this.setState({ chatMessage: "" });
         }
     }
@@ -116,7 +116,8 @@ export default class chatRoom extends Component {
                         </View>
                         :
                         <View style={{ flexDirection: 'row' }}>
-                            {index > 0 && item.uID == this.state.messageData[index - 1].uID ?
+                            {index > 0 && item.uID == this.state.messageData[index - 1].uID 
+                                && item.sendTime.slice(0, 10) == this.state.messageData[index - 1].sendTime.slice(0, 10) ?
                                 <View style={{ flexDirection: 'row' }}>
                                     <View style={{ height: 50, width: 50 }}></View>
                                     <View style={styles.otherMessage}>
@@ -155,7 +156,7 @@ export default class chatRoom extends Component {
             return (
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
                     {item.uID == ruID ? isClickable = true : isClickable = false /* 방장일 때 자기 자신은 선택 불가*/}
-                    {ruID == userID ? //내가 방장이라면 전부 터치가능, 아니면 터치 아예 안됨 //userID
+                    {ruID == userID && this.state.chatInfo[0].onetoone == 0 ? //내가 방장이라면 전부 터치가능, 아니면 터치 아예 안됨, 해시 채팅방만 강퇴가능 //userID
                         <TouchableOpacity
                             onLongPress={() => {
                                 this.setState({ banModalVisible: true })
@@ -196,7 +197,7 @@ export default class chatRoom extends Component {
                         <View style={{ width: 20, height: 20, borderRadius: 20, backgroundColor: '#00255A', alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: 'white', fontSize: 12 }}>나</Text></View>
                         :
                         <View></View>}
-                    {item.uID == ruID ?
+                    {item.uID == ruID && this.state.chatInfo[0].onetoone == 0  ?
                         <View style={{ alignItems: 'flex-end', flex: 1, marginRight: 20 }}>
                             <Text>방장</Text>
                         </View>
@@ -222,7 +223,9 @@ export default class chatRoom extends Component {
                     backdropColor={'black'}
                 >
                     <View style={styles.centerView}>
-                        <View style={this.state.chatMember.length < 4 ? styles.modalView : styles.longModalView}>
+                        <View style={this.state.chatMember.length == 2 ? styles.twoModalView 
+                            :
+                            this.state.chatMember.length == 3 ? styles.threeModalView : styles.longModalView}>
                             <View style={{ flexDirection: 'row', alignItems: "center", height: 50 }}>
                                 <TouchableOpacity
                                     onPress={() => this.setState({ modalVisible: false })}
@@ -307,14 +310,17 @@ export default class chatRoom extends Component {
                             source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain' }}
                         />
                     </TouchableOpacity>
-                    <View>
-                        <Text style={{ fontSize: 17 }}>{this.state.chatName}</Text>
+                    <View style={{marginLeft: 15}}>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{this.state.chatName}</Text>
                     </View>
                     <TouchableOpacity
-                        style={{ width: 50 }}
+                        style={{ width: 50, marginRight: 15 }}
                         onPress={() => this.setState({ modalVisible: true })}
                     >
-                        <Text style={{ fontWeight: "bold", fontSize: 17 }}>관리</Text>
+                        <Image
+                            source={require('../../../image/room.png')} style={{ height: 70, width: 70, resizeMode: 'contain' }}
+                        />
+                        {/* <Text style={{ fontWeight: "bold", fontSize: 17 }}>관리</Text> */}
                     </TouchableOpacity>
                 </View>
 
@@ -412,15 +418,22 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    modalView: { //모달 영역
+    twoModalView: { //모달 (2명)
         backgroundColor: "white",
         width: 300,
-        height: 215,
+        height: 200,
         borderRadius: 20,
         elevation: 5,
         justifyContent: 'center',
     },
-    longModalView: { //모달영역(긴버전)
+    threeModalView: { //모달 (3명)
+        backgroundColor: "white",
+        width: 300,
+        height: 260,
+        borderRadius: 20,
+        elevation: 5,
+    },
+    longModalView: { //모달 (4명 이상)
         backgroundColor: "white",
         width: 300,
         height: 320,
