@@ -30,7 +30,7 @@ function tiersLOL({ navigation, route }) {
 
     const [gameID, setGameID] = useState([]);
     let uID = route.params.uID;
-    uID = uID.replace('\"', '')
+    uID = uID.replace('\"', '').replace('\"', '')
     useEffect(() => {
             const unfetched = navigation.addListener('focus', async () => {
                 setGameID(await getDatas(server.ip + '/category/gameID?uID=' + uID + '&game=LOL'))
