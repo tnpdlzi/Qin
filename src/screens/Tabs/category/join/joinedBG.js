@@ -41,20 +41,30 @@ let postMails = async (roomID, game) => await axios.get(server.ip + '/mail/evalM
       game: game
     })
   }));
+let postFriend = async (uID1, uID2) => await axios({
+    method: 'post',
+    url: server.ip + '/category/friend',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+      uID1: uID1,
+      uID2: uID2
+    })
+  });
 function joinedBG({ navigation, route }) {
 
     let members = route.params.memtitle[0];
     let rTitle = route.params.memtitle[1];
     let roomID = route.params.memtitle[2];
     let userIn = route.params.memtitle[3];
+    let uID = route.params.uID;
 
     console.log('방의 ID값 : ' + roomID);
     const [mDatas, setMDatas] = useState([]);
     const [member, setMember] = useState(members)
-    const [isJoined, setIsJoined] = useState(member[0].uID == 1 ? true : false); // 방에 첫번째 들어온 사람(만든사람)이 나인지 확인해 나면은 true, 아니면 false로 세팅, 그리고 이게 트루면 나는 이미 joined된거
+    const [isJoined, setIsJoined] = useState(member[0].uID == uID ? true : false); // 방에 첫번째 들어온 사람(만든사람)이 나인지 확인해 나면은 true, 아니면 false로 세팅, 그리고 이게 트루면 나는 이미 joined된거
     const [isError, setIsError] = useState(false);
     const [isUser, setIsUser] = useState(userIn == '' ? false : true); // 방에 내가 들어와있는지 확인
-    const [isLeader, setIsLeader] = useState(member[0].uID == 1 ? true : false); // 방에 첫번째 들어온 사람(만든사람)이 나인지 확인해 나면은 true, 아니면 false로 세팅, 그리고 이게 트루면 나는 이미 joined된거
+    const [isLeader, setIsLeader] = useState(member[0].uID == uID ? true : false); // 방에 첫번째 들어온 사람(만든사람)이 나인지 확인해 나면은 true, 아니면 false로 세팅, 그리고 이게 트루면 나는 이미 joined된거
     const [modalVisible, setModalVisible] = useState(new Array(member.length).fill(false));
     let arr = new Array(modalVisible.length).fill(false);
     console.log('내가 이 방에 있는지 여부(방금 들어온거 포함) : ' + isJoined);
@@ -66,7 +76,7 @@ function joinedBG({ navigation, route }) {
         setRefreshing(true);
 
         setMember(await getDatas(server.ip + '/category/member?roomID=' + roomID + '&game=BG'));
-        setIsUser(await getDatas(server.ip + '/category/ismember?roomID=' + roomID + '&uID=1') == '' ? false : true);
+        setIsUser(await getDatas(server.ip + '/category/ismember?roomID=' + roomID + '&uID=' + uID) == '' ? false : true);
         wait(2000).then(() => setRefreshing(false));
       }, []);
       
@@ -328,7 +338,7 @@ function joinedBG({ navigation, route }) {
                                                         onPress={() => {
                                                             arr[index]=false;
                                                             setModalVisible(arr);
-                                                            postFriend(1, data.uID);
+                                                            postFriend(uID, data.uID);
                                                         }}>
                                                         <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>친구추가</Text>
                                                     </TouchableHighlight>
@@ -345,7 +355,7 @@ function joinedBG({ navigation, route }) {
                                                         onPress={() => {
                                                             arr[index]=false;
                                                             setModalVisible(arr);
-                                                            getDatas(server.ip + '/category/ban?roomID=' + roomID + '&uID=' + data.uID)
+                                                            postFriend(uID, data.uID);
                                                         }}>
                                                         <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>친구추가</Text>
                                                     </TouchableHighlight>
@@ -400,7 +410,7 @@ function joinedBG({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => {await postDatas(server.ip + '/category/join', 1, roomID, ''), setIsJoined(true), onRefresh()}}>
+                        onPress={async () => {await postDatas(server.ip + '/category/join', uID, roomID, ''), setIsJoined(true), onRefresh()}}>
 
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>

@@ -51,6 +51,7 @@ function teamBG({ navigation, route }) {
     const [intro, setIntro] = useState('');
     
     let tier = route.params.tier;
+    let uID = route.params.uID;
 
     return (
         <View style={styles.container}>
@@ -243,7 +244,7 @@ function teamBG({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(1, tier, 'BG', count, minutes, intro, ''), tier: tier, game: 'BG'})}>
+                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(uID, tier, 'BG', count, minutes, intro, ''), tier: tier, game: 'BG', uID: uID})}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             작성하기

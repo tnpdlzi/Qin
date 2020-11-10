@@ -53,6 +53,7 @@ function teamOW({ navigation, route }) {
     const [intro, setIntro] = useState('');
     
     let tier = route.params.tier;
+    let uID = route.params.uID;
 
     return (
         <View style={styles.container}>
@@ -323,7 +324,7 @@ function teamOW({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(1, tier, 'OW', count, minutes, intro, (damage?' 공격 ':'') + (tank?' 돌격 ':'') + (support?' 지원':'')), tier: tier, game: 'OW'})}>
+                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(uID, tier, 'OW', count, minutes, intro, (damage?' 공격 ':'') + (tank?' 돌격 ':'') + (support?' 지원':'')), tier: tier, game: 'OW', uID: uID})}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             작성하기

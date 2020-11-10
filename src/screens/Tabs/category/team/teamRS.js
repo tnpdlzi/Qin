@@ -50,6 +50,7 @@ function teamRS({ navigation, route }) {
     const [intro, setIntro] = useState('');
     
     let tier = route.params.tier;
+    let uID = route.params.uID;
 
     return (
         <View style={styles.container}>
@@ -242,7 +243,7 @@ function teamRS({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(1, tier, 'RS', count, minutes, intro, ''), tier: tier, game: 'RS'})}>
+                        onPress={async () => navigation.navigate('teamComplete', {myRoom: await postDatas(uID, tier, 'RS', count, minutes, intro, ''), tier: tier, game: 'RS', uID: uID})}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             작성하기

@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
 import {ScrollView, View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
 // 가장 첫 화면
@@ -13,7 +14,7 @@ function CategoryHome({ navigation }) {
             }}>
             <View style={styles.item}>
                 {/*이 부분을 통해 index에서 선언된 tiersLOL이라는 네비게이션에 등록된 스크린으로 넘어가게됨. 아래도 동일*/}
-                <TouchableOpacity style={styles.gamecard} onPress={() => navigation.navigate('tiersLOL')}> 
+                <TouchableOpacity style={styles.gamecard} onPress={async() => navigation.navigate('tiersLOL', {uID: await AsyncStorage.getItem('uID')})}> 
                     <View style={styles.LtriangleCorner} />
                     <View style={styles.LtriangleCorner1} />
                     <Text style={styles.title}>LEAGUE OF</Text>
@@ -27,7 +28,7 @@ function CategoryHome({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.item}>
-                <TouchableOpacity style={styles.gamecard} onPress={() => navigation.navigate('tiersOW')}>
+                <TouchableOpacity style={styles.gamecard} onPress={async() => navigation.navigate('tiersOW', {uID: await AsyncStorage.getItem('uID')})}>
                     <View style={styles.OtriangleCorner} />
                     <View style={styles.OtriangleCorner1} />
                     <Text style={styles.title}>OVER</Text>
@@ -41,7 +42,7 @@ function CategoryHome({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.item}>
-                <TouchableOpacity style={styles.gamecard} onPress={() => navigation.navigate('tiersBG')}>
+                <TouchableOpacity style={styles.gamecard} onPress={async() => navigation.navigate('tiersBG', {uID: await AsyncStorage.getItem('uID')})}>
                     <View style={styles.BtriangleCorner} />
                     <View style={styles.BtriangleCorner1} />
                     <Text style={styles.title}>BATTLE</Text>
@@ -60,7 +61,7 @@ function CategoryHome({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.item}>
-                <TouchableOpacity style={styles.gamecard} onPress={() => navigation.navigate('tiersRS')}>
+                <TouchableOpacity style={styles.gamecard} onPress={async() => navigation.navigate('tiersRS', {uID: await AsyncStorage.getItem('uID')})}>
                     <View style={styles.RtriangleCorner} />
                     <View style={styles.RtriangleCorner1} />
                     <Text style={styles.title}>RAINBOW</Text>

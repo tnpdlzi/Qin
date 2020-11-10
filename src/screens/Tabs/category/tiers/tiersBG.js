@@ -23,19 +23,18 @@ let getDatas = async (url) => await axios.get(url)
         console.log('error : ' + error);
     });
 
-function tiersBG({ navigation }) {
+function tiersBG({ navigation, route }) {
 
     const [gameID, setGameID] = useState([]);
-    console.log(gameID);
-
+    let uID = route.params.uID;
+    uID = uID.replace('\"', '')
     useEffect(() => {
             const unfetched = navigation.addListener('focus', async () => {
-                setGameID(await getDatas(server.ip + '/category/gameID?uID=1&game=BG'))
+                setGameID(await getDatas(server.ip + '/category/gameID?uID=' + uID + '&game=BG'))
             });
         
             return unfetched;
-        }, [navigation]);
-        
+        }, [navigation]);        
         
         return (
             <View style={styles.container}>
@@ -87,7 +86,7 @@ function tiersBG({ navigation }) {
                                         }}
                                         onPress={
                                             // data.id를 이용해서 선택된 tier를 roomsLOL에 파라미터로 넘겨준다.
-                                            async () => navigation.navigate('roomsBG', {dataroom: [data.id]})
+                                            async () => navigation.navigate('roomsBG', {dataroom: [data.id, uID]})
 
                                         }>
                                         <View

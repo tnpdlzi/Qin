@@ -18,6 +18,7 @@ function teamComplete({ navigation, route }) {
     let roomID = route.params.myRoom;
     let tier = route.params.tier;
     let game = route.params.game;
+    let uID = route.params.uID;
 
 
     // 다른 곳과 다르게 이 페이지는 뒤로가기 버튼을 눌렀을 때 방 생성으로 돌아가면 안됨. 방 생성으로 돌아가게 되면 한 유저가 두개의 방을 만드는 불상사가 생김.
@@ -141,7 +142,7 @@ function teamComplete({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('rooms' + game, {dataroom: [await getDatas(server.ip + '/category/roomlist?tier=' + tier + '&game=' + game), await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=' + game + '&uID=1'), tier]})}>
+                        onPress={async () => navigation.navigate('rooms' + game, {dataroom: [await getDatas(server.ip + '/category/roomlist?tier=' + tier + '&game=' + game), await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=' + game + '&uID=' + uID), tier]})}>
 
                         <Text style={{color: '#00255A', fontSize: 15, fontWeight: 'bold'}}>
                             게시판 돌아가기

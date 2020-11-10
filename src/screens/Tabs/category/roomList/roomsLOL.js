@@ -49,6 +49,7 @@ let postDatas = async (tier) => await axios.get(server.ip + '/category/getRooms?
 function roomsLOL({ navigation, route }) {
 
     let tier = route.params.dataroom[0];
+    let uID = route.params.dataroom[1];
     const [datas, setDatas] = useState([]);
     const [myRoom, setMyRoom] = useState([]);
 
@@ -63,7 +64,7 @@ function roomsLOL({ navigation, route }) {
         setRefreshing(true);
 
         setDatas(await postDatas(tier))
-        setMyRoom(await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=LOL&uID=1'))
+        setMyRoom(await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=LOL&uID=' + uID))
     
         wait(2000).then(() => setRefreshing(false));
       }, []);
@@ -83,7 +84,7 @@ function roomsLOL({ navigation, route }) {
         useEffect(() => {
             const unfetched = navigation.addListener('focus', async() => {
                 setDatas(await postDatas(tier))
-                setMyRoom(await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=LOL&uID=1'))
+                setMyRoom(await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=LOL&uID=' + uID))
             });
         
             return unfetched;
@@ -143,7 +144,7 @@ function roomsLOL({ navigation, route }) {
                             </Text>
                         </View>
                         <TouchableOpacity
-                            onPress={() => navigation.navigate('teamLOL', {tier: tier})}
+                            onPress={() => navigation.navigate('teamLOL', {tier: tier, uID: uID})}
                             style={{
                                 flexDirection: 'row',
                                 justifyContent: 'flex-end',
@@ -175,7 +176,7 @@ function roomsLOL({ navigation, route }) {
                             paddingVertical: 20,
                         }}
                         // 서버에서 api 호출해 받은 데이터를 다음 화면으로 파라미터 전달
-                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas(server.ip + '/category/title?roomID=' + data.roomID), data.roomID, await getDatas(server.ip + '/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
+                        onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas(server.ip + '/category/title?roomID=' + data.roomID), data.roomID, await getDatas(server.ip + '/category/ismember?roomID=' + data.roomID + '&uID=' + uID)], uID: uID})}>
                         <View
                             style={{
                                 flexDirection: 'row',
@@ -266,7 +267,7 @@ function roomsLOL({ navigation, route }) {
                                         justifyContent: 'space-between',
                                         width: '100%',
                                     }}
-                                    onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas(server.ip + '/category/title?roomID=' + data.roomID), data.roomID, await getDatas(server.ip + '/category/ismember?roomID=' + data.roomID + '&uID=1')]})}>
+                                    onPress={async () => navigation.navigate('joinedLOL', {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + data.roomID + '&game=LOL'), await getDatas(server.ip + '/category/title?roomID=' + data.roomID), data.roomID, await getDatas(server.ip + '/category/ismember?roomID=' + data.roomID + '&uID=' + uID)], uID: uID})}>
                                     <View
                                         style={{
                                             flexDirection: 'row',

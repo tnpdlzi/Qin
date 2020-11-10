@@ -59,15 +59,16 @@ function joinedLOL({ navigation, route }) {
     let rTitle = route.params.memtitle[1];
     let roomID = route.params.memtitle[2];
     let userIn = route.params.memtitle[3];
+    let uID = route.params.uID;
 
     console.log('방의 ID값 : ' + roomID);
 
     const [member, setMember] = useState(members);
     const [mDatas, setMDatas] = useState([]);
-    const [isJoined, setIsJoined] = useState(member[0].uID == 1 ? true : false); // 방에 첫번째 들어온 사람(만든사람)이 나인지 확인해 나면은 true, 아니면 false로 세팅, 그리고 이게 트루면 나는 이미 joined된거
+    const [isJoined, setIsJoined] = useState(member[0].uID == uID ? true : false); // 방에 첫번째 들어온 사람(만든사람)이 나인지 확인해 나면은 true, 아니면 false로 세팅, 그리고 이게 트루면 나는 이미 joined된거
     const [isError, setIsError] = useState(false);
     const [isUser, setIsUser] = useState(userIn == '' ? false : true); // 방에 내가 들어와있는지 확인
-    const [isLeader, setIsLeader] = useState(member[0].uID == 1 ? true : false); // 방에 첫번째 들어온 사람(만든사람)이 나인지 확인해 나면은 true, 아니면 false로 세팅, 그리고 이게 트루면 나는 이미 joined된거
+    const [isLeader, setIsLeader] = useState(member[0].uID == uID ? true : false); // 방에 첫번째 들어온 사람(만든사람)이 나인지 확인해 나면은 true, 아니면 false로 세팅, 그리고 이게 트루면 나는 이미 joined된거
     const [modalVisible, setModalVisible] = useState(new Array(member.length).fill(false));
     let arr = new Array(modalVisible.length).fill(false);
 
@@ -86,7 +87,7 @@ function joinedLOL({ navigation, route }) {
         setRefreshing(true);
 
         setMember(await getDatas(server.ip + '/category/member?roomID=' + roomID + '&game=LOL'));
-        setIsUser(await getDatas(server.ip + '/category/ismember?roomID=' + roomID + '&uID=1') == '' ? false : true);
+        setIsUser(await getDatas(server.ip + '/category/ismember?roomID=' + roomID + '&uID=' + uID) == '' ? false : true);
         wait(2000).then(() => setRefreshing(false));
       }, []);
       
@@ -352,7 +353,7 @@ function joinedLOL({ navigation, route }) {
                                                         onPress={() => {
                                                             arr[index]=false;
                                                             setModalVisible(arr);
-                                                            postFriend(1, data.uID);
+                                                            postFriend(uID, data.uID);
                                                         }}>
                                                         <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>친구추가</Text>
                                                     </TouchableHighlight>
@@ -369,7 +370,7 @@ function joinedLOL({ navigation, route }) {
                                                         onPress={() => {
                                                             arr[index]=false;
                                                             setModalVisible(arr);
-                                                            getDatas(server.ip + '/category/ban?roomID=' + roomID + '&uID=' + data.uID)
+                                                            postFriend(uID, data.uID);
                                                         }}>
                                                         <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>친구추가</Text>
                                                     </TouchableHighlight>
@@ -583,7 +584,7 @@ function joinedLOL({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => {await postDatas(server.ip + '/category/join', 1, roomID, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), setIsJoined(true), onRefresh()}}>
+                        onPress={async () => {await postDatas(server.ip + '/category/join', uID, roomID, (top?' 탑 ':'') + (jungle?' 정글 ':'') + (mid?' 미드 ':'') + (bottom?' 원딜 ':'') + (support?' 서폿':'')), setIsJoined(true), onRefresh()}}>
 
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
