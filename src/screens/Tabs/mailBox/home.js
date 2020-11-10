@@ -33,14 +33,19 @@ function MailHome({ navigation, route }) {
     const [okModal, setOkModal] = useState(false);
 
     let arr = new Array(modalVisible.length).fill(false);
-    let uID = async() => await AsyncStorage.getItem('uID').replace('\"', '');
+    let uID; //user ID 가져오기
+    getuID = async () => {
+        uID = await AsyncStorage.getItem('uID');
+        uID = uID.replace('\"', "").replace('\"', '');
+        console.log(uID)
+    }
     console.log('uID............' + uID)
     // 새로고침 onRefresh로 구현. onRefresh를 호출하면 setDatas, setMyRoom으로 hook 다시 불러옴. 그에 따라 화면도 다시 render
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = React.useCallback(async() => {
         setRefreshing(true);
 
-        setDatas(await getDatas(server.ip + '/mail/getMails?&uID=1'))
+        setDatas(await getDatas(server.ip + '/mail/getMails?&uID=' + uID))
     
         wait(2000).then(() => setRefreshing(false));
       }, []);
@@ -48,7 +53,9 @@ function MailHome({ navigation, route }) {
 
         useEffect(() => {
             const unfetched = navigation.addListener('focus', async() => {
-                setDatas(await getDatas(server.ip + '/mail/getMails?&uID=1'))
+                await getuID()
+                console.log('useEffect uID..........' + uID)
+                setDatas(await getDatas(server.ip + '/mail/getMails?&uID=' + uID))
             });
         
             return unfetched;
