@@ -4,6 +4,7 @@ import server from '../../../../server.json';
 import {Avatar, Accessory} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // refresh가 완료될 때 까지 wait
 const wait = (timeout) => {
@@ -32,7 +33,8 @@ function MailHome({ navigation, route }) {
     const [okModal, setOkModal] = useState(false);
 
     let arr = new Array(modalVisible.length).fill(false);
-
+    let uID = async() => await AsyncStorage.getItem('uID').replace('\"', '');
+    console.log('uID............' + uID)
     // 새로고침 onRefresh로 구현. onRefresh를 호출하면 setDatas, setMyRoom으로 hook 다시 불러옴. 그에 따라 화면도 다시 render
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = React.useCallback(async() => {
