@@ -262,7 +262,7 @@ export default class chatRoom extends Component {
                     backdropColor={'black'}
                 >
                     <View style={styles.centerView}>
-                        <View style={styles.modalView}>
+                        <View style={styles.twoModalView}>
                             <View style={{ justifyContent: 'center', alignItems: 'center', height: 80 }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
                                     <Image
