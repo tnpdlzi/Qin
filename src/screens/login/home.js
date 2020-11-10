@@ -246,19 +246,20 @@ function LoginHome({ navigation }) {
                 borderTopWidth: 2,
                 paddingTop: 5,
                 paddingBottom: 50,
+                justifyContent:'center'
             }}>
                 <TouchableOpacity onPress={() => navigation.navigate(find_id)}>
-                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: 10,}}>
+                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: '5%',}}>
                         아이디   l
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate(find_pw)}>
-                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: 10,}}>
+                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: '5%',}}>
                         비밀번호 찾기
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate(join)}>
-                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: 150,}}>
+                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: '40%', borderWidth:1}}>
                         회원가입
                     </Text>
                 </TouchableOpacity>
