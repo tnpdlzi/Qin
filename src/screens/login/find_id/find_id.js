@@ -323,6 +323,7 @@ const styles = StyleSheet.create({
     },
     centeredView: {
         flex: 1,
+        width: '100%',
         justifyContent: "center",
         alignItems: "center",
         marginTop: 0,

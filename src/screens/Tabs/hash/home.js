@@ -1,9 +1,10 @@
 import React, { Component, useState, useEffect } from 'react';
-import { Dimensions,ScrollView, StyleSheet, View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
+import { Dimensions,ScrollView, StyleSheet, View, Text, TextInput, Image, TouchableOpacity, BackHandler} from 'react-native';
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
 import Modal from 'react-native-modal';
 import server from '../../../../server.json';
+
 
 const winHeight = Dimensions.get('window').height;
 const winWidth  = Dimensions.get('window').width;
@@ -28,7 +29,7 @@ getTopRank();
 
 
 function HashHome({ navigation}) {
-    
+
     const [search_hash, setSearch_Hash] = useState([]);   //검색할 HashTag 목록들
     const [newText, setNewText] = useState(""); //유저의 input을 담기위한 Hook
     const [resData, setResData] = useState([]); //search_hash 를 이용한 axios통신
@@ -37,7 +38,7 @@ function HashHome({ navigation}) {
     const [modal2Visible, setModal2Visible] = useState(false);
     const [modal3Visible, setModal3Visible] = useState(false);
 
-    
+
     //const topRank;
     //검색할 Hash Tag목록 추가
     function addHash(){
@@ -49,13 +50,13 @@ function HashHome({ navigation}) {
         }
     }
     //chatRoomListModal에서 채팅 참여하기 버튼 클릭 시 chatRoomEnter하기 위한 함수
-    const chatRoomEnter = async () => await axios.post(IP + '/hash/chatRoomEnter',{ 
-        "uID" : test_uID, 
+    const chatRoomEnter = async () => await axios.post(IP + '/hash/chatRoomEnter',{
+        "uID" : test_uID,
         "chatID" : modalData.chatID //유저가 선택한 chatRoom에 대한 정보를 담은 Modal 변수
     })
     .then(function(response){  // 유저의 채팅창 조인 후 어떻게 해야할지 논의 필요!!!!!
         if(response.data == "already join"){
-            setModal2Visible(!modal2Visible);     
+            setModal2Visible(!modal2Visible);
         }else if(response.data == "banded"){
             setModal3Visible(!modal3Visible);
         }else if(response.data == "success"){
@@ -87,16 +88,16 @@ function HashHome({ navigation}) {
             if(search_hash.length != 0){
                 setResData(await getDatas(search_hash));
                 hash = search_hash;
-            } 
+            }
             else{
                 setResData([]); //search_hash가 없다면 resData도 없어야 한다.
                 hash = [];
             }
         })()
-        
+
     },[search_hash]);
 
-    
+
 
     //삭제 연산 구현
     const deleteHash = function(data) {
@@ -116,12 +117,15 @@ function HashHome({ navigation}) {
         });
         return unfetched;
     }, [navigation]);
-    
 
-    //채팅방 
+
+
+
+    //채팅방
     return (
         //부모 컨테이너
         <View style = {styles.container}>
+
             {console.log("부모 컨테이너")}
             {/* CharRoomList에서 이미지 클릭시 뜨는 모달 */}
             <Modal
@@ -130,7 +134,7 @@ function HashHome({ navigation}) {
                 backdropColor = {'black'}
                 backdropOpacity = {0.5}
             >
-                <View style = {styles.centeredMadal}> 
+                <View style = {styles.centeredMadal}>
                     <View style = {styles.chatRoomModal}>
                         <View style = {styles.chatRoomModalTop}>
                             <View style = {{flex : 0.5}}>
@@ -140,7 +144,7 @@ function HashHome({ navigation}) {
                                         style={{height: 60, width: 30, resizeMode: 'cover',}}
                                         source={require('../../../image/cancel.png')}/>
                                 </TouchableOpacity>
-                                
+
                             </View>
                             <Text style = {{paddingTop: 30, fontSize: 18}}>채팅창 정보</Text>
                         </View>
@@ -193,7 +197,7 @@ function HashHome({ navigation}) {
                             style={{height: 70, width: 60, resizeMode: 'cover',alignSelf:"flex-end"}}
                             source={require('../../../image/complain.png')}/>
                     </View>
-                    
+
                     <View style = {{backgroundColor: "white",borderRadius:20, justifyContent:"center",alignItems:"center"}}>
                         <Text>이미 채팅방에 참가되어있습니다.</Text>
                     </View>
@@ -218,7 +222,7 @@ function HashHome({ navigation}) {
                             style={{height: 70, width: 60, resizeMode: 'cover',alignSelf:"flex-end"}}
                             source={require('../../../image/complain.png')}/>
                     </View>
-                    
+
                     <View style = {{backgroundColor: "white",borderRadius:20, justifyContent:"center",alignItems:"center"}}>
                         <Text>강퇴당한 채팅방에는 다시 입장이 불가능합니다.</Text>
                     </View>
@@ -233,12 +237,12 @@ function HashHome({ navigation}) {
                 onChangeText = {(text) => setNewText(text)} //변할때 마다 NewText 에 입력
                 />
                 <TouchableOpacity
-                    onPress = {() => newText.length >= 1 ? addHash() : null} 
+                    onPress = {() => newText.length >= 1 ? addHash() : null}
                     >
                     <Image
                         style={{height: 100, width: 60, resizeMode: 'cover'
                     }}
-                        source={require('../../../image/tag_search.png')} 
+                        source={require('../../../image/tag_search.png')}
                     />
                 </TouchableOpacity>
             </View>
@@ -246,7 +250,7 @@ function HashHome({ navigation}) {
             <View style ={{alignItems: "flex-start"}}>
                 <Text style = {{fontSize:14, padding: 10}}>인기 키워드</Text>
                 <View style = {{flexDirection:"row",height: winHeight*0.035}}>
-                    <ScrollView 
+                    <ScrollView
                     horizontal={true}
                     showsHorizontalScrollIndicator={true}
                     onMomentumScrollEnd={() => {
@@ -270,7 +274,7 @@ function HashHome({ navigation}) {
                     flexDirection:"row",
                     height: winHeight*0.05,
                 }}>
-                    <ScrollView 
+                    <ScrollView
                         horizontal={true}
                         showsHorizontalScrollIndicator={true}
                         onMomentumScrollEnd={() => {
@@ -288,19 +292,19 @@ function HashHome({ navigation}) {
                                             source={require('../../../image/cancel.png')}/>
                                     </TouchableOpacity>
                                 </View>
-                            )                   
+                            )
                         })}
                     </ScrollView>
                 </View>
             </View>
             {/* 유저가 검색한 HashTag를 모두 포함하고 있는 ChatRoom을 서버로 부터 받아와서  */}
             <View style={{flexDirection:"row", flex:1, padding:5}}>
-                <ScrollView 
+                <ScrollView
                     showsHorizontalScrollIndicator={true}
                     onMomentumScrollEnd={() => {
                     console.log('Scrolling is End');
                 }}>
-                
+
                 {resData.map((el, index) =>{
                     let resDataHashList = (el.hash).split('#');
                     if(el.isDeleted != 1){
@@ -316,7 +320,7 @@ function HashHome({ navigation}) {
                                             <Text style = {{paddingTop: 2, fontSize: 13}}>{el.total}명</Text>
                                         </View>
                                         <View style = {{flex: 0.8}}>
-                                            <ScrollView 
+                                            <ScrollView
                                             horizontal={true}
                                             showsHorizontalScrollIndicator={true}
                                             onMomentumScrollEnd={() => {
@@ -334,7 +338,7 @@ function HashHome({ navigation}) {
                                     </View>
                                 </TouchableOpacity>
                             </View>
-                            
+
                         )
                     }
                 })}
@@ -342,7 +346,7 @@ function HashHome({ navigation}) {
             </View>
         </View>
     );
-    
+
 }
 
 const styles = StyleSheet.create({

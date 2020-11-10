@@ -97,6 +97,7 @@ function find_id_final({ navigation, route }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        width: '100%',
         flexDirection: 'column',
         justifyContent: 'space-around',
         alignItems: 'center',

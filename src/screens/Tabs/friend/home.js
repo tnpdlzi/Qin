@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, FlatList, Image, StyleSheet, TouchableOpacity, TouchableHighlight} from 'react-native';
+import {
+    View,
+    Text,
+    ScrollView,
+    FlatList,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
+    TouchableHighlight,
+    BackHandler,
+} from 'react-native';
 import {Avatar, Accessory} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import server from '../../../../server.json';
@@ -15,18 +25,32 @@ let getDatas = async (url) => await axios.get(url)
         console.log('error : ' + error);
     });
 
+
 function MemoryHome({ navigation }) {
 
+    useEffect(() => {
+        const backAction = () => {
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, []);
+
     const [myModalVisible, setMyModalVisible] = useState(false);
-    const [modalVisible, setModalVisible] = useState([]); 
-    
+    const [modalVisible, setModalVisible] = useState([]);
+
     const [myProfile, setMyProfile] = useState([]);
     const [myProfileGame, setMyProfileGame] = useState([]);
     const [myProfileGenre, setMyProfileGenre] = useState([]);
     const [friendProfile, setFriendProfile] = useState([]);
     const [friendProfileGame, setFriendProfileGame] = useState([]);
     const [friendProfileGenre, setFriendProfileGenre] = useState([]);
-    
+
     let arr = new Array(modalVisible.length).fill(false);
 
 
@@ -38,7 +62,7 @@ function MemoryHome({ navigation }) {
         return unfetched;
     }, [navigation]);
 
-    return ( 
+    return (
         <ScrollView style={{ backgroundColor: "#F7F7F7", paddingLeft:15, paddingRight:15 }}
             showsHorizontalScrollIndicator={true}>
 
@@ -186,7 +210,7 @@ function MemoryHome({ navigation }) {
             <FlatList
             keyExtractor={item => item.toString()}
             data={friendProfile}
-            renderItem={({item})=> 
+            renderItem={({item})=>
                 <View>
                     <TouchableOpacity onPress={async() => {
                         arr[item.uID]=true;
@@ -202,7 +226,7 @@ function MemoryHome({ navigation }) {
                                     source={require('../../../image/profile.png')}
                                 />
                                 <Text style={{ fontSize: 13, marginLeft: '10%' }}>{item.userName}</Text>
-                            </View>    
+                            </View>
 
                             <View style={{ width: '60%', alignItems: 'flex-end' }}>
                                 <Text style={{ fontSize: 12 }} >{item.intro}</Text>
@@ -224,10 +248,10 @@ function MemoryHome({ navigation }) {
                         }}
                         onBackdropPress={() => setModalVisible(false)}
                     >
-                        
+
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <TouchableOpacity onPress={() => { 
+                                <TouchableOpacity onPress={() => {
                                     arr[item.uID]=false;
                                     setModalVisible(arr);
                                 }}>
@@ -249,9 +273,9 @@ function MemoryHome({ navigation }) {
                                         />
                                     </View>
                                 </View>
-                                
+
                                 <View style={{ width: '80%', height: 2, backgroundColor: "#E2E2E2", alignSelf: "center" }} />
-                                
+
                                 <View style={{ width: '80%', height: '10%', alignSelf: 'center', flexDirection: 'row' }}>
                                     <View style={{ width: '50%', flexDirection: 'row', alignItems: 'center', }}>
                                         <Text style={{ color: '#363636', fontSize: 10, fontWeight: 'bold' }}>매너 지수   </Text>
@@ -266,9 +290,9 @@ function MemoryHome({ navigation }) {
                                 <View style={{ width: '80%', height: 2, backgroundColor: "#E2E2E2", alignSelf: "center" }} />
 
                                 <ScrollView style={{ width: '100%' }}>
-                                
+
                                 <View style={{ width: '80%', alignSelf: 'center' }}>
-                                    
+
                                     {friendProfileGame.map((mData, index)=> {
                                         return(
                                             <View style={{ height: 70, justifyContent: 'center' }} >
@@ -285,14 +309,14 @@ function MemoryHome({ navigation }) {
                                             </View>
                                         );
                                     })}
-                                    
-                                    
+
+
                                 </View>
-                                
+
                                 <View style={{ width: '80%', height: 2, backgroundColor: "#E2E2E2", alignSelf: "center" }} />
-                                
+
                                 <View style={{ width: '80%', alignSelf: 'center' }}>
-                                    
+
                                     {friendProfileGenre.map((mData, index) => {
                                         return (
                                             <View style={{ height: 35, flexDirection: 'row', alignItems: 'center' }}>
@@ -305,7 +329,7 @@ function MemoryHome({ navigation }) {
                                     })}
 
                                 </View>
-                                
+
                                 </ScrollView>
 
                                 <View style={{width:'100%', flexDirection:'row', marginTop:30, justifyContent:'center', marginBottom:'10%'}}>
@@ -321,7 +345,7 @@ function MemoryHome({ navigation }) {
                             </View>
                         </View>
                     </Modal>
-                </View> 
+                </View>
             } />
 
         </ScrollView>

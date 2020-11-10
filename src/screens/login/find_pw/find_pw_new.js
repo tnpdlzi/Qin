@@ -25,17 +25,17 @@ function find_pw_new({ navigation, route }) {
     const [modalVisible1, setModalVisible1] = useState(false);
 
     let updatePW = async () => await axios.post(server.ip + '/users/updatePW', {
-        userPW: userPW,
+        userpassword: userpassword,
         userName: userName,
 
     })
         .then(function(response){
             if(response.data == false){ //seach_hash 를 이용해서 통신한 결과가 없을 경우 ResData를 빈 배열로 초기화
-                console.log(password);
+                console.log(userpassword);
                 console.log("비밀번호 수정 에러");
-                console.log(response.data);
             }
             else {
+                console.log(userpassword);
                 {navigation.navigate('find_pw_final',{memtitle:[userName]})}
             }
         })
@@ -61,7 +61,7 @@ function find_pw_new({ navigation, route }) {
         }
     }
 
-    let [userPW, changePW] = useState("");
+    let [userpassword, changePW] = useState("");
     let [password, changeP] = useState(require('../../../image/pw_unchecked.png'));
     let [pwc, changePwc] = useState("");
     let [apwc, AchangePwc] = useState("");
@@ -291,6 +291,7 @@ function find_pw_new({ navigation, route }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        width: '100%',
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',

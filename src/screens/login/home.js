@@ -191,7 +191,7 @@ function LoginHome({ navigation }) {
                     // console.log("이것은 bad입니다..." + userDatas.bad)
                     // console.log("이것은 intro입니다..." + userDatas.intro)
 
-                    
+
                     if(userDatas == false){
                         showPWToast()
                     } else if(userDatas == undefined){
@@ -214,7 +214,7 @@ function LoginHome({ navigation }) {
 
                         navigation.navigate(CategoryScreen)
                     }
-                    
+
                     }}>
                 <Text  style={{fontSize: 15, color: '#f8f6f6', paddingVertical: 5,paddingLeft: 40, paddingRight: 40, backgroundColor: textB,borderStyle: 'solid',paddingTop: 10, paddingBottom: 10,
                     borderRadius: 30,
@@ -271,6 +271,7 @@ function LoginHome({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        width: '100%',
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',

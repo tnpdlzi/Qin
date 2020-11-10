@@ -619,6 +619,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#ffffff',
+        width: '100%',
     },
     centeredView: {
         flex: 1,
