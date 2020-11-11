@@ -5,20 +5,27 @@ import server from '../../../../server.json';
 import axios from 'axios';
 import LoginHome from '../../Tabs/sidebar/index'
 import AsyncStorage from '@react-native-community/async-storage';
+import ImagePicker from 'react-native-image-picker'
 
-let getDatas = async (url) => await axios.get(url)
-    .then(function (response) {
-        console.log(response.data)
-        return response.data
-    })
-    .catch(function (error) {
-        console.log(url)
-        console.log('error : ' + error);
-    });
+const uploadPhoto = async (uID, photo) =>{ await axios({
+    method: 'post',
+    url: server.ip + '/upload',
+    // headers: { 'Content-Type': 'multipart/form-data' },
+    data: {
+        uri: photo.uri,
+        uID: uID.replace('\"', '').replace('\"', '')
+    }
+  }).catch(function (error) {
+    console.log('error : ' + error);
+})
+console.log('photo_uri................' + photo.uri)}
+  
+
 
 function DrawerScreen({ navigation }) {
 
     const [myProfile, setMyProfile] = useState([]);
+    const [photo, setPhoto] = useState(require('../../../../src/image/lol_bg.png'));
 
     return (
 
@@ -53,10 +60,30 @@ function DrawerScreen({ navigation }) {
                         </TouchableOpacity>
                     </View>
 
-                    <TouchableOpacity>
+                    {/* <TouchableOpacity>
                         <Avatar
                             rounded
                             source={require('../../../../src/image/lol_bg.png')}
+                            size='large'
+                        />
+                    </TouchableOpacity> */}
+                    <TouchableOpacity
+                        onPress={() => {
+                            const options = {
+                              height: 300,
+                              width: 300
+                            }
+                            ImagePicker.launchImageLibrary(options, async (response) => {
+                              if (response.uri) {
+                                await uploadPhoto(await AsyncStorage.getItem('uID'), response)
+                              }
+                            })
+                          }}>
+                        
+                        
+                        <Avatar
+                            rounded
+                            source={photo}
                             size='large'
                         />
                     </TouchableOpacity>
