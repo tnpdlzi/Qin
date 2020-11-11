@@ -179,7 +179,7 @@ function teamOW({ navigation, route }) {
                         }}>
                             ·
                         </Text>
-                        <Text style={{paddingStart: 10, paddingEnd: 20, fontSize: 14, fontWeight: 'bold'}}>
+                        <Text style={{paddingStart: 10, paddingEnd: 10, fontSize: 14, fontWeight: 'bold'}}>
                             포지션
                         </Text>
                         <View
@@ -197,7 +197,7 @@ function teamOW({ navigation, route }) {
                                 
                                 <View
                                     style={{
-                                        paddingHorizontal: 8
+                                        paddingHorizontal: 4
                                     }}>
                                     <TouchableOpacity style={ damage ? styles.positioned : styles.position} onPress={() => setDamage(!damage)}>
                                         <Text style={{fontSize: 14, padding: 5, color: damage ? '#000000' : '#E2E2E2'}}>
@@ -208,7 +208,7 @@ function teamOW({ navigation, route }) {
 
                                 <View
                                     style={{
-                                        paddingHorizontal: 8
+                                        paddingHorizontal: 4
                                     }}>
                                     <TouchableOpacity style={ tank ? styles.positioned : styles.position} onPress={() => setTank(!tank)}>
                                         <Text style={{fontSize: 14, padding: 5, color: tank ? '#000000' : '#E2E2E2'}}>
@@ -220,7 +220,7 @@ function teamOW({ navigation, route }) {
                                 
                                 <View
                                     style={{
-                                        paddingHorizontal: 8
+                                        paddingHorizontal: 4
                                     }}>
                                     <TouchableOpacity style={ support ? styles.positioned : styles.position} onPress={() => setSupport(!support)}>
                                         <Text style={{fontSize: 14, padding: 5, color: support ? '#000000' : '#E2E2E2'}}>
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
         paddingTop: 100,
     },
     sView: {
-        flex: 1,
+        width: '100%',
         backgroundColor: 'white',
     },
     sItem: {

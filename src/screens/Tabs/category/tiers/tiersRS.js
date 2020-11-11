@@ -6,7 +6,7 @@ import axios from 'axios';
 const tiers = [
     {id: 'COPPER'},
     {id: 'BRONZE'},
-    {id: 'SILEVER'},
+    {id: 'SILVER'},
     {id: 'GOLD'},
     {id: 'PLATINUM'},
     {id: 'DIAMOND'},

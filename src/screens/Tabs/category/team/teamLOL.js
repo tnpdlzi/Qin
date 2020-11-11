@@ -181,7 +181,7 @@ function teamLOL({ navigation, route }) {
                         }}>
                             ·
                         </Text>
-                        <Text style={{paddingStart: 10, paddingEnd: 20, fontSize: 14, fontWeight: 'bold'}}>
+                        <Text style={{paddingStart: 10, paddingEnd: 10, fontSize: 14, fontWeight: 'bold'}}>
                             포지션
                         </Text>
                         <View
@@ -439,7 +439,7 @@ const styles = StyleSheet.create({
         paddingTop: 100,
     },
     sView: {
-        flex: 1,
+        width: '100%',
         backgroundColor: 'white',
     },
     sItem: {

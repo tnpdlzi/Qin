@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
         paddingTop: 100,
     },
     sView: {
-        flex: 1,
+        width: '100%',
         backgroundColor: 'white',
     },
     sItem: {
