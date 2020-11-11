@@ -4,7 +4,9 @@ import { Avatar, Accessory } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import server from '../../../../../server.json';
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 
+let uID;
 
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
@@ -27,7 +29,8 @@ function myProf({ navigation }) {
 
     useEffect(() => {
         const unfetched = navigation.addListener('focus', async () => {
-            setMyProfile(await getDatas(server.ip + '/friend/myProfile?uID=1'))
+            uID = await AsyncStorage.getItem('uID')
+            setMyProfile(await getDatas(server.ip + '/friend/myProfile?uID=' + uID))
         });
 
         return unfetched;
@@ -150,7 +153,7 @@ function myProf({ navigation }) {
                                 <Image source={require("../../../../image/registered_1.png")} style={{ width: 30, height: 35 }} />
                                 <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 15 }}>자기소개 변경</Text>
                             </View>
-                            <View style={{ width: '100%', height: 40, borderBottomWidth: 2, borderBottomColor: '#A5A5A5', marginBottom: 40 }}>
+                            <View style={{ width: '100%', height: 40, borderBottomWidth: 2, borderBottomColor: '#A5A5A5', marginBottom: 10 }}>
                                 <TextInput style={{ justifyContent: 'center' }}
                                     placeholder='변경할 자기소개를 작성해주세요.' placeholderTextColor='#A5A5A5' />
                             </View>

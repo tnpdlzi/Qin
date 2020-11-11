@@ -4,7 +4,7 @@ import { Avatar} from 'react-native-elements';
 import server from '../../../../server.json';
 import axios from 'axios';
 import LoginHome from '../../Tabs/sidebar/index'
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
@@ -19,13 +19,6 @@ let getDatas = async (url) => await axios.get(url)
 function DrawerScreen({ navigation }) {
 
     const [myProfile, setMyProfile] = useState([]);
-
-    // useEffect(() => {
-    //     const unfetched = navigation.addListener('focus', async () => {
-    //         setMyProfile(await getDatas(server.ip + '/friend/myProfile?uID=1'))
-    //     });
-    //     return unfetched;
-    // }, [navigation]);
 
     return (
 

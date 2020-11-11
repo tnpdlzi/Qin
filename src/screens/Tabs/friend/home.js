@@ -15,6 +15,9 @@ import Modal from 'react-native-modal';
 import server from '../../../../server.json';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+
+let uID;
+
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
         console.log(response.data)
@@ -53,8 +56,9 @@ function MemoryHome({ navigation }) {
 
     useEffect(() => {
         const unfetched = navigation.addListener('focus', async () => {
-            setMyProfile(await getDatas(server.ip + '/friend/myProfile?uID=' + await AsyncStorage.getItem('uID')))
-            setFriendProfile(await getDatas(server.ip + '/friend/friendProfile?uID=' + await AsyncStorage.getItem('uID')))
+            uID = await AsyncStorage.getItem('uID')
+            setMyProfile(await getDatas(server.ip + '/friend/myProfile?uID=' + uID))
+            setFriendProfile(await getDatas(server.ip + '/friend/friendProfile?uID=' + uID))
         });
         return unfetched;
     }, [navigation]);
@@ -67,10 +71,8 @@ function MemoryHome({ navigation }) {
                 return (
                     <TouchableOpacity onPress={async () => {
                         setMyModalVisible(!myModalVisible);
-                        setMyProfileGame(await getDatas(server.ip + '/friend/profileGame?uID=1'));
-                        setMyProfileGenre(await getDatas(server.ip + '/friend/profileGenre?uID=1'));
-                        await AsyncStorage.setItem('good', mData.good)
-                        await AsyncStorage.setItem('bad', mData.bad)
+                        setMyProfileGame(await getDatas(server.ip + '/friend/profileGame?uID=' + uID));
+                        setMyProfileGenre(await getDatas(server.ip + '/friend/profileGenre?uID=' + uID));
                     }}>
                         <View style={styles.myProfile}>
                             <View style={{width:'40%', height:'100%', flexDirection:'row', alignItems:'center', justifyContent:'flex-start'}}>
@@ -203,7 +205,7 @@ function MemoryHome({ navigation }) {
             <View style={{width: '100%', height: 1, backgroundColor: "#E2E2E2", alignSelf:"center"}} />
 
             <View style={{height:41, flexDirection:'row', alignItems:'center'}}>
-                <Text style={{color: "#5E5E5E", fontSize: 10}}>친구 (20명)</Text>
+                <Text style={{color: "#5E5E5E", fontSize: 10}}>친구 ({friendProfile.length}명)</Text>
             </View>
 
             <FlatList

@@ -250,7 +250,7 @@ function LoginHome({ navigation }) {
             }}>
                 <TouchableOpacity onPress={() => navigation.navigate(find_id)}>
                     <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: '5%',}}>
-                        아이디   l
+                        아이디
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate(find_pw)}>
