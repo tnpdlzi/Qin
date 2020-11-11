@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const qs = require('qs');
 
 let uID;
-
+let arr = [];
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
         if(response.data==""){
@@ -43,7 +43,7 @@ let postGame = async (game, tierID, gameID) => await axios({
     url: server.ip + '/friend/insertProfileGame',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify({
-        uID:1,
+        uID:uID,
         game: game,
         tierID: tierID,
         gameID: gameID
@@ -241,6 +241,10 @@ function myGame({ navigation }) {
                                         setTierData(await getDatas(server.ip + '/friend/tierData?game=' + gameData))
                                         console.log("게임 티어 데이터를 가지고 온다: ")
                                         console.log(tierData)
+                                        tierData.forEach(function (e) {
+                                            arr.push({ label: e.tier, value: e.tier })
+                                        })
+                                        console.log(arr)
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>확인</Text>
                                     </TouchableOpacity>
@@ -317,7 +321,7 @@ function myGame({ navigation }) {
                             </View>
                             <View style={{width:'100%',height:50, marginBottom:20}}>
                                 <DropDownPicker
-                                    items={tierData}
+                                    items={arr}
                                     style={{ alignItems: 'center', borderWidth: 2, borderColor: '#A5A5A5'}}
                                     dropDownStyle={{ marginTop: 15, borderWidth: 2, borderColor:'#A5A5A5', paddingLeft:'10%'}}
                                     containerStyle={{ height: 40 }}
@@ -339,9 +343,12 @@ function myGame({ navigation }) {
                                 </View>
                                 <View style={{ height: '70%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                                 <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
-                                    <TouchableOpacity onPress={() => {
+                                    <TouchableOpacity onPress={async() => {
                                         setgameListModalVisible(arr_gameList)
-                                        postGame("LOL","IRON","dlwlgns")
+                                        console.log(gameData)
+                                        console.log(tierIDData.value)
+                                        console.log(gameIDData)
+                                        postGame(gameData,tierIDData.value,gameIDData)
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>완료</Text>
                                     </TouchableOpacity>
