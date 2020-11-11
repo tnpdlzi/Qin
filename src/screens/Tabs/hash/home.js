@@ -30,6 +30,7 @@ getTopRank();
 
 function HashHome({ navigation}) {
 
+
     const [search_hash, setSearch_Hash] = useState([]);   //검색할 HashTag 목록들
     const [newText, setNewText] = useState(""); //유저의 input을 담기위한 Hook
     const [resData, setResData] = useState([]); //search_hash 를 이용한 axios통신

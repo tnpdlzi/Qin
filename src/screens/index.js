@@ -35,7 +35,7 @@ function MyScreens() {
     return (// 탭 네비게이터로 안에 있는 4개의 아이콘에 대한 옵션 설정. 그 아래로는 각각의 아이콘에 대해 누르면 이동할 스크린, 그리고 아이콘에 대한 이미지 설정
         <Stack.Navigator>
             <Stack.Screen
-                name="Home"
+                name="LoginHome"
                 component={LoginHome}
                 options={{
                     headerShown: false,
