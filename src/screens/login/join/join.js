@@ -33,8 +33,12 @@ function join({ navigation, route }) {
         userID: userID,
     })
         .then(function(response){
-            setrandomNumber(toString(response.data));
-            console.log(typeof (toString(response.data)));
+            setrandomNumber(JSON.stringify(response.data));
+            console.log("toString(response.data");
+
+            console.log(JSON.stringify(response.data));
+           
+
             {setModalVisible6(!modalVisible6);}
         })
         .catch(function(error){
@@ -186,8 +190,12 @@ function join({ navigation, route }) {
         }
     }
     function checkNumber(){
-        if(toString(userNumber)==randomNumber){
+        if(userNumber == randomNumber){
             setfind(1);
+            console.log(userNumber)
+            console.log(randomNumber)
+            console.log(find)
+
             setModalVisible8(!modalVisible8)
             setModalVisible6(!modalVisible6)
         }
@@ -290,7 +298,17 @@ function join({ navigation, route }) {
             if(check2 == 1){
                 if(pw == require('../../../image/pw_checked.png')){
                     if(textF == require('../../../image/phone_y.png')){
-                        email()
+                        if(questionSelect == "질 문  선 택"){
+                            {setModalVisible3(!modalVisible3);}
+                        }
+                        else{
+                            if(question == ""){
+                                {setModalVisible3(!modalVisible3);}
+                            }
+                            else{
+                                email()
+                            }
+                        }
                     }
                     else{
                         console.log("4번지점")
@@ -373,7 +391,7 @@ function join({ navigation, route }) {
                     <View style={{paddingLeft: '5%'}}>
                         <TextInput maxLength={20}
                                    style={{fontSize: 13, color: '#A5A5A5', }}
-                                   placeholder="닉네임 (최대 6자)                      "
+                                   placeholder="닉네임 (최대 6자)                   "
                                    onChangeText = {(text) => setNewTextA(text)}
                         />
                     </View>
@@ -493,7 +511,7 @@ function join({ navigation, route }) {
                                 backgroundColor: '#ffffff',
                                 width: '100%',
                                 alignItems: 'center',
-                                paddingHorizontal: 50,
+                                justifyContent: 'center'
                             }}>
                                 <Image
                                     style={{
@@ -554,7 +572,7 @@ function join({ navigation, route }) {
                                 </View>
                                 <View>
                                     <TextInput maxLength = {14}
-                                               style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 15,   borderBottomColor: '#d6d9dc',
+                                               style={{fontSize: 10, color: '#A5A5A5', paddingLeft: 15,   borderBottomColor: '#d6d9dc',
                                                    borderBottomStyle: 'solid',
                                                    borderBottomWidth: 1,}}
                                                placeholder="해당 이메일로 발송된 인증 숫자를 입력해주세요."
@@ -1026,7 +1044,7 @@ function join({ navigation, route }) {
                         <View style={{paddingLeft: '7%',}}>
                             <TextInput maxLength={25}
                                 style={{fontSize: 11, color: '#A5A5A5', maxHeight:40,}}
-                                placeholder="이메일 (아이디)                                  "
+                                placeholder="이메일 (아이디)                            "
                                 onChangeText = {(text) => setNewTextB(text)}
                             />
                         </View>
@@ -1283,14 +1301,14 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     modalView1: {
-        width: 400,
+        width: 380,
         height: 300,
         margin: 22,
         flexDirection: 'column',
         justifyContent: "space-around",
         backgroundColor: "white",
         borderRadius: 20,
-        padding: 35,
+        padding: 10,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
