@@ -30,16 +30,13 @@ function MemoryHome({ navigation }) {
 
     useEffect(() => {
         const backAction = () => {
-            return true;
+            if (navigation.isFocused()) {
+                return true;
+            }
         };
-
-        const backHandler = BackHandler.addEventListener(
-            "hardwareBackPress",
-            backAction
-        );
-
+        const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
         return () => backHandler.remove();
-    }, []);
+    }, [])
 
     const [myModalVisible, setMyModalVisible] = useState(false);
     const [modalVisible, setModalVisible] = useState([]);
@@ -72,6 +69,8 @@ function MemoryHome({ navigation }) {
                         setMyModalVisible(!myModalVisible);
                         setMyProfileGame(await getDatas(server.ip + '/friend/profileGame?uID=1'));
                         setMyProfileGenre(await getDatas(server.ip + '/friend/profileGenre?uID=1'));
+                        await AsyncStorage.setItem('good', mData.good)
+                        await AsyncStorage.setItem('bad', mData.bad)
                     }}>
                         <View style={styles.myProfile}>
                             <View style={{width:'40%', height:'100%', flexDirection:'row', alignItems:'center', justifyContent:'flex-start'}}>

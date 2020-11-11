@@ -33,7 +33,7 @@ export default function CategoryScreen({ navigation }) {
              이름은 Home이고 컴퍼넌트로는 위에서 import 한 걸 보면 아는데 home.js가 CategoryHome이라는 이름으로 import되어 여기서 사용됨. 그 아래 옵션은 상단 바에 대한 것.
              왼쪽의 드로워를 넣어 누르면 openDrawer로 드로워를 나타나게 해 줌, 그 외에는 왼쪽의 이미지, 가운데 이미지, 오른쪽 이미지도 설정해 준 것*/}
             <Stack.Screen
-                name="Home"
+                name="CategoryHome"
                 component={CategoryHome}
                 options={{
                     headerLeft: () => <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -57,7 +57,7 @@ export default function CategoryScreen({ navigation }) {
                 name="tiersLOL"
                 component={tiersLOL}
                 options={{
-                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('CategoryHome')}>
                         <Image
                                 source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
@@ -77,7 +77,7 @@ export default function CategoryScreen({ navigation }) {
                 name="tiersOW"
                 component={tiersOW}
                 options={{
-                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('CategoryHome')}>
                         <Image
                                 source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
@@ -97,7 +97,7 @@ export default function CategoryScreen({ navigation }) {
                 name="tiersBG"
                 component={tiersBG}
                 options={{
-                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('CategoryHome')}>
                         <Image
                                 source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
@@ -117,7 +117,7 @@ export default function CategoryScreen({ navigation }) {
                 name="tiersRS"
                 component={tiersRS}
                 options={{
-                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('CategoryHome')}>
                         <Image
                                 source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
@@ -377,12 +377,12 @@ export default function CategoryScreen({ navigation }) {
                     ,
                 }}
             />
-            
+
             <Stack.Screen
                 name="teamComplete"
                 component={teamComplete}
                 options={{
-                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('roomsLOL')}>
                         <Image
                                 source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
