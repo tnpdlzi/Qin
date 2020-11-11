@@ -166,59 +166,67 @@ function find_pw_new({ navigation, route }) {
                 </View>
             </View>
 
-                <View>
-                    <Modal
-                        animationIn={"slideInUp"} //default 'slideInUp'
-                        animationOut={'slideOutDown'} //default 'slideOutDown'
-                        isVisible={modalVisible1}
-                        transparent={true} //default 'true'
-                        backdropColor={'black'} //default 'black'
-                        backdropOpacity={0.5} //default 0.7
-                        onBackButtonPress={() => { setModalVisible1(!modalVisible1); }}
 
-                    >
-                        <View style={styles.centeredView}>
-                            <View style={styles.modalView}
-                                  onBackDropPress={() => { setModalVisible1(!modalVisible1); }}>
-
-                                <View style={{
-                                    flexDirection: 'row',
-                                    backgroundColor: '#ffffff',
-                                    width: '100%',
-                                    alignItems: 'center',
-                                    justifyContent: "space-around",
-                                    paddingHorizontal: 50,
-                                }}>
-                                    <Image
-                                        style={{
-                                            height: 70,
-                                            width: 70,
-                                            resizeMode: 'center',
-                                        }}
-                                        source={require('../../../image/name_y.png')}
-                                    />
-                                    <Text style={{fontSize: 13, color: '#000000',paddingRight: 20,}}>중복 확인</Text>
-                                </View>
-
-                                <Text style={{fontSize: 12, color: '#5f5e5e',borderBottomColor: '#d6d9dc',
-                                    borderBottomStyle: 'solid',
-                                    borderBottomWidth: 1,paddingBottom: 20, paddingRight: 40, paddingLeft: 40, paddingTop: 20}}>비밀번호가 불일치합니다.</Text>
-
-
-                                <TouchableHighlight
-                                    style={{ ...styles.openButton,}}
-                                    onPress={() => {
-                                        setModalVisible1(!modalVisible1);
-                                    }}
-                                >
-                                    <Text style={{fontSize: 14, color: '#000000',paddingTop: 25,}}>확인</Text>
-                                </TouchableHighlight>
-                            </View>
-                        </View>
-                    </Modal>
-                </View>
 
             {/*비밀번호 확인*/}
+
+
+            <View>
+            <Modal
+                animationIn={"slideInUp"} //default 'slideInUp'
+                animationOut={'slideOutDown'} //default 'slideOutDown'
+                isVisible={modalVisible1}
+                transparent={true} //default 'true'
+                backdropColor={'black'} //default 'black'
+                backdropOpacity={0.5} //default 0.7
+                onBackButtonPress={() => { setModalVisible1(!modalVisible1); }}
+
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}
+                          onBackDropPress={() => { setModalVisible1(!modalVisible1); }}>
+
+                        <View style={{
+                            flexDirection: 'row',
+                            backgroundColor: '#ffffff',
+                            width: '100%',
+                            alignItems: 'center',
+                            justifyContent: "space-around",
+                            paddingHorizontal: 50,
+                        }}>
+                            <Image
+                                style={{
+                                    height: 70,
+                                    width: 70,
+                                    resizeMode: 'center',
+                                }}
+                                source={require('../../../image/name_g.png')}
+                            />
+                            <Text style={{fontSize: 13, color: '#000000',paddingRight: 20,}}>중복 확인</Text>
+                        </View>
+
+                        <Text style={{fontSize: 12, color: '#5f5e5e',borderBottomColor: '#d6d9dc',
+                            borderBottomStyle: 'solid',
+                            borderBottomWidth: 1,paddingBottom: 20, paddingRight: 50, paddingLeft: 50, paddingTop: 20,justifyContent: "center",
+                            alignItems: "center",}}>비밀번호가 불일치합니다.</Text>
+
+
+                        <TouchableHighlight
+                            style={{ ...styles.openButton,}}
+                            onPress={() => {
+                                setModalVisible1(!modalVisible1);
+                            }}
+                        >
+                            <Text style={{fontSize: 14, color: '#000000',paddingTop: 25,}}>확인</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
+            </Modal>
+            </View>
+
+
+
+
             <View style={{
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
@@ -293,6 +301,31 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         paddingLeft: '5%',
         paddingRight: '5%',
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 0,
+    },
+    modalView: {
+        width: 300,
+        height: 200,
+        margin: 22,
+        flexDirection: 'column',
+        justifyContent: "space-around",
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
     },
 });
 

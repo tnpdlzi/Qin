@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import DrawerScreen from "./screens/Tabs/sidebar/home";
@@ -12,6 +12,8 @@ import MySide from './screens/Tabs/sidebar/index';
 
 // 드로워를 쓰겠다고 선언. 리엑트 네비게이션에 들어있는 함수다!
 const Drawer = createDrawerNavigator();
+
+
 
 // 드로워에 대한 선언
 export default function MyDrawer() {

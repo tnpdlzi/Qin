@@ -11,21 +11,15 @@ import {
     FlatList, onContentSizeChange, ScrollView,
 } from 'react-native';
 import Styles from '../../../styles';
+import LoginHome from '../home';
 import join_final from './join_final';
 import Modal from 'react-native-modal';
 import axios from 'axios';
 import server from '../../../../server.json'
 
-//import RNPickerSelect from 'react-native-picker-select';
-// import {Dropdown} from 'react-native-material-dropdown';
-
-// import DropDownPicker from 'react-native-dropdown-picker';
-// import Icon from 'react-native-vector-icons/Feather';
-
-
-//const qs = require('qs');
 // 10월21일부
 function join({ navigation, route }) {
+
 
     let [randomNumber, setrandomNumber] = useState("");
 
@@ -37,7 +31,7 @@ function join({ navigation, route }) {
             console.log("toString(response.data");
 
             console.log(JSON.stringify(response.data));
-           
+
 
             {setModalVisible6(!modalVisible6);}
         })

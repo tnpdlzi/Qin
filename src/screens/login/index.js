@@ -21,7 +21,7 @@ export default function LoginScreen({ navigation }) {
         <Stack.Navigator>
 
             <Stack.Screen
-                name="LoginHome"
+                name="Loginhome"
                 component={LoginHome}
                 options={{
                 headerShown: false,
@@ -33,7 +33,7 @@ export default function LoginScreen({ navigation }) {
             <Stack.Screen
                 name="join"
                 component={join}
-                options={{ headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('LoginHome')}>
+                options={{ headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Loginhome')}>
                         <Image
                             source={require('../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                         />
@@ -57,11 +57,12 @@ export default function LoginScreen({ navigation }) {
             <Stack.Screen
                 name="join_final"
                 component={join_final}
-                options={{ headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate(join)}>
-                        <Image
-                            source={require('../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
-                        />
-                    </TouchableOpacity>,
+                options={{ headerLeft: () => <View style={{ alignItems: "center", flex:1 }}>
+                        <Text>
+
+                        </Text>
+                    </View>
+                    ,
                     headerTitle: () =>
                         <View style={{ alignItems: "center", flex:1 }}>
                             <Text>
@@ -80,7 +81,7 @@ export default function LoginScreen({ navigation }) {
             <Stack.Screen
                 name="find_id"
                 component={find_id}
-                options={{ headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('LoginHome')}>
+                options={{ headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Loginhome')}>
                         <Image
                             source={require('../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                         />
@@ -126,7 +127,7 @@ export default function LoginScreen({ navigation }) {
             <Stack.Screen
                 name="find_pw"
                 component={find_pw}
-                options={{ headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('LoginHome')}>
+                options={{ headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Loginhome')}>
                         <Image
                             source={require('../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                         />

@@ -1,5 +1,5 @@
-import {View, Text, Button, TouchableOpacity, Image, StyleSheet, TextInput} from 'react-native';
-import React, { Component } from 'react';
+import {View, Text, Button, TouchableOpacity, Image, StyleSheet, TextInput, BackHandler} from 'react-native';
+import React, {Component, useEffect} from 'react';
 import LoginHome from '../home';
 import join from './join';
 import axios from 'axios';
@@ -8,8 +8,18 @@ import axios from 'axios';
 // 10월21일부
 function join_final({ navigation, route }) {
 
+    useEffect(() => {
+        const backAction = () => {
+            if (navigation.isFocused()) {
+                return true;
+            }
+        };
+        const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+        return () => backHandler.remove();
+    }, [])
     let userName = route.params.memtitle[0];
     return (
+
 
         <View style={styles.container}>
             <View style={{
@@ -55,7 +65,7 @@ function join_final({ navigation, route }) {
 
             <View>
 
-            <TouchableOpacity onPress={() => navigation.navigate(LoginHome)}>
+            <TouchableOpacity onPress={() => navigation.navigate('Loginhome')}>
                 <Text  style={{fontSize: 15, color: '#f8f6f6', paddingVertical: 5,paddingLeft: 40, paddingRight: 40, backgroundColor: '#0b4072',borderStyle: 'solid',paddingTop: 10, paddingBottom: 10,
                     borderRadius: 30,
                     borderColor: '#0b4072',
