@@ -98,7 +98,7 @@ function find_pw_new({ navigation, route }) {
             <View style={{paddingTop: 50,}}>
             </View>
             {/*사진*/}
-            <View>
+            <View style={{alignItems: 'center',}}>
                 <Image
                     style={{
                         height: 70,
@@ -111,9 +111,9 @@ function find_pw_new({ navigation, route }) {
 
 
             {/*글*/}
-            <View style={{paddingTop: 40,}}>
+            <View style={{paddingTop: 40, }}>
             </View>
-            <View>
+            <View style={{ alignItems: 'center',}}>
                 <Text>
                     새로운 비밀번호를 등록해주세요.
                 </Text>
@@ -121,14 +121,13 @@ function find_pw_new({ navigation, route }) {
             <ScrollView>
 
             {/*비밀번호*/}
-            <View style={{paddingTop: 60,}}>
+            <View style={{paddingTop: 60, }}>
             </View>
             <View style={{
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
-                alignItems: 'center',
+
             }}>
                 <View>
                     <Image
@@ -142,7 +141,7 @@ function find_pw_new({ navigation, route }) {
                 </View>
                 <View>
                     <TextInput  maxLength = {14}
-                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 15, paddingRight: 100,  borderBottomColor: '#d6d9dc',
+                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 15, paddingRight: '25%',  borderBottomColor: '#d6d9dc',
                             borderBottomStyle: 'solid',
                             borderBottomWidth: 1,}}
                         placeholder="  비밀번호 (6-14자)"secureTextEntry={true}
@@ -156,8 +155,7 @@ function find_pw_new({ navigation, route }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
-                alignItems: 'center',
+
             }}>
 
                 <View>
@@ -225,8 +223,7 @@ function find_pw_new({ navigation, route }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
-                alignItems: 'center',
+
             }}>
                 <View>
                     <Image
@@ -240,7 +237,7 @@ function find_pw_new({ navigation, route }) {
                 </View>
                 <View>
                     <TextInput  maxLength = {14}
-                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 15, paddingRight: 80,  borderBottomColor: '#d6d9dc',
+                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 15, paddingRight: '20%',  borderBottomColor: '#d6d9dc',
                             borderBottomStyle: 'solid',
                             borderBottomWidth: 1,}}
                         placeholder="   비밀번호  확인"secureTextEntry={true}
@@ -268,7 +265,6 @@ function find_pw_new({ navigation, route }) {
             {/*비밀번호 찾기*/}
             <View style={{
                 paddingTop: 20,
-                paddingHorizontal: 30,
                 alignItems: 'center',
             }}>
                 <TouchableOpacity  onPress={() => updatePassWord()}>
@@ -294,8 +290,9 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        alignItems: 'center',
         backgroundColor: '#ffffff',
+        paddingLeft: '5%',
+        paddingRight: '5%',
     },
 });
 

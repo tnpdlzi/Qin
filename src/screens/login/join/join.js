@@ -350,7 +350,6 @@ function join({ navigation, route }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
                 paddingTop: 10,
                 alignItems: 'center',
             }}>
@@ -369,16 +368,16 @@ function join({ navigation, route }) {
                     flexDirection: 'column',
                     backgroundColor: '#ffffff',
                     paddingTop: 10,
-                    alignItems: 'center',
+
                 }}>
-                    <View>
+                    <View style={{paddingLeft: '5%'}}>
                         <TextInput maxLength={20}
                                    style={{fontSize: 13, color: '#A5A5A5', }}
-                                   placeholder="닉네임 (최대 6자)"
+                                   placeholder="닉네임 (최대 6자)                      "
                                    onChangeText = {(text) => setNewTextA(text)}
                         />
                     </View>
-                    <View style={{width: 160, backgroundColor:'white',paddingLeft: 15, paddingRight: 55,  borderBottomColor: '#d6d9dc',
+                    <View style={{width: '88%', backgroundColor:'white',paddingLeft: 15, paddingRight: 55,  borderBottomColor: '#d6d9dc',
                         borderBottomStyle: 'solid',
                         borderBottomWidth: 1,}}>
 
@@ -1004,7 +1003,6 @@ function join({ navigation, route }) {
                     flexDirection: 'row',
                     backgroundColor: '#ffffff',
                     width: '100%',
-                    paddingHorizontal: 30,
                     paddingTop: 10,
                     alignItems: 'center',
                 }}>
@@ -1023,19 +1021,18 @@ function join({ navigation, route }) {
                         flexDirection: 'column',
                         backgroundColor: '#ffffff',
                         paddingTop: 10,
-                        alignItems: 'center',
+
                     }}>
-                        <View>
+                        <View style={{paddingLeft: '7%',}}>
                             <TextInput maxLength={25}
-                                style={{fontSize: 11, color: '#A5A5A5', maxHeight:40}}
-                                placeholder="이메일 (아이디)"
+                                style={{fontSize: 11, color: '#A5A5A5', maxHeight:40,}}
+                                placeholder="이메일 (아이디)                                  "
                                 onChangeText = {(text) => setNewTextB(text)}
                             />
                         </View>
-                        <View style={{width: 160, backgroundColor:'white',paddingLeft: 15, paddingRight: 55,  borderBottomColor: '#d6d9dc',
+                        <View style={{width: '88%', backgroundColor:'white', borderBottomColor: '#d6d9dc',
                             borderBottomStyle: 'solid',
                             borderBottomWidth: 1,}}>
-
                         </View>
                     </View>
 
@@ -1057,7 +1054,6 @@ function join({ navigation, route }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
                 alignItems: 'center',
             }}>
                 <View>
@@ -1072,7 +1068,7 @@ function join({ navigation, route }) {
                 </View>
                 <View>
                     <TextInput maxLength={14}
-                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 15, paddingRight: 100,  borderBottomColor: '#d6d9dc',
+                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 15, paddingRight: '30%',  borderBottomColor: '#d6d9dc',
                             borderBottomStyle: 'solid',
                             borderBottomWidth: 1,}}
                         placeholder="비밀번호 (6-14자)"secureTextEntry={true}
@@ -1086,7 +1082,6 @@ function join({ navigation, route }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
                 alignItems: 'center',
             }}>
 
@@ -1103,7 +1098,6 @@ function join({ navigation, route }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
                 alignItems: 'center',
             }}>
                 <View>
@@ -1118,7 +1112,7 @@ function join({ navigation, route }) {
                 </View>
                 <View>
                     <TextInput maxLength={14}
-                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 15, paddingRight: 40,  borderBottomColor: '#d6d9dc',
+                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 15, paddingRight: '15%',  borderBottomColor: '#d6d9dc',
                             borderBottomStyle: 'solid',
                             borderBottomWidth: 1,}}
                         placeholder="비밀번호 확인       "secureTextEntry={true}
@@ -1145,9 +1139,9 @@ function join({ navigation, route }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
+
                 alignItems: 'center',
-                paddingLeft: 50,
+                paddingLeft: '5%',
             }}>
                 <View>
                     <Image
@@ -1183,7 +1177,6 @@ function join({ navigation, route }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
                 alignItems: 'center',
             }}>
                 <View>
@@ -1198,7 +1191,7 @@ function join({ navigation, route }) {
                 </View>
                 <View>
                     <TextInput maxLength={14}
-                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 15, paddingRight: 80,  borderBottomColor: '#d6d9dc',
+                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 15, paddingRight: '30%',  borderBottomColor: '#d6d9dc',
                             borderBottomStyle: 'solid',
                             borderBottomWidth: 1,}}
                         placeholder="질문 답변                       "
@@ -1211,7 +1204,7 @@ function join({ navigation, route }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
+
                 alignItems: 'center',
             }}>
                 <View>
@@ -1226,7 +1219,7 @@ function join({ navigation, route }) {
                 </View>
                 <View>
                     <TextInput maxLength={11}
-                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 7, paddingRight: 7,  borderBottomColor: '#d6d9dc',
+                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: '2%', paddingRight: '2%',  borderBottomColor: '#d6d9dc',
                             borderBottomStyle: 'solid',
                             borderBottomWidth: 1,}}
                         placeholder="010 - 0000 - 0000 ( - 는 빼고 입력해주세요)"
@@ -1237,7 +1230,6 @@ function join({ navigation, route }) {
             {/*가입하기*/}
             <View style={{
                 paddingTop: 20,
-                paddingHorizontal: 30,
                 alignItems: 'center',
             }}>
 
@@ -1261,8 +1253,9 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        alignItems: 'center',
         backgroundColor: '#ffffff',
+        paddingRight: '5%',
+        paddingLeft: '5%',
     },
     centeredView: {
         flex: 1,

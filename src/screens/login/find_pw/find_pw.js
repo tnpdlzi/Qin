@@ -181,7 +181,6 @@ function find_pw({ navigation }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
                 paddingTop: 10,
                 alignItems: 'center',
             }}>
@@ -211,7 +210,6 @@ function find_pw({ navigation }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
                 alignItems: 'center',
             }}>
                 <View>
@@ -243,7 +241,6 @@ function find_pw({ navigation }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
                 alignItems: 'center',
             }}>
                 <View>
@@ -592,7 +589,7 @@ function find_pw({ navigation }) {
             {/*가입하기*/}
             <View style={{
                 paddingTop: 20,
-                paddingHorizontal: 30,
+
                 alignItems: 'center',
             }}>
                 <TouchableOpacity onPress={() => searchName()}>
@@ -617,7 +614,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        paddingLeft: '5%',
+        paddingRight: '5%',
         backgroundColor: '#ffffff',
         width: '100%',
     },

@@ -93,7 +93,8 @@ function LoginHome({ navigation }) {
                 backgroundColor: '#ffffff',
                 width: '100%',
                 paddingHorizontal: 35,
-                paddingTop: 10
+                paddingTop: 10,
+                justifyContent: 'space-between',
             }}>
                 {/*이메일*/}
 
@@ -164,7 +165,7 @@ function LoginHome({ navigation }) {
                 width: '100%',
                 alignItems: 'center',
                 paddingHorizontal: 35,
-
+                justifyContent: 'space-between',
             }}>
                 <TouchableOpacity onPress={() => setLogIn(!logIn)}>
                     <Image
@@ -176,7 +177,7 @@ function LoginHome({ navigation }) {
                         source={textC}
                     />
                 </TouchableOpacity>
-                <Text  style={{fontSize: 10, color: '#504d4d', paddingVertical: 5,paddingLeft: 10, paddingRight: 60,}}>
+                <Text  style={{fontSize: 10, color: '#504d4d', paddingRight: 20,}}>
                     로그인 상태 유지
                 </Text>
                 <TouchableOpacity onPress={async() => {
@@ -240,7 +241,7 @@ function LoginHome({ navigation }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 35,
+
                 borderTopColor: '#d6d9dc',
                 borderTopStyle: 'solid',
                 borderTopWidth: 2,
@@ -254,12 +255,12 @@ function LoginHome({ navigation }) {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate(find_pw)}>
-                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: '5%',}}>
+                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: '1%',}}>
                         비밀번호 찾기
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate(join)}>
-                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: '40%'}}>
+                    <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: '15%'}}>
                         회원가입
                     </Text>
                 </TouchableOpacity>
@@ -277,6 +278,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#ffffff',
+        paddingRight: '5%',
+        paddingLeft: '5%',
     },
 });
 

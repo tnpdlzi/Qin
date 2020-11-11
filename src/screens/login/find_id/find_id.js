@@ -123,7 +123,7 @@ function find_id({ navigation }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
+
                 paddingTop: 10,
                 alignItems: 'center',
             }}>
@@ -139,7 +139,7 @@ function find_id({ navigation }) {
                 </View>
                 <View>
                     <TextInput maxLength = {6}
-                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 15, paddingRight: 45,  borderBottomColor: '#d6d9dc',
+                        style={{fontSize: 13, color: '#A5A5A5', paddingLeft: 15, paddingRight: '38%',  borderBottomColor: '#d6d9dc',
                             borderBottomStyle: 'solid',
                             borderBottomWidth: 1,}}
                         placeholder="닉네임 (최대 6자)"
@@ -265,7 +265,6 @@ function find_id({ navigation }) {
                 flexDirection: 'row',
                 backgroundColor: '#ffffff',
                 width: '100%',
-                paddingHorizontal: 30,
                 alignItems: 'center',
             }}>
                 <View>
@@ -294,7 +293,7 @@ function find_id({ navigation }) {
             {/*가입하기*/}
             <View style={{
                 paddingTop: 20,
-                paddingHorizontal: 30,
+
                 alignItems: 'center',
             }}>
                 <TouchableOpacity onPress={() => searchName()}>
@@ -317,8 +316,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'space-around',
-        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingLeft: '5%',
+        paddingRight: '5%',
         backgroundColor: '#ffffff',
     },
     centeredView: {
