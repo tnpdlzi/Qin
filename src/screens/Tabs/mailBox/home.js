@@ -39,7 +39,6 @@ function MailHome({ navigation, route }) {
         uID = uID.replace('\"', "").replace('\"', '');
         console.log(uID)
     }
-    console.log('uID............' + uID)
     // 새로고침 onRefresh로 구현. onRefresh를 호출하면 setDatas, setMyRoom으로 hook 다시 불러옴. 그에 따라 화면도 다시 render
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = React.useCallback(async() => {

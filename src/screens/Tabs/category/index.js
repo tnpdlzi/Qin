@@ -382,7 +382,7 @@ export default function CategoryScreen({ navigation }) {
                 name="teamComplete"
                 component={teamComplete}
                 options={{
-                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                    headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('roomsLOL')}>
                         <Image
                                 source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
                             />
