@@ -47,7 +47,7 @@ export default class chatRoom extends Component {
             //console.log(data);
         })
         this.socket.on('return Info', (data) => {
-            this.setState({ chatInfo: data }); //채팅방 정보 저장
+            data.map(element => this.setState({ chatInfo: [element] })); //채팅방 정보 저장
             ruID = this.state.chatInfo[0].ruID;
             //console.log(data);
         })
@@ -223,7 +223,7 @@ export default class chatRoom extends Component {
                     backdropColor={'black'}
                 >
                     <View style={styles.centerView}>
-                        <View style={this.state.chatMember.length == 2 ? styles.twoModalView 
+                        <View style={this.state.chatMember.length <= 2 ? styles.twoModalView 
                             :
                             this.state.chatMember.length == 3 ? styles.threeModalView : styles.longModalView}>
                             <View style={{ flexDirection: 'row', alignItems: "center", height: 50 }}>
@@ -339,7 +339,7 @@ export default class chatRoom extends Component {
                     <View style={{ alignItems: "center", justifyContent: "center", marginTop: 10 }}>
                         <View style={styles.inputText}>
                             <TextInput
-                                style={{ height: 50, width: '80%', fontSize: 20 }}
+                                style={{ height: 50, width: '80%', fontSize: 20}}
                                 value={this.state.chatMessage}
                                 onChangeText={chatMessage => {
                                     this.setState({ chatMessage });

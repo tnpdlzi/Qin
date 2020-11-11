@@ -15,8 +15,10 @@ export default class ChatHome extends Component {
         this.state = {
             chatList: [], //채팅방 목록
             modalVisible: false,
+            bannedModalVisible: false, //입장 불가 모달
             chatID: 0, //나갈 채팅방
             ruID: 0, //채팅방 방장
+            banCheck: []
         }
 
         //채팅리스트 불러오기
@@ -25,7 +27,7 @@ export default class ChatHome extends Component {
 
     componentDidMount() {
         this.socket.on('return chatList', (data) => {
-            this.setState({ chatList: data });
+            this.setState({ chatList: data }); //채팅방 목록 불러오기
             //console.log(data);
         })
     }
@@ -54,12 +56,12 @@ export default class ChatHome extends Component {
 
             return (
                 <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('chatRoom', { roomTitle: item.chatName, roomID: item.chatID })}
-                    onLongPress={() => {
-                        this.setState({ modalVisible: true });
-                        this.setState({ chatID: item.chatID });
-                        this.setState({ ruID: item.ruID });
-                    }}
+                onPress={() => this.props.navigation.navigate('chatRoom', { roomTitle: item.chatName, roomID: item.chatID })}
+                onLongPress={() => {
+                    this.setState({ modalVisible: true });
+                    this.setState({ chatID: item.chatID });
+                    this.setState({ ruID: item.ruID });
+                }}
                 >
                     <View style={styles.item}>
                         <View style={{ width: 60, justifyContent: 'center' }}>
@@ -129,7 +131,7 @@ export default class ChatHome extends Component {
                                             onPress={() => {
                                                 this.exitRoom(this.state.chatID);
                                                 this.setState({ modalVisible: false });
-                                                this.socket.emit('exit Room', this.state.chatID, 1); //userID =1
+                                                this.socket.emit('exit Room', this.state.chatID, userID); //userID =1
                                             }}
                                         >
                                             <View style={{ width: 150, alignItems: 'center', justifyContent: 'center', height: 50, marginTop: 5 }}>
