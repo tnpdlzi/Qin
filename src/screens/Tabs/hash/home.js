@@ -4,25 +4,32 @@ import { Dimensions,ScrollView, StyleSheet, View, Text, TextInput, Image, Toucha
 import axios from 'axios';
 import Modal from 'react-native-modal';
 import server from '../../../../server.json';
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 const winHeight = Dimensions.get('window').height;
 const winWidth  = Dimensions.get('window').width;
 const IP = server.ip;
-
+let uID;
 
 const test_uID = 2; //임시 uID 이후 로그인 유지 방법을 통해서 다른 변수로 대체될 예정
 let hash = [];
 
 let hash_rank = [];
 
+let getUID = async () => {
+    uID = await AsyncStorage.getItem('uID');
+    uID = uID.replace(/[^0-9]/g, "");
+    console.log("hash uID : " + uID);
+}
+getUID();
+
 let getTopRank = async () => await axios.get(IP + '/hash/topRank')
     .then(function(response){
-        console.log(response.data);
+        console.log("hash : " + response.data);
         hash_rank = response.data;
     })
     .catch(function(error){
-        console.log("에러 :" + error);
+        console.log("hash 에러 :" + error);
     });
 getTopRank();
 
@@ -38,9 +45,8 @@ function HashHome({ navigation}) {
     const [modalData, setModalData] = useState("");
     const [modal2Visible, setModal2Visible] = useState(false);
     const [modal3Visible, setModal3Visible] = useState(false);
+    const [modal4Visible, setModal4Visible] = useState(false);
 
-
-    //const topRank;
     //검색할 Hash Tag목록 추가
     function addHash(){
         if(!search_hash.includes(newText)){
@@ -52,7 +58,7 @@ function HashHome({ navigation}) {
     }
     //chatRoomListModal에서 채팅 참여하기 버튼 클릭 시 chatRoomEnter하기 위한 함수
     const chatRoomEnter = async () => await axios.post(IP + '/hash/chatRoomEnter',{
-        "uID" : test_uID,
+        "uID" : uID,
         "chatID" : modalData.chatID //유저가 선택한 chatRoom에 대한 정보를 담은 Modal 변수
     })
     .then(function(response){  // 유저의 채팅창 조인 후 어떻게 해야할지 논의 필요!!!!!
@@ -61,7 +67,7 @@ function HashHome({ navigation}) {
         }else if(response.data == "banded"){
             setModal3Visible(!modal3Visible);
         }else if(response.data == "success"){
-            console.log("이후 채팅방으로 이동할 예정");
+            setModal4Visible(!modal4Visible);
         }
     })
     .catch(function(error){
@@ -70,7 +76,7 @@ function HashHome({ navigation}) {
 
     //Hash Tag목록을 기반으로 목록의 Hash Tag를 모두 포함하는 ChatRoom의 Data를 받아온다.
     let getDatas = async (search_hash) => await axios.post(IP + '/hash/hashSearch', {
-        "uID": "1",
+        "uID": uID,
         "hashList" : search_hash
     })
     .then(function(response){
@@ -98,8 +104,6 @@ function HashHome({ navigation}) {
 
     },[search_hash]);
 
-
-
     //삭제 연산 구현
     const deleteHash = function(data) {
         search_hash.forEach(function(element, index){
@@ -109,9 +113,10 @@ function HashHome({ navigation}) {
             }
         })
     };
+
     React.useEffect(()=>{
         const unfetched = navigation.addListener('focus', async()=>{
-            console.log(hash);
+            console.log("hashList : " + hash);
             if(hash.length > 0){
                 setResData(await getDatas(hash));
             }
@@ -127,7 +132,7 @@ function HashHome({ navigation}) {
         //부모 컨테이너
         <View style = {styles.container}>
 
-            {console.log("부모 컨테이너")}
+            {console.log("hash uID : " + uID)}
             {/* CharRoomList에서 이미지 클릭시 뜨는 모달 */}
             <Modal
                 transparent = {true}
@@ -229,7 +234,31 @@ function HashHome({ navigation}) {
                     </View>
                 </View>
             </Modal>
+            {/* 채팅방에 입장 완료*/}
+            <Modal
+            transparent = {true}
+            isVisible = {modal4Visible}
+            backdropColor = {'black'}
+            backdropOpacity = {0.5}
+            >
+                <View style = {{height: 150,backgroundColor:"white",borderRadius:20}}>
+                    <View style = {{flexDirection:"row",alignContent:"center"}}>
+                        <TouchableOpacity style={{paddingTop: 1, paddingLeft:9,flex:0.5}}
+                            onPress = {() => setModal4Visible(!modal4Visible)}>
+                            <Image
+                                style={{height: 60, width: 30, resizeMode: 'cover',justifyContent:"center"}}
+                                source={require('../../../image/cancel.png')}/>
+                        </TouchableOpacity>
+                        <Image
+                            style={{height: 70, width: 60, resizeMode: 'cover',alignSelf:"flex-end"}}
+                            source={require('../../../image/complain.png')}/>
+                    </View>
 
+                    <View style = {{backgroundColor: "white",borderRadius:20, justifyContent:"center",alignItems:"center"}}>
+                        <Text>채팅방에 입장됬습니다. 채팅목록에서 확인하세요.</Text>
+                    </View>
+                </View>
+            </Modal>
             {/* 검색창 구현*/}
             <View style={styles.search_bar_view}>
                     <Text style ={{fontSize: 20}}>#</Text>
@@ -313,7 +342,7 @@ function HashHome({ navigation}) {
                             <View>
                                 <TouchableOpacity style = {styles.chatRoom} onPress = {()=> setModalVisible(!modalVisible,setModalData(el))}>
                                     <View style = {{width: winHeight * 0.07, alignItems: "center", justifyContent: "center"}}>
-                                        <Image style={styles.chatRoomIcon} source={require('../../../image/my.png')}/>
+                                        <Image style={styles.chatRoomIcon} source={require('../../../image/tag_profile.png')}/>
                                     </View>
                                     <View style = {{flex: 1, flexDirection:"column"}}>
                                         <View style = {{ flex: 1, height: winHeight * 0.04, paddingTop: 7, flexDirection:"row", paddingLeft:10}}>

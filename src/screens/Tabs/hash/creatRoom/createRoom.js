@@ -3,11 +3,17 @@ import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, TextInput} 
 import axios from "axios";
 import Modal from 'react-native-modal';
 import server from '../../../../../server.json';
+import AsyncStorage from '@react-native-community/async-storage';
+
 const IP = server.ip;
+let uID;
 
-const test_uID = 2;
+let getUID = async () => {
+    uID = await AsyncStorage.getItem('uID');
+    uID = uID.replace(/[^0-9]/g, "");
+}
+getUID();
 
-console.log(IP);
 function createRoom ({navigation}){
     const [chatName, setChatName] = useState("");
     const [chatInfo ,setChatInfo] = useState("");
@@ -42,7 +48,7 @@ function createRoom ({navigation}){
 
     //필수 필드 다 채웠을때 호출될 함수
     const roomCreate = async () => await axios.post(IP + '/hash/roomCreate',{
-        "uID" : test_uID,
+        "uID" : uID,
         "chatName" : chatName,
         "chatInfo" : chatInfo,
         "hashList" : hashList,
@@ -98,8 +104,10 @@ function createRoom ({navigation}){
     }
     
     return (
+        
         //생성하기 버튼 누르고 나서 이벤트를 처리한 결과를 보여주는 모달들
         <View style = {styles.container}>
+            {console.log("create uID : " + uID)}
                 <Modal
                 transparent = {true}
                 isVisible = {modalVisible}
