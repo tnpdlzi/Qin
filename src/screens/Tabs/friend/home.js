@@ -28,38 +28,15 @@ let getDatas = async (url) => await axios.get(url)
 
 function MemoryHome({ navigation }) {
 
-    const backAction = () => {
-        return true;
-    };
-
     useEffect(() => {
-        BackHandler.addEventListener("hardwareBackPress", backAction);
-
-        return () =>
-            BackHandler.removeEventListener("hardwareBackPress", backAction);
-    }, []);
-    // useEffect(() => {
-    //     const backAction = () => {
-    //         return true;
-    //     };
-    //
-    //     const backHandler = BackHandler.addEventListener(
-    //         "hardwareBackPress",
-    //         backAction
-    //     );
-    //
-    //     return () => backHandler.remove();
-    // }, []);
-    //
-    // useEffect(() => {
-    //     const backAction = () => {
-    //         return true;
-    //     };
-    //
-    //     const backHandler = BackHandler.removeEventListener('hardwareBackPress', backAction);
-    //
-    //     return () => backHandler.remove();
-    // }, []);
+        const backAction = () => {
+            if (navigation.isFocused()) {
+                return true;
+            }
+        };
+        const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+        return () => backHandler.remove();
+    }, [])
 
     const [myModalVisible, setMyModalVisible] = useState(false);
     const [modalVisible, setModalVisible] = useState([]);
