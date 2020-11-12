@@ -60,7 +60,7 @@ function DrawerScreen({ navigation }) {
           } else {
             setAvatar({uri: response.uri});
             setTitle('Updating...'); // image start to upload on server so on header set text is 'Updating..'
-            fetch(server.ip + '/api/upload', {
+            fetch(server.ip + '/image/upload', {
               method: 'POST',
               headers: new Headers({
                 'Content-Type': 'application/x-www-form-urlencoded', //Specifying the Content-Type
