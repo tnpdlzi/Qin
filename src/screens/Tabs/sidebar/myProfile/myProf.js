@@ -5,8 +5,9 @@ import Modal from 'react-native-modal';
 import server from '../../../../../server.json';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+const qs = require('qs');
 
-let uID;
+let userID;
 
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
@@ -22,15 +23,27 @@ let getDatas = async (url) => await axios.get(url)
         console.log('error : ' + error);
     });
 
+let postIntro = async (intro) => await axios({
+    method: 'post',
+    url: server.ip + '/friend/editIntro',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+        uID: userID.replace('\"', '').replace('\"', ''),
+        intro: intro
+    })
+});
+
 function myProf({ navigation }) {
     
     const [myProfile, setMyProfile] = useState([]);
     const [introModalVisible, setIntroModalVisible] = useState(false);
 
+    const [introData, setIntroData] = useState([]);
+
     useEffect(() => {
         const unfetched = navigation.addListener('focus', async () => {
-            uID = await AsyncStorage.getItem('uID')
-            setMyProfile(await getDatas(server.ip + '/friend/myProfile?uID=' + uID))
+            userID = await AsyncStorage.getItem('uID')
+            setMyProfile(await getDatas(server.ip + '/friend/myProfile?uID=' + userID))
         });
 
         return unfetched;
@@ -74,8 +87,10 @@ function myProf({ navigation }) {
             </View>
             <View style={{width:'100%', height:2, backgroundColor:'#E2E2E2'}} />
             <View style={{ width:'100%', height:'10%', borderRadius: 15, marginTop:'10%',backgroundColor:'#FFFFFF', elevation:5,}}>
-                <TouchableOpacity onPress={()=> {
-                    setIntroModalVisible(true);
+                <TouchableOpacity onPress={async()=> {
+                    setIntroModalVisible(true)
+                    userID = await AsyncStorage.getItem('uID')
+                    setIntroData("")
                 }} style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'}}>
                     {myProfile.map((data, index) => {
                         return (
@@ -155,7 +170,9 @@ function myProf({ navigation }) {
                             </View>
                             <View style={{ width: '100%', height: 40, borderBottomWidth: 2, borderBottomColor: '#A5A5A5', marginBottom: 10 }}>
                                 <TextInput style={{ justifyContent: 'center' }}
-                                    placeholder='변경할 자기소개를 작성해주세요.' placeholderTextColor='#A5A5A5' />
+                                    placeholder='변경할 자기소개를 작성해주세요.' placeholderTextColor='#A5A5A5'
+                                    onChangeText={text => { setIntroData(text) }}
+                                     />
                             </View>
                             <View style={{ width: '100%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                             <View style={{ width: '100%', height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
@@ -168,8 +185,10 @@ function myProf({ navigation }) {
                                 </View>
                                 <View style={{ height: '70%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                                 <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
-                                    <TouchableOpacity onPress={() => {
+                                    <TouchableOpacity onPress={async() => {
                                         setIntroModalVisible(false)
+                                        postIntro(introData)
+                                        setMyProfile(await getDatas(server.ip + '/friend/myProfile?uID=' + userID))
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>완료</Text>
                                     </TouchableOpacity>

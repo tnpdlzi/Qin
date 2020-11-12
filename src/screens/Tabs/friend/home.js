@@ -20,7 +20,6 @@ let uID;
 
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
-        console.log(response.data)
         return response.data
     })
     .catch(function (error) {
@@ -65,7 +64,7 @@ function MemoryHome({ navigation }) {
 
     return (
         <ScrollView style={{ backgroundColor: "#F7F7F7", paddingLeft:15, paddingRight:15 }}
-            showsHorizontalScrollIndicator={true}>
+            showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
 
             {myProfile.map((mData, index) => {
                 return (

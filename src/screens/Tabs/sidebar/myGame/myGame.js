@@ -11,7 +11,12 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 const qs = require('qs');
 
-let uID;
+let userID;
+let playGameID;
+let likeGenreID;
+let isEdited;
+let isGame;
+
 let arr = [];
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
@@ -27,54 +32,89 @@ let getDatas = async (url) => await axios.get(url)
         console.log('error : ' + error);
     });
 
-// let postMails = async (roomID, game) => await axios.get(server.ip + '/mail/evalMail?roomID=' + roomID)
-//     .then(async (response) => await axios({
-//         method: 'post',
-//         url: server.ip + '/mail/sendMails',
-//         headers: { 'content-type': 'application/x-www-form-urlencoded' },
-//         data: qs.stringify({
-//             uID: response.data,
-//             game: game
-//         })
-//     }));
-
-let postGame = async (game, tierID, gameID) => await axios({
+let postInsertGame = async (game, tierID, gameID) => await axios({
     method: 'post',
     url: server.ip + '/friend/insertProfileGame',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify({
-        uID:uID,
+        uID: userID.replace('\"', '').replace('\"', ''),
         game: game,
         tierID: tierID,
         gameID: gameID
     })
 });
 
-let postGenre = async (uID, genre, gDegree) => await axios({
+let postInsertGenre = async (genre, gDegree) => await axios({
     method: 'post',
     url: server.ip + '/friend/insertProfileGenre',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify({
-        uID: 1,
+        uID: userID.replace('\"', '').replace('\"', ''),
         genre: genre,
         gDegree: gDegree,
     })
 });
 
+let postEditGame = async (game, tierID, gameID) => await axios({
+    method: 'post',
+    url: server.ip + '/friend/editProfileGame',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+        game: game,
+        tierID: tierID,
+        gameID: gameID,
+        usergameID: playGameID
+    })
+});
+
+let postEditGenre = async (genre, gDegree) => await axios({
+    method: 'post',
+    url: server.ip + '/friend/editProfileGenre',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+        genre: genre,
+        gDegree: gDegree,
+        gLikeID: likeGenreID
+    })
+});
+
+let postDeleteGame = async () => await axios({
+    method: 'post',
+    url: server.ip + '/friend/deleteProfileGame',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+        usergameID: playGameID
+    })
+});
+
+let postDeleteGenre = async () => await axios({
+    method: 'post',
+    url: server.ip + '/friend/deleteProfileGenre',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+        gLikeID: likeGenreID
+    })
+});
 
 function myGame({ navigation }) {
 
     const [gameListModalVisible, setgameListModalVisible] = useState([false, false, false]);
     const [genreModalVisible, setgenreModalVisible] = useState([false,false]);
 
+    const [editModalVisible, setEditModalVisible] = useState(false);
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+
     const [myProfileGame, setMyProfileGame] = useState([]);
     const [myProfileGenre, setMyProfileGenre] = useState([]);
 
     const [tierData, setTierData] = useState([]);
+    const [tierList, setTierList] = useState([]);
 
     const [gameData, setGameData] = useState();
     const [tierIDData, setTierIDData] = useState([]);
     const [gameIDData, setGameIDData] = useState([]);
+
+    const [sliderValue, setSliderValue] = useState(0);
 
     const [genreData, setGenreData] = useState([]);
     const [gDegreeData, setGDegreeData] = useState([]);
@@ -83,17 +123,16 @@ function myGame({ navigation }) {
     let arr_gameList = new Array(gameListModalVisible.length).fill(false);
     let arr_genre = new Array(genreModalVisible.length).fill(false);
 
-    let tierList = [{ value: 'UNRANKED' }, { value: 'IRON' }, { value: 'BRONZE' }, { value: 'SILVER' }, { value: 'GOLD' }, { value: 'PLATINUM' }, { value: 'DIAMOND' }, { value: 'MASTER' }];
-
     let items = [
         { label: 'Item 1', value: 'item1' },
         { label: 'Item 2', value: 'item2', selected: true, disabled: true }];
 
     useEffect(() => {
         const unfetched = navigation.addListener('focus', async () => {
-            uID = await AsyncStorage.getItem('uID');
-            setMyProfileGame(await getDatas(server.ip + '/friend/profileGame?uID=' + uID))
-            setMyProfileGenre(await getDatas(server.ip + '/friend/profileGenre?uID=' + uID))
+            userID = await AsyncStorage.getItem('uID');
+            setMyProfileGame(await getDatas(server.ip + '/friend/profileGame?uID=' + userID))
+            setMyProfileGenre(await getDatas(server.ip + '/friend/profileGenre?uID=' + userID))
+            console.log(tierData)
         });
 
         return unfetched;
@@ -102,16 +141,18 @@ function myGame({ navigation }) {
 
     return (
         <View style={{width:'100%', height:'100%', backgroundColor:'#F7F7F7', paddingLeft:'10%', paddingRight:'10%'}}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.title}>
                     <View style={{flexDirection:'row', alignItems:'center', width:'60%'}}>
                         <Text style={{ fontSize: 20, color: '#FFC81A' }}>{'\u2022   '}</Text>
                         <Text style={{ fontSize: 15, fontWeight: 'bold' }}>플레이 게임 리스트</Text>
                     </View>
                     <View style={{width:'40%', paddingRight:'5%', alignItems:'flex-end', justifyContent:'center'}}>
-                        <TouchableOpacity style={{width:21, height:21}} onPress={()=>{
+                        <TouchableOpacity style={{width:21, height:21}} onPress={async()=>{
                             arr_gameList[0]=true;
                             setgameListModalVisible(arr_gameList);
+                            userID = await AsyncStorage.getItem('uID');
+                            isEdited=0;
                         }}>
                             <Image source={require('../../../../image/game_plus_tight.png')} style={{ width: 20, height: 20 }} />
                         </TouchableOpacity>
@@ -125,7 +166,16 @@ function myGame({ navigation }) {
                     :
                     myProfileGame.map((mData, index) => {
                             return (
-                                <TouchableOpacity style={styles.content}>
+                                <TouchableOpacity style={styles.content} onPress={()=>{
+                                    setEditModalVisible(true)
+                                    playGameID = mData.usergameID
+                                    isGame=1
+                                }} onLongPress={async()=>{
+                                    setDeleteModalVisible(true)
+                                    playGameID = mData.usergameID
+                                    isGame=1
+                                    userID = await AsyncStorage.getItem('uID');
+                                }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <Text style={{ fontSize: 18, color: '#FFC81A' }}>{'\u2022   '}</Text>
                                         <Text style={{ fontSize: 13, fontWeight: 'bold' }}>{mData.game}</Text>
@@ -147,9 +197,11 @@ function myGame({ navigation }) {
                         <Text style={{ fontSize: 15, fontWeight: 'bold' }}>선호하는 장르</Text>
                     </View>
                     <View style={{ width: '40%', paddingRight: '5%', alignItems: 'flex-end', justifyContent: 'center' }}>
-                        <TouchableOpacity style={{ width: 21, height: 21 }} onPress={() => {
+                        <TouchableOpacity style={{ width: 21, height: 21 }} onPress={async() => {
                             arr_genre[0] = true;
                             setgenreModalVisible(arr_genre);
+                            userID = await AsyncStorage.getItem('uID');
+                            isEdited=0;
                         }}>
                             <Image source={require('../../../../image/game_plus_tight.png')} style={{ width: 20, height: 20 }} />
                         </TouchableOpacity>
@@ -165,7 +217,17 @@ function myGame({ navigation }) {
                     :
                         myProfileGenre.map((mData, index) => {
                             return (
-                                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', height: 35 }}>
+                                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', height: 35 }}
+                                onPress={()=>{
+                                    setEditModalVisible(true)
+                                    likeGenreID = mData.gLikeID
+                                    isGame=0
+                                }} onLongPress={async()=>{
+                                    setDeleteModalVisible(true)
+                                    likeGenreID = mData.gLikeID
+                                    isGame = 0
+                                    userID = await AsyncStorage.getItem('uID');
+                                }}>
                                     <View style={{ width: '50%', height: '100%', alignItems: 'center', flexDirection: 'row' }}>
                                         <Text style={{ fontSize: 18, color: '#A5A5A5' }}>{'\u2022   '}</Text>
                                         <Text style={{ fontSize: 13, fontWeight: 'bold' }}>{mData.genre}</Text>
@@ -215,8 +277,7 @@ function myGame({ navigation }) {
                             <View style={{ width:'100%', height:45, borderRadius:10, borderWidth: 2, borderColor:'#A5A5A5', marginBottom:20}}>
                                 <TextInput style={{ justifyContent:'center'}} 
                                     placeholder='게임 이름을 검색해주세요.' placeholderTextColor='#A5A5A5'
-                                    onChangeText={text => {setGameData(text)
-                                    console.log(gameData)}}
+                                    onChangeText={text => {setGameData(text)}}
                                     />
                             </View>
 
@@ -236,15 +297,16 @@ function myGame({ navigation }) {
                                 <View style={{ height: '70%', borderWidth: 0.15, backgroundColor: '#E2E2E2'}} />
                                 <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
                                     <TouchableOpacity onPress={async() => {
-                                        arr_gameList[1]=true;
+                                        arr=[]
+                                        arr_gameList[1]=true
                                         setgameListModalVisible(arr_gameList)
                                         setTierData(await getDatas(server.ip + '/friend/tierData?game=' + gameData))
-                                        console.log("게임 티어 데이터를 가지고 온다: ")
+                                        console.log("tierData 데이터 로그")
                                         console.log(tierData)
                                         tierData.forEach(function (e) {
                                             arr.push({ label: e.tier, value: e.tier })
                                         })
-                                        console.log(arr)
+                                        
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>확인</Text>
                                     </TouchableOpacity>
@@ -319,12 +381,13 @@ function myGame({ navigation }) {
                                 <Image source={require("../../../../image/registered_1.png")} style={{ width: 30, height: 35 }} />
                                 <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 15 }}>티어 선택</Text>
                             </View>
-                            <View style={{width:'100%',height:50, marginBottom:20}}>
+                            <View style={{width:'100%',height:100, marginBottom:20}}>
                                 <DropDownPicker
-                                    items={arr}
+                                    items={tierList}
                                     style={{ alignItems: 'center', borderWidth: 2, borderColor: '#A5A5A5'}}
                                     dropDownStyle={{ marginTop: 15, borderWidth: 2, borderColor:'#A5A5A5', paddingLeft:'10%'}}
                                     containerStyle={{ height: 40 }}
+                                    dropDownStyle={{height:800}}
                                     itemStyle={{justifyContent:'flex-start'}}
                                     placeholder='티어를 선택해주세요.'
                                     placeholderStyle={{ color:'#A5A5A5'}}
@@ -345,10 +408,14 @@ function myGame({ navigation }) {
                                 <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
                                     <TouchableOpacity onPress={async() => {
                                         setgameListModalVisible(arr_gameList)
-                                        console.log(gameData)
-                                        console.log(tierIDData.value)
-                                        console.log(gameIDData)
-                                        postGame(gameData,tierIDData.value,gameIDData)
+                                        if(isEdited==0){
+                                            postInsertGame(gameData, tierIDData.value, gameIDData)
+                                        }
+                                        else if(isEdited==1){
+                                            postEditGame(gameData, tierIDData.value, gameIDData)
+                                        }
+                                        setMyProfileGame(await getDatas(server.ip + '/friend/profileGame?uID=' + userID))
+
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>완료</Text>
                                     </TouchableOpacity>
@@ -378,7 +445,8 @@ function myGame({ navigation }) {
                             </View>
                             <View style={{ width: '100%', height: 40, borderRadius: 10, borderWidth: 2, borderColor: '#A5A5A5', marginBottom: 40 }}>
                                 <TextInput style={{ justifyContent: 'center' }}
-                                    placeholder='게임 장르를 검색해주세요.' placeholderTextColor='#A5A5A5' />
+                                    placeholder='게임 장르를 검색해주세요.' placeholderTextColor='#A5A5A5'
+                                    onChangeText={text => setGenreData(text)}  />
                             </View>
                             <View style={{ width: '100%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                             <View style={{ width: '100%', height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
@@ -392,7 +460,7 @@ function myGame({ navigation }) {
                                 <View style={{ height: '70%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                                 <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
                                     <TouchableOpacity onPress={() => {
-                                        arr_genre[1]=true;
+                                        arr_genre[1]=true
                                         setgenreModalVisible(arr_genre)
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>확인</Text>
@@ -421,8 +489,18 @@ function myGame({ navigation }) {
                                 <Image source={require("../../../../image/registered_1.png")} style={{ width: 30, height: 35 }} />
                                 <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 15 }}>장르 선호도</Text>
                             </View>
+                            <Text>{sliderValue.toFixed(0)}</Text>
                             <View>
-
+                                <Slider
+                                    style={{ width: 200, height: 40 }}
+                                    minimumValue={0}
+                                    maximumValue={100}
+                                    minimumTrackTintColor="#000000"
+                                    maximumTrackTintColor="#000000"
+                                    onValueChange={value=>{
+                                        setSliderValue(value);
+                                        setGDegreeData(value);
+                                        }}/>
                             </View>
                             <View style={{ width: '100%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                             <View style={{ width: '100%', height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
@@ -435,9 +513,15 @@ function myGame({ navigation }) {
                                 </View>
                                 <View style={{ height: '70%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                                 <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
-                                    <TouchableOpacity onPress={() => {
+                                    <TouchableOpacity onPress={async() => {
                                         setgenreModalVisible(arr_genre)
-                                        postGenre("FPS", "20")
+                                        if(isEdited==0){
+                                            postInsertGenre(genreData, gDegreeData.toFixed(0))
+                                        }
+                                        else if(isEdited==1){
+                                            postEditGenre(genreData, gDegreeData.toFixed(0))
+                                        }
+                                        setMyProfileGenre(await getDatas(server.ip + '/friend/profileGenre?uID=' + userID))
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>완료</Text>
                                     </TouchableOpacity>
@@ -448,6 +532,106 @@ function myGame({ navigation }) {
                 </View>
             </Modal>
 
+            <Modal
+                animationIn={"slideInUp"} //default 'slideInUp'
+                animationOut={'slideOutDown'} //default 'slideOutDown'
+                isVisible={editModalVisible}
+                transparent={true} //default 'true'
+                backdropColor={'black'} //default 'black'
+                backdropOpacity={0.5} //default 0.7
+                onBackButtonPress={() => setEditModalVisible(false)}
+                onBackdropPress={() => setEditModalVisible(false)}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <View style={{ width: '100%', alignItems: 'center', paddingLeft: '10%', paddingRight: '10%' }}>
+                            <View style={{ height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 35, marginBottom: 35 }}>
+                                <Image source={require("../../../../image/check.png")} style={{ width: 30, height: 35 }} />
+                                <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 15 }}>수정하시겠습니까?</Text>
+                            </View>
+                            <View style={{ width: '100%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
+                            <View style={{ width: '100%', height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
+                                <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
+                                    <TouchableOpacity onPress={() => {
+                                        setEditModalVisible(false)
+                                    }}>
+                                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>취소</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={{ height: '70%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
+                                <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
+                                    <TouchableOpacity onPress={async() => {
+                                        if(isGame==1){
+                                            setEditModalVisible(false)
+                                            arr_gameList[0] = true;
+                                            setgameListModalVisible(arr_gameList);
+                                            userID = await AsyncStorage.getItem('uID');
+                                            isEdited = 1;
+                                        }
+                                        else if(isGame==0){
+                                            setEditModalVisible(false)
+                                            arr_genre[0] = true;
+                                            setgenreModalVisible(arr_genre);
+                                            userID = await AsyncStorage.getItem('uID');
+                                            isEdited = 1;
+                                        }
+                                    }}>
+                                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>확인</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal
+                animationIn={"slideInUp"} //default 'slideInUp'
+                animationOut={'slideOutDown'} //default 'slideOutDown'
+                isVisible={deleteModalVisible}
+                transparent={true} //default 'true'
+                backdropColor={'black'} //default 'black'
+                backdropOpacity={0.5} //default 0.7
+                onBackButtonPress={() => setDeleteModalVisible(false)}
+                onBackdropPress={() => setDeleteModalVisible(false)}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <View style={{ width: '100%', alignItems: 'center', paddingLeft: '10%', paddingRight: '10%' }}>
+                            <View style={{ height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 35, marginBottom: 35 }}>
+                                <Image source={require("../../../../image/check.png")} style={{ width: 30, height: 35 }} />
+                                <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 15 }}>삭제하시겠습니까?</Text>
+                            </View>
+                            <View style={{ width: '100%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
+                            <View style={{ width: '100%', height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
+                                <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
+                                    <TouchableOpacity onPress={() => {
+                                        setDeleteModalVisible(false)
+                                    }}>
+                                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>취소</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={{ height: '70%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
+                                <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
+                                    <TouchableOpacity onPress={async() => {
+                                        setDeleteModalVisible(false)
+                                        if (isGame == 1) {
+                                            postDeleteGame()
+                                            setMyProfileGame(await getDatas(server.ip + '/friend/profileGame?uID=' + userID))
+                                        }
+                                        else if (isGame == 0) {
+                                            postDeleteGenre()
+                                            setMyProfileGenre(await getDatas(server.ip + '/friend/profileGenre?uID=' + userID))
+                                        }
+                                    }}>
+                                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>확인</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
 
         </View>
     );

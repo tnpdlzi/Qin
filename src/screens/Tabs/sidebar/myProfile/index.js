@@ -34,15 +34,7 @@ export default function MemoryScreen({ navigation }) {
                     ,
                     headerRight: () =>
                         <TouchableOpacity onPress={() => setProfileEdit(!isEditing)} >
-                            {isEditing ?
-                                <View style={{ height: 50, width: 50, justifyContent: 'center' }}>
-                                    <Text style={{ fontSize: 16, fontWeight: 'bold' }}>수정</Text>
-                                </View>
-                                :
-                                <View style={{ height: 50, width: 50, justifyContent: 'center' }}>
-                                    <Text style={{ fontSize: 16, fontWeight: 'bold' }}>완료</Text>
-                                </View>
-                            }
+                            
                         </TouchableOpacity>
                     ,
                 }}
