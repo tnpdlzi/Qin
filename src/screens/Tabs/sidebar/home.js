@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
-import {View, Text, Button, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {View, Text, Button, StyleSheet, TouchableOpacity, Image, ActivityIndicator, Platform} from 'react-native';
 import { Avatar} from 'react-native-elements';
 import server from '../../../../server.json';
 import axios from 'axios';
@@ -19,6 +19,23 @@ const uploadPhoto = async (uID, photo) =>{ await axios({
     console.log('error : ' + error);
 })
 console.log('photo_uri................' + photo.uri)}
+
+const createFormData = (photo, body) => {
+    const data = new FormData();
+  
+    data.append('photo', {
+      name: photo.fileName,
+      type: photo.type,
+      uri:
+        Platform.OS === 'android' ? photo.uri : photo.uri.replace('file://', ''),
+    });
+  
+    Object.keys(body).forEach((key) => {
+      data.append(key, body[key]);
+    });
+  
+    return data;
+  };
   
 
 
@@ -26,6 +43,43 @@ function DrawerScreen({ navigation }) {
 
     const [myProfile, setMyProfile] = useState([]);
     const [photo, setPhoto] = useState(require('../../../../src/image/lol_bg.png'));
+    const [avatar, setAvatar] = useState(require('../../../../src/image/lol_bg.png'));
+    const [title, setTitle] = useState('Profile Photo');
+
+
+    const handlePicker = () => {
+        ImagePicker.showImagePicker({}, (response) => {
+          console.log('Response = ', response);
+    
+          if (response.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+          } else if (response.customButton) {
+            console.log('User tapped custom button: ', response.customButton);
+          } else {
+            setAvatar({uri: response.uri});
+            setTitle('Updating...'); // image start to upload on server so on header set text is 'Updating..'
+            fetch(server.ip + '/api/upload', {
+              method: 'POST',
+              headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded', //Specifying the Content-Type
+              }),
+              body: createFormData(response, {uID: AsyncStorage.getItem('uID')}),
+            })
+              .then((data) => data.json())
+              .then((res) => {
+                console.log('upload succes', res);
+                setTitle('Profile Photo');
+                setAvatar({uri: response.image});
+              })
+              .catch((error) => {
+                console.log('upload error', error);
+                setTitle('Profile Photo');
+              });
+          }
+        });
+      };
 
     return (
 
@@ -67,7 +121,7 @@ function DrawerScreen({ navigation }) {
                             size='large'
                         />
                     </TouchableOpacity> */}
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         onPress={() => {
                             const options = {
                               height: 300,
@@ -84,6 +138,15 @@ function DrawerScreen({ navigation }) {
                         <Avatar
                             rounded
                             source={photo}
+                            size='large'
+                        />
+                    </TouchableOpacity> */}
+                    <TouchableOpacity
+                    onPress={() => handlePicker()}>
+                        <Avatar
+                            rounded
+                            source={avatar}
+                            PlaceholderContent={<ActivityIndicator />}
                             size='large'
                         />
                     </TouchableOpacity>
