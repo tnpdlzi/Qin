@@ -48,7 +48,7 @@ function DrawerScreen({ navigation }) {
 
 
     const handlePicker = () => {
-        ImagePicker.showImagePicker({}, (response) => {
+        ImagePicker.showImagePicker({}, async (response) => {
           console.log('Response = ', response);
     
           if (response.didCancel) {
@@ -60,14 +60,17 @@ function DrawerScreen({ navigation }) {
           } else {
             setAvatar({uri: response.uri});
             setTitle('Updating...'); // image start to upload on server so on header set text is 'Updating..'
-            fetch(server.ip + '/image/upload', {
+            axios(server.ip + '/image/upload', {
               method: 'POST',
               headers: new Headers({
                 'Content-Type': 'application/x-www-form-urlencoded', //Specifying the Content-Type
               }),
-              body: createFormData(response, {uID: AsyncStorage.getItem('uID')}),
+              body: createFormData(response, {uID: await AsyncStorage.getItem('uID')}),
             })
-              .then((data) => data.json())
+              .then((data) => {
+                  console.log('data..............' + JSON.stringify(data))
+                  data.json()
+            })
               .then((res) => {
                 console.log('upload succes', res);
                 setTitle('Profile Photo');
