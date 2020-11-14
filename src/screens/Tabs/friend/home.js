@@ -78,8 +78,8 @@ function MemoryHome({ navigation }) {
                                 <Avatar
                                     rounded
                                     size='medium'
-                                    source={require('../../../image/profile.png')}
-                                />
+                                    source={{uri: server.ip + '/photo' + mData.image}}
+                                    />
 
                                 <Text style={{ fontSize: 15, fontWeight: "bold", marginLeft:'10%' }}>{mData.userName}</Text>
                             </View>
@@ -120,8 +120,8 @@ function MemoryHome({ navigation }) {
                                         <Avatar
                                             rounded
                                             style={{ width: '70%', height: '70%' }}
-                                            source={require('../../../image/profile.png')}
-                                        />
+                                            source={{uri: server.ip + '/photo' + mData2.image}}
+                                            />
                                     </View>
                                 </View>
                                 <View style={{ width: '80%', height: 2, backgroundColor: "#E2E2E2", alignSelf: "center" }} />
@@ -223,8 +223,8 @@ function MemoryHome({ navigation }) {
                                 <Avatar
                                     rounded
                                     size='medium'
-                                    source={require('../../../image/profile.png')}
-                                />
+                                    source={{uri: server.ip + '/photo' + item.image}}
+                                    />
                                 <Text style={{ fontSize: 13, marginLeft: '10%' }}>{item.userName}</Text>
                             </View>
 
@@ -269,8 +269,8 @@ function MemoryHome({ navigation }) {
                                         <Avatar
                                             rounded
                                             style={{ width: '70%', height: '70%'}}
-                                            source={require('../../../image/profile.png')}
-                                        />
+                                            source={{uri: server.ip + '/photo' + item.image}}
+                                            />
                                     </View>
                                 </View>
 
