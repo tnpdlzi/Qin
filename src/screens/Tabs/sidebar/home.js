@@ -6,15 +6,21 @@ import axios from 'axios';
 import LoginHome from '../../Tabs/sidebar/index'
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker'
+import RNFetchBlob from 'react-native-fetch-blob';
 
-const uploadPhoto = async (uID, photo) =>{ await axios({
-    method: 'post',
-    url: server.ip + '/upload',
-    // headers: { 'Content-Type': 'multipart/form-data' },
-    data: {
+const uploadPhoto = async (uID, photo) =>{
+    const data = new FormData();
+    await data.append('photo', {
         uri: photo.uri,
-        uID: uID.replace('\"', '').replace('\"', '')
-    }
+        type: 'image/jpeg',
+        name: uID,
+    })
+    
+    axios({
+    method: 'post',
+    url: server.ip + '/image/upload',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    data: data
   }).catch(function (error) {
     console.log('error : ' + error);
 })
@@ -60,26 +66,7 @@ function DrawerScreen({ navigation }) {
           } else {
             setAvatar({uri: response.uri});
             setTitle('Updating...'); // image start to upload on server so on header set text is 'Updating..'
-            axios(server.ip + '/image/upload', {
-              method: 'POST',
-              headers: new Headers({
-                'Content-Type': 'application/x-www-form-urlencoded', //Specifying the Content-Type
-              }),
-              body: createFormData(response, {uID: await AsyncStorage.getItem('uID')}),
-            })
-              .then((data) => {
-                  console.log('data..............' + JSON.stringify(data))
-                  data.json()
-            })
-              .then((res) => {
-                console.log('upload succes', res);
-                setTitle('Profile Photo');
-                setAvatar({uri: response.image});
-              })
-              .catch((error) => {
-                console.log('upload error', error);
-                setTitle('Profile Photo');
-              });
+            uploadPhoto(await AsyncStorage.getItem('uID'), response)
           }
         });
       };
