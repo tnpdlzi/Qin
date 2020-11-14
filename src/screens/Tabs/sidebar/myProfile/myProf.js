@@ -98,7 +98,7 @@ function myProf({ navigation }) {
                     onPress={() => handlePicker()}>
                         <Avatar
                             rounded
-                            source={avatar}
+                            source={{uri: server.ip + '/photo' + myProfile[0].image}}
                             PlaceholderContent={<ActivityIndicator />}
                             size='large'
                         />
