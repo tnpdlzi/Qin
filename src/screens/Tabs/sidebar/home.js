@@ -6,14 +6,13 @@ import axios from 'axios';
 import LoginHome from '../../Tabs/sidebar/index'
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker'
-import RNFetchBlob from 'react-native-fetch-blob';
 
 const uploadPhoto = async (uID, photo) =>{
     const data = new FormData();
     await data.append('photo', {
         uri: photo.uri,
         type: 'image/jpeg',
-        name: uID,
+        name: uID.replace('\"', '').replace('\"', ''),
     })
     
     axios({
