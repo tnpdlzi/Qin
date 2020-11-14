@@ -1,11 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, FlatList, Image, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, ScrollView, FlatList, Image, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
 import { Avatar, Accessory } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import server from '../../../../../server.json';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+import ImagePicker from 'react-native-image-picker';
 const qs = require('qs');
+
+const uploadPhoto = async (uID, photo) =>{
+    const data = new FormData();
+    await data.append('photo', {
+        uri: photo.uri,
+        type: 'image/jpeg',
+        name: uID.replace('\"', '').replace('\"', ''),
+    })
+    
+    axios({
+    method: 'post',
+    url: server.ip + '/image/upload',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    data: data
+  }).catch(function (error) {
+    console.log('error : ' + error);
+})
+console.log('photo_uri................' + photo.uri)}
 
 let userID;
 
@@ -40,6 +59,28 @@ function myProf({ navigation }) {
 
     const [introData, setIntroData] = useState([]);
 
+    const [avatar, setAvatar] = useState(require('../../../../../src/image/profile.png'));
+    const [title, setTitle] = useState('Profile Photo');
+
+
+    const handlePicker = () => {
+        ImagePicker.showImagePicker({}, async (response) => {
+          console.log('Response = ', response);
+    
+          if (response.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+          } else if (response.customButton) {
+            console.log('User tapped custom button: ', response.customButton);
+          } else {
+            setAvatar({uri: response.uri});
+            setTitle('Updating...'); // image start to upload on server so on header set text is 'Updating..'
+            uploadPhoto(await AsyncStorage.getItem('uID'), response)
+          }
+        });
+      };
+
     useEffect(() => {
         const unfetched = navigation.addListener('focus', async () => {
             userID = await AsyncStorage.getItem('uID')
@@ -53,10 +94,12 @@ function myProf({ navigation }) {
         <View style={{ height:'100%', backgroundColor: "#F7F7F7", paddingLeft: '10%', paddingRight: '10%', paddingTop: '10%' }}>
             <View style={{flexDirection:'row', height:'25%'}}>
                 <View style={{ width: '25%'}}>
-                    <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => handlePicker()}>
                         <Avatar
                             rounded
-                            source={require('../../../../image/lol_bg.png')}
+                            source={avatar}
+                            PlaceholderContent={<ActivityIndicator />}
                             size='large'
                         />
                     </TouchableOpacity>

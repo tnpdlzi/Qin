@@ -25,30 +25,12 @@ const uploadPhoto = async (uID, photo) =>{
 })
 console.log('photo_uri................' + photo.uri)}
 
-const createFormData = (photo, body) => {
-    const data = new FormData();
-  
-    data.append('photo', {
-      name: photo.fileName,
-      type: photo.type,
-      uri:
-        Platform.OS === 'android' ? photo.uri : photo.uri.replace('file://', ''),
-    });
-  
-    Object.keys(body).forEach((key) => {
-      data.append(key, body[key]);
-    });
-  
-    return data;
-  };
-  
-
 
 function DrawerScreen({ navigation }) {
 
     const [myProfile, setMyProfile] = useState([]);
     const [photo, setPhoto] = useState(require('../../../../src/image/lol_bg.png'));
-    const [avatar, setAvatar] = useState(require('../../../../src/image/lol_bg.png'));
+    const [avatar, setAvatar] = useState(require('../../../../src/image/profile.png'));
     const [title, setTitle] = useState('Profile Photo');
 
 
