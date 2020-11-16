@@ -41,11 +41,45 @@ function LoginHome({ navigation }) {
 
     useEffect (()=>{
         if(logIn){
+            AsyncStorage.setItem('loginCheck', "1")
+            console.log("로그인 유지 체크되어있을때")
+            console.log(JSON.stringify(AsyncStorage.getItem('loginCheck')))
             changeTextC(require('../../../src/image/login_checked.png'));
         }else{
-            changeTextC(require('../../../src/image/login_unchecked.png'))
+            if(AsyncStorage.getItem('loginCheck')){
+                changeTextC(require('../../../src/image/login_unchecked.png'))
+                console.log("언체크-logincheck이 1일때")
+
+            }
+            else{
+                changeTextC(require('../../../src/image/login_unchecked.png'))
+                console.log("언체크-logincheck이 1이 아닐 때")
+                AsyncStorage.removeItem('loginCheck');
+                console.log(toString(JSON.stringify(AsyncStorage.getItem('loginCheck'))))
+            }
+
         }
     }, [logIn]);
+    // useEffect (()=>{
+    //     if(logIn == 0){
+    //         AsyncStorage.setItem('loginCheck', "1")
+    //         console.log("체크드 toString(JSON.stringify(AsyncStorage.getItem('loginCheck')))")
+    //         console.log(JSON.stringify(AsyncStorage.getItem('loginCheck')))
+    //         changeTextC(require('../../../src/image/login_unchecked.png'));
+    //     }
+    //     else if(logIn == 1){
+    //         AsyncStorage.setItem('loginCheck', "1")
+    //         console.log("체크드 toString(JSON.stringify(AsyncStorage.getItem('loginCheck')))")
+    //         console.log(JSON.stringify(AsyncStorage.getItem('loginCheck')))
+    //         changeTextC(require('../../../src/image/login_checked.png'));
+    //     }
+    //     else{
+    //         changeTextC(require('../../../src/image/login_unchecked.png'))
+    //         console.log("언체크 toString(JSON.stringify(AsyncStorage.getItem('loginCheck')))")
+    //         AsyncStorage.removeItem('loginCheck');
+    //         console.log(toString(JSON.stringify(AsyncStorage.getItem('loginCheck'))))
+    //     }
+    // }, [logIn]);
 
     let [textA, changeTextA] = useState(require('../../../src/image/logo_blue.png'));
     function setNewTextA(Text){
@@ -180,6 +214,7 @@ function LoginHome({ navigation }) {
                 <Text  style={{fontSize: 10, color: '#504d4d', paddingRight: 20,}}>
                     로그인 상태 유지
                 </Text>
+
                 <TouchableOpacity onPress={async() => {
                     userDatas = await getDatas(server.ip + '/users/login?userID=' + userID + '&password=' + password).catch("false")
                     console.log('userDatas 입니다....' + userDatas)

@@ -3,7 +3,7 @@ import {View, Text, Button, StyleSheet, TouchableOpacity, Image, ActivityIndicat
 import { Avatar} from 'react-native-elements';
 import server from '../../../../server.json';
 import axios from 'axios';
-import LoginHome from '../../Tabs/sidebar/index'
+import LoginHome from '../../login/home'
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker'
 
@@ -51,6 +51,13 @@ function DrawerScreen({ navigation }) {
           }
         });
       };
+
+    function logOut()
+
+    {
+        AsyncStorage.clear();
+        navigation.navigate(LoginHome);
+    }
 
     return (
 
@@ -104,8 +111,8 @@ function DrawerScreen({ navigation }) {
                               }
                             })
                           }}>
-                        
-                        
+
+
                         <Avatar
                             rounded
                             source={photo}
@@ -243,8 +250,7 @@ function DrawerScreen({ navigation }) {
             >
                 <TouchableOpacity
                     onPress={() => {
-                        // Navigate using the `navigation` prop that you received
-                        navigation.navigate(LoginHome);
+                        logOut()
                     }}
                 >
                     <View style={{

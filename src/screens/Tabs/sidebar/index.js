@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
 import { View, Text, StyleSheet, Image } from 'react-native';
-import LoginHome from '../../login/home';
+import LoginHome from '../../login/index';
 import MyTabs from '../../Tabs/index';
 import MyScreens from '../../index';
 import DrawerScreen from '../../Tabs/sidebar/home'

@@ -25,16 +25,7 @@ function MyTabs() {
                 keyboardHidesTabBar: true,
             }}
         >
-            {/*<Tab.Screen name="login" component={LoginScreen} options={{*/}
-            {/*    // tabBarIcon: ({ tintColor, focused, size }) => (*/}
-            {/*    //     <View style={{flex:1, justifyContent:'center', alignItems:'center', height: 0,*/}
-            {/*    //         width: 0}}>*/}
-            {/*    //         <Image source={focused ? require('../../image/name_y.png') : require('../../image/name_g.png')} style={{ height: 70, width: 70, justifyContent: 'center'}}/>*/}
-            {/*    //     </View>*/}
-            {/*    // ),*/}
-            {/*    tabBarVisible: false,*/}
 
-            {/*}} />*/}
 
             <Tab.Screen name="friend" component={FriendScreen} options={
                 {

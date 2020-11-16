@@ -25,29 +25,26 @@ const retrieveData = async () => {
         console.log("이것은 bad입니다..." + JSON.stringify(await AsyncStorage.getItem('bad')))
         console.log("이것은 intro입니다..." + JSON.stringify(await AsyncStorage.getItem('intro')))
     } catch (error) {
-      // Error retrieving data
+        // Error retrieving data
     }
-  };
+};
 
-  retrieveData
+retrieveData
 
 // 아래쪽의 탭 네비게이터를 쓰겠다는 선언
 const Stack = createStackNavigator();
 
 
 
+
+
+
 // 10월21일부
-function MyScreens() {
+function SecondScreens() {
 
     return (
         <Stack.Navigator>
-            <Stack.Screen options={{
-                headerShown: false,
-            }}
-                          name="LoginHome"
-                          component={LoginHome}
 
-            />
             <Stack.Screen options={
                 {
                     headerShown : false,
@@ -70,10 +67,17 @@ function MyScreens() {
                           name="MySide"
                           component={MySide}
             />
+            <Stack.Screen options={{
+                headerShown: false,
+            }}
+                          name="LoginHome"
+                          component={LoginHome}
+
+            />
 
         </Stack.Navigator>
     );
 
 }
 
-export default MyScreens;
+export default SecondScreens;
