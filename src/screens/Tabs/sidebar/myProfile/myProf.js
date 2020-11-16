@@ -96,12 +96,17 @@ function myProf({ navigation }) {
                 <View style={{ width: '25%'}}>
                 <TouchableOpacity
                     onPress={() => handlePicker()}>
-                        <Avatar
-                            rounded
-                            source={{uri: server.ip + '/photo' + myProfile[0].image}}
-                            PlaceholderContent={<ActivityIndicator />}
-                            size='large'
-                        />
+                        {myProfile.map((data, index) => {
+                            return (
+                                <Avatar
+                                    rounded
+                                    source={{ uri: server.ip + '/photo' + myProfile[0].image }}
+                                    PlaceholderContent={<ActivityIndicator />}
+                                    size='large'
+                                />
+                            );
+                        })}
+                        
                     </TouchableOpacity>
                 </View>
                 <View style={{ width:'75%', height:'100%', paddingLeft: '15%'}}>
