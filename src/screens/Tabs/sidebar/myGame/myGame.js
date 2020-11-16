@@ -9,6 +9,8 @@ import Icon from 'react-native-vector-icons/Feather';
 import server from '../../../../../server.json';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+import Autocomplete from 'react-native-autocomplete-input';
+import { Linking } from 'react-native';
 const qs = require('qs');
 
 let userID;
@@ -18,6 +20,11 @@ let isEdited;
 let isGame;
 
 let arr = [];
+let arr2= [];
+let tmpGame;
+let tmpTier;
+let tmpName;
+
 let getDatas = async (url) => await axios.get(url)
     .then(function (response) {
         if(response.data==""){
@@ -107,32 +114,51 @@ function myGame({ navigation }) {
     const [myProfileGame, setMyProfileGame] = useState([]);
     const [myProfileGenre, setMyProfileGenre] = useState([]);
 
-    const [tierData, setTierData] = useState([]);
-    const [tierList, setTierList] = useState([]);
-
-    const [gameData, setGameData] = useState();
-    const [tierIDData, setTierIDData] = useState([]);
-    const [gameIDData, setGameIDData] = useState([]);
-
     const [sliderValue, setSliderValue] = useState(0);
 
     const [genreData, setGenreData] = useState([]);
     const [gDegreeData, setGDegreeData] = useState([]);
 
+    const [games, setGames] = useState([]);
+    const [genres, setGenres] = useState([]);
+    const [filteredGames, setFilteredGames] = useState([]);
+    const [filteredGenres, setFilteredGenres] = useState([]);
+    const [selectedValue, setSelectedValue] = useState({});
+
+    const findGame = (query) => {
+        if (query) {
+            const regex = new RegExp(`${query.trim()}`, 'i');
+
+            setFilteredGames(
+                games.filter((game) => game.game.search(regex) >= 0)
+            );
+        } else {
+            setFilteredGames([]);
+        }
+    };
+
+    const findGenre = (query) => {
+        if(query) {
+            const regex = new RegExp(`${query.trim()}`, 'i');
+
+            setFilteredGenres(
+                genres.filter((genre) => genre.genre.search(regex) >=0)
+            );
+        } else {
+            setFilteredGenres([]);
+        }
+    };
 
     let arr_gameList = new Array(gameListModalVisible.length).fill(false);
     let arr_genre = new Array(genreModalVisible.length).fill(false);
-
-    let items = [
-        { label: 'Item 1', value: 'item1' },
-        { label: 'Item 2', value: 'item2', selected: true, disabled: true }];
 
     useEffect(() => {
         const unfetched = navigation.addListener('focus', async () => {
             userID = await AsyncStorage.getItem('uID');
             setMyProfileGame(await getDatas(server.ip + '/friend/profileGame?uID=' + userID))
             setMyProfileGenre(await getDatas(server.ip + '/friend/profileGenre?uID=' + userID))
-            console.log(tierData)
+            setGames(await getDatas(server.ip + '/friend/gameList'))
+            setGenres(await getDatas(server.ip + '/friend/genreList'))
         });
 
         return unfetched;
@@ -252,7 +278,7 @@ function myGame({ navigation }) {
                         width: '40%', height: 40, backgroundColor: "#00255A", alignSelf: 'center'
                         , borderRadius: 20, elevation: 2, justifyContent: 'center', marginBottom:'10%'
                     }}
-                    onPress={() => { }}>
+                    onPress={() => { Linking.openURL(`mailto:unnormal3215@gmail.com`) }}>
                     <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>문의하기</Text>
                 </TouchableHighlight>
             </ScrollView>
@@ -274,15 +300,34 @@ function myGame({ navigation }) {
                                 <Image source={require("../../../../image/registered_1.png")} style={{ width: 30, height: 35 }} />
                                 <Text style={{fontSize:16, fontWeight:'bold', marginLeft:15}}>게임 등록</Text>
                             </View>
-                            <View style={{ width:'100%', height:45, borderRadius:10, borderWidth: 2, borderColor:'#A5A5A5', marginBottom:20}}>
-                                <TextInput style={{ justifyContent:'center'}} 
-                                    placeholder='게임 이름을 검색해주세요.' placeholderTextColor='#A5A5A5'
-                                    onChangeText={text => {setGameData(text)}}
-                                    />
-                            </View>
 
-                            <View>
-                                
+                            <View style={{ width: '100%', height: 120}}>
+                                <Autocomplete
+                                    autoCapitalize='none'
+                                    autoCorrect={false}
+                                    containerStyle={{ backgroundColor: '#ffffff'}}
+                                    data={filteredGames}
+                                    defaultValue={
+                                        JSON.stringify(selectedValue) === '{}' ?
+                                            '' :
+                                            selectedValue.game
+                                    }
+
+                                    onChangeText={(text) => findGame(text)}
+                                    placeholder="게임 이름을 검색해주세요."
+                                    renderItem={({ item }) => (
+                                        <TouchableOpacity style={{flexDirection:'row', alignItems:'center'}}
+                                            onPress={() => {
+                                                setSelectedValue(item);
+                                                setFilteredGames([]);
+                                            }}>
+                                            <Text style={{ fontSize: 20, color: '#FFC81A' }}>{' \u2022  '}</Text>
+                                            <Text style={{textAlign: 'left', fontSize: 16}}>
+                                                {item.game}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    )}
+                                />
                             </View>
 
                             <View style={{ width: '100%', borderWidth: 0.15, backgroundColor:'#E2E2E2'}} />
@@ -290,6 +335,7 @@ function myGame({ navigation }) {
                                 <View style={{width:'50%', alignItems:'center', justifyContent:'center'}}>
                                     <TouchableOpacity onPress={() => {
                                         setgameListModalVisible(arr_gameList)
+                                        setSelectedValue([])
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>취소</Text>
                                     </TouchableOpacity>
@@ -297,16 +343,19 @@ function myGame({ navigation }) {
                                 <View style={{ height: '70%', borderWidth: 0.15, backgroundColor: '#E2E2E2'}} />
                                 <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
                                     <TouchableOpacity onPress={async() => {
-                                        arr=[]
                                         arr_gameList[1]=true
                                         setgameListModalVisible(arr_gameList)
-                                        setTierData(await getDatas(server.ip + '/friend/tierData?game=' + gameData))
-                                        console.log("tierData 데이터 로그")
-                                        console.log(tierData)
-                                        tierData.forEach(function (e) {
-                                            arr.push({ label: e.tier, value: e.tier })
+                                        arr2=[]
+                                        console.log("selectedValue.game 로그입니다 삐비빅")
+                                        console.log(selectedValue.game)
+                                        arr = await getDatas(server.ip + '/friend/tierData?game=' + selectedValue.game) 
+                                        console.log("arr 로그입니다 삐빅")
+                                        console.log(arr)
+                                        arr.forEach(function (e) {
+                                            arr2.push({ label: e.tier, value: e.tier })
                                         })
-                                        
+                                        console.log("arr2 로그입니다 삐빅")
+                                        console.log(arr2)                   
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>확인</Text>
                                     </TouchableOpacity>
@@ -337,7 +386,7 @@ function myGame({ navigation }) {
                             <View style={{ width: '100%', height: 40, borderBottomWidth: 2, borderBottomColor:'#A5A5A5', marginBottom: 40 }}>
                                 <TextInput style={{ justifyContent: 'center' }}
                                     placeholder='해당 게임의 아이디(닉네임)을 입력하세요.' placeholderTextColor='#A5A5A5'
-                                    onChangeText={text => setGameIDData(text)}
+                                    onChangeText={text => tmpName=text}
                                     />
                             </View>
                             <View style={{ width: '100%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
@@ -345,15 +394,16 @@ function myGame({ navigation }) {
                                 <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
                                     <TouchableOpacity onPress={() => {
                                         setgameListModalVisible(arr_gameList)
+                                        setSelectedValue([])
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>취소</Text>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{ height: '70%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                                 <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
-                                    <TouchableOpacity onPress={() => {
+                                    <TouchableOpacity onPress={async() => {
                                         arr_gameList[2]=true;
-                                        setgameListModalVisible(arr_gameList)
+                                        setgameListModalVisible(arr_gameList) 
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>확인</Text>
                                     </TouchableOpacity>
@@ -383,7 +433,7 @@ function myGame({ navigation }) {
                             </View>
                             <View style={{width:'100%',height:100, marginBottom:20}}>
                                 <DropDownPicker
-                                    items={tierList}
+                                    items={arr2}
                                     style={{ alignItems: 'center', borderWidth: 2, borderColor: '#A5A5A5'}}
                                     dropDownStyle={{ marginTop: 15, borderWidth: 2, borderColor:'#A5A5A5', paddingLeft:'10%'}}
                                     containerStyle={{ height: 40 }}
@@ -392,7 +442,7 @@ function myGame({ navigation }) {
                                     placeholder='티어를 선택해주세요.'
                                     placeholderStyle={{ color:'#A5A5A5'}}
                                     arrowStyle={{width:0, height:0}}
-                                    onChangeItem={item => setTierIDData(item)}
+                                    onChangeItem={item => tmpTier=item.value}
                                 />
                             </View>
                             <View style={{ width: '100%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
@@ -400,6 +450,7 @@ function myGame({ navigation }) {
                                 <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
                                     <TouchableOpacity onPress={() => {
                                         setgameListModalVisible(arr_gameList)
+                                        setSelectedValue([])
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>취소</Text>
                                     </TouchableOpacity>
@@ -407,15 +458,16 @@ function myGame({ navigation }) {
                                 <View style={{ height: '70%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                                 <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
                                     <TouchableOpacity onPress={async() => {
+                                        
                                         setgameListModalVisible(arr_gameList)
                                         if(isEdited==0){
-                                            postInsertGame(gameData, tierIDData.value, gameIDData)
+                                            postInsertGame(selectedValue.game, tmpTier, tmpName)
                                         }
                                         else if(isEdited==1){
-                                            postEditGame(gameData, tierIDData.value, gameIDData)
+                                            postEditGame(selectedValue.game, tmpTier, tmpName)
                                         }
                                         setMyProfileGame(await getDatas(server.ip + '/friend/profileGame?uID=' + userID))
-
+                                        setSelectedValue([])
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>완료</Text>
                                     </TouchableOpacity>
@@ -443,25 +495,52 @@ function myGame({ navigation }) {
                                 <Image source={require("../../../../image/registered_1.png")} style={{ width: 30, height: 35 }} />
                                 <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 15 }}>장르 선택</Text>
                             </View>
-                            <View style={{ width: '100%', height: 40, borderRadius: 10, borderWidth: 2, borderColor: '#A5A5A5', marginBottom: 40 }}>
-                                <TextInput style={{ justifyContent: 'center' }}
-                                    placeholder='게임 장르를 검색해주세요.' placeholderTextColor='#A5A5A5'
-                                    onChangeText={text => setGenreData(text)}  />
+                            <View style={{ width: '100%', height: 120}}>
+                                <Autocomplete
+                                    autoCapitalize='none'
+                                    autoCorrect={false}
+                                    containerStyle={{ backgroundColor: '#ffffff' }}
+                                    data={filteredGenres}
+                                    defaultValue={
+                                        JSON.stringify(selectedValue) === '{}' ?
+                                            '' :
+                                            selectedValue.genre
+                                    }
+
+                                    onChangeText={(text) => findGenre(text)}
+                                    placeholder="게임 장르를 검색해주세요."
+                                    renderItem={({ item }) => (
+                                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}
+                                            onPress={() => {
+                                                setSelectedValue(item);
+                                                setFilteredGenres([]);
+                                            }}>
+                                            <Text style={{ fontSize: 20, color: '#FFC81A' }}>{' \u2022  '}</Text>
+                                            <Text style={{ textAlign: 'left', fontSize: 16 }}>
+                                                {item.genre}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    )}
+                                />
                             </View>
+
                             <View style={{ width: '100%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                             <View style={{ width: '100%', height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
                                 <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
                                     <TouchableOpacity onPress={() => {
                                         setgenreModalVisible(arr_genre)
+                                        setSelectedValue([])
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>취소</Text>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{ height: '70%', borderWidth: 0.15, backgroundColor: '#E2E2E2' }} />
                                 <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
-                                    <TouchableOpacity onPress={() => {
+                                    <TouchableOpacity onPress={async() => {
                                         arr_genre[1]=true
                                         setgenreModalVisible(arr_genre)
+                                        console.log("selectedValue.genre 로그입니다 삐비빅")
+                                        console.log(selectedValue.genre)
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>확인</Text>
                                     </TouchableOpacity>
@@ -516,10 +595,10 @@ function myGame({ navigation }) {
                                     <TouchableOpacity onPress={async() => {
                                         setgenreModalVisible(arr_genre)
                                         if(isEdited==0){
-                                            postInsertGenre(genreData, gDegreeData.toFixed(0))
+                                            postInsertGenre(selectedValue.genre, gDegreeData.toFixed(0))
                                         }
                                         else if(isEdited==1){
-                                            postEditGenre(genreData, gDegreeData.toFixed(0))
+                                            postEditGenre(selectedValue.genre, gDegreeData.toFixed(0))
                                         }
                                         setMyProfileGenre(await getDatas(server.ip + '/friend/profileGenre?uID=' + userID))
                                     }}>
