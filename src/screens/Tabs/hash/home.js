@@ -21,7 +21,7 @@ let getUID = async () => {
     uID = uID.replace(/[^0-9]/g, "");
     console.log("hash uID : " + uID);
 }
-getUID();
+
 
 let getTopRank = async () => await axios.get(IP + '/hash/topRank')
     .then(function(response){
@@ -116,7 +116,7 @@ function HashHome({ navigation}) {
 
     React.useEffect(()=>{
         const unfetched = navigation.addListener('focus', async()=>{
-            console.log("hashList : " + hash);
+            getUID();
             if(hash.length > 0){
                 setResData(await getDatas(hash));
             }

@@ -4,17 +4,18 @@ import axios from "axios";
 import Modal from 'react-native-modal';
 import server from '../../../../../server.json';
 import AsyncStorage from '@react-native-community/async-storage';
-
-const IP = server.ip;
 let uID;
+const IP = server.ip;
 
 let getUID = async () => {
     uID = await AsyncStorage.getItem('uID');
     uID = uID.replace(/[^0-9]/g, "");
+    console.log("create Room : " + uID);
 }
-getUID();
 
-function createRoom ({navigation}){
+function createRoom ({ navigation }){
+    
+    
     const [chatName, setChatName] = useState("");
     const [chatInfo ,setChatInfo] = useState("");
     const [memberCounter, setMemberCounter] = useState(50);
@@ -32,7 +33,12 @@ function createRoom ({navigation}){
             ]);
         }
     }
-
+    React.useEffect(()=>{
+        const unfetched = navigation.addListener('focus', async()=>{
+            getUID();
+        });
+        return unfetched;
+    }, [navigation]);
     //DB에서 Notnull인 정보들 
     const neCheck = ()=>{
         if(chatName.length > 0){

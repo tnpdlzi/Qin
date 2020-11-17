@@ -10,11 +10,6 @@ import createRoom from './creatRoom/createRoom'
 const Stack = createStackNavigator();
 
 export default function HashScreen({ navigation }) {
-    const [modalVisible, setModalVisible] = useState(false);
-    const [modal2Visible, setModal2Visible] = useState(false);
-    const [hashCounter, setHashCounter] = useState(3);
-    const [chatRoomName, setChatRoomName] = useState("");
-    const [chatRoomInfo, setChatRoomInfo] = useState("");
     
 
     return (
