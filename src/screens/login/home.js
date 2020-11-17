@@ -60,26 +60,6 @@ function LoginHome({ navigation }) {
 
         }
     }, [logIn]);
-    // useEffect (()=>{
-    //     if(logIn == 0){
-    //         AsyncStorage.setItem('loginCheck', "1")
-    //         console.log("체크드 toString(JSON.stringify(AsyncStorage.getItem('loginCheck')))")
-    //         console.log(JSON.stringify(AsyncStorage.getItem('loginCheck')))
-    //         changeTextC(require('../../../src/image/login_unchecked.png'));
-    //     }
-    //     else if(logIn == 1){
-    //         AsyncStorage.setItem('loginCheck', "1")
-    //         console.log("체크드 toString(JSON.stringify(AsyncStorage.getItem('loginCheck')))")
-    //         console.log(JSON.stringify(AsyncStorage.getItem('loginCheck')))
-    //         changeTextC(require('../../../src/image/login_checked.png'));
-    //     }
-    //     else{
-    //         changeTextC(require('../../../src/image/login_unchecked.png'))
-    //         console.log("언체크 toString(JSON.stringify(AsyncStorage.getItem('loginCheck')))")
-    //         AsyncStorage.removeItem('loginCheck');
-    //         console.log(toString(JSON.stringify(AsyncStorage.getItem('loginCheck'))))
-    //     }
-    // }, [logIn]);
 
     let [textA, changeTextA] = useState(require('../../../src/image/logo_blue.png'));
     function setNewTextA(Text){

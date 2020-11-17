@@ -12,6 +12,7 @@ import MyTabs from '../screens/Tabs/index';
 
 import DrawerScreen from './Tabs/sidebar/home'
 import MySide from './Tabs/sidebar/index';
+import MailHome from './Tabs/mailBox/index'
 // import {TouchableOpacity} from "react-native-gesture-handler";
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -69,6 +70,13 @@ function MyScreens() {
                 }}
                           name="MySide"
                           component={MySide}
+            />
+            <Stack.Screen options={
+                {
+                    headerShown : false,
+                }}
+                          name="MailHome"
+                          component={MailHome}
             />
 
         </Stack.Navigator>

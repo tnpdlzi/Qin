@@ -14,6 +14,7 @@ import DrawerScreen from './Tabs/sidebar/home'
 import MySide from './Tabs/sidebar/index';
 // import {TouchableOpacity} from "react-native-gesture-handler";
 import {createStackNavigator} from '@react-navigation/stack';
+import MailScreen from './Tabs/mailBox';
 
 
 const retrieveData = async () => {
@@ -73,6 +74,13 @@ function SecondScreens() {
                           name="LoginHome"
                           component={LoginHome}
 
+            />
+            <Stack.Screen options={
+                {
+                    headerShown : false,
+                }}
+                          name="MailScreen"
+                          component={MailScreen}
             />
 
         </Stack.Navigator>

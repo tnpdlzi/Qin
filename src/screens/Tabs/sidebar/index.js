@@ -31,6 +31,7 @@ function MySide() {
 
             />
 
+
             {/*여기부터는 각각 스크린에 대한 선언들. component들은 다 import되어 있음*/}
 
 

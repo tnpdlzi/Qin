@@ -398,26 +398,7 @@ export default function CategoryScreen({ navigation }) {
                     ,
                 }}
             />
-            <Stack.Screen
-                name="MailHome"
-                component={MailHome}
-                options={{
-                    headerLeft: () => <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                        <Image
-                            source={require('../../../image/menu_1.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}
-                        />
-                    </TouchableOpacity>,
-                    headerTitle: () =>
-                        <View style={{ alignItems: "center", flex:1 }}>
-                            <Image source={require('../../../image/logo_mini_02.png')} style={{ height: 50, width: 50, resizeMode: 'contain'}}/>
-                        </View>
-                    ,
-                    headerRight: () => <TouchableOpacity onPress={() => navigation.navigate('MailHome')}>
-                        <Image source={require('../../../image/mail_y.png')} style={{ height:80, width:80, resizeMode: 'contain' }}/>
-                        </TouchableOpacity>
-                    ,
-                }}
-            />
+
         </Stack.Navigator>
     );
 }

@@ -29,14 +29,10 @@ export default function MyDrawer() {
     AsyncStorage.getItem('loginCheck', (err, result) => {
         //setUserID(result)
         if(result == null){setUserID(0)
-            console.log("null값이라면")
-            console.log(result)
-            console.log(userID)
+
         }
         else{setUserID(1)
-            console.log("제대로 들어온다면")
-            console.log(result)
-            console.log(userID)
+
         }
 
     });
