@@ -129,8 +129,10 @@ export default class chatRoom extends Component {
                                 </View>
                                 :
                                 <View style={{ flexDirection: 'row' }}>
-                                    <Image
-                                        source={require('../../../image/profile.png')} style={{ height: 50, width: 50, resizeMode: 'contain' }}
+                                    <Avatar
+                                        rounded
+                                        style={{ width: 50, height: 50 }}
+                                        source={{uri: server.ip + '/photo' + item.image}}
                                     />
                                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                                         <View style={{ flexDirection: 'column' }}>
@@ -169,8 +171,8 @@ export default class chatRoom extends Component {
                                 <View style={{ height: 60, width: 60, alignItems: 'center', justifyContent: 'center', marginLeft: 10 }}>
                                     <Avatar
                                         rounded
-                                        style={{ width: '130%', height: '130%', }}
-                                        source={require('../../../image/chat_profile.png')}
+                                        style={{ width: 40, height: 40 }}
+                                        source={{uri: server.ip + '/photo' + item.image}}
                                     />
                                 </View>
                                 <View>
@@ -183,8 +185,8 @@ export default class chatRoom extends Component {
                             <View style={{ height: 60, width: 60, alignItems: 'center', justifyContent: 'center', marginLeft: 10 }}>
                                 <Avatar
                                     rounded
-                                    style={{ width: '130%', height: '130%', }}
-                                    source={require('../../../image/chat_profile.png')}
+                                    style={{ width: 40, height: 40 }}
+                                    source={{uri: server.ip + '/photo' + item.image}}
                                 />
                             </View>
                             <View>
