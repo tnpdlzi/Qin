@@ -108,18 +108,20 @@ export default class chatRoom extends Component {
                             </View>}
                     </View>
                     {item.uID == userID ? //userID
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <View style={{ justifyContent: 'flex-end' }}><Text style={{ fontSize: 10 }}>{item.sendTime.slice(11, 16)}</Text></View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginRight: 5 }}>
+                            <View style={{ justifyContent: 'flex-end' }}>
+                                <Text style={{ fontSize: 10 }}>{item.sendTime.slice(11, 16)}</Text>
+                            </View>
                             <View style={styles.myMessage}>
                                 <Text style={{ color: "white", fontSize: 17 }}>{item.message}</Text>
                             </View>
                         </View>
                         :
                         <View style={{ flexDirection: 'row' }}>
-                            {index > 0 && item.uID == this.state.messageData[index - 1].uID 
+                            {index > 0 && item.uID == this.state.messageData[index - 1].uID
                                 && item.sendTime.slice(0, 10) == this.state.messageData[index - 1].sendTime.slice(0, 10) ?
                                 <View style={{ flexDirection: 'row' }}>
-                                    <View style={{ height: 50, width: 50 }}></View>
+                                    <View style={{ height: 50, width: 50, marginLeft: 5 }}></View>
                                     <View style={styles.otherMessage}>
                                         <Text style={{ color: "black", fontSize: 17 }}>{item.message}</Text>
                                     </View>
@@ -131,8 +133,9 @@ export default class chatRoom extends Component {
                                 <View style={{ flexDirection: 'row' }}>
                                     <Avatar
                                         rounded
-                                        style={{ width: 50, height: 50 }}
-                                        source={{uri: server.ip + '/photo' + item.image}}
+                                        style={{ width: 50, height: 50, marginLeft: 5 }}
+                                        source={{ uri: server.ip + '/photo' + item.image }}
+                                        avatarStyle={{ borderRadius: 25 }}
                                     />
                                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                                         <View style={{ flexDirection: 'column' }}>
@@ -172,7 +175,8 @@ export default class chatRoom extends Component {
                                     <Avatar
                                         rounded
                                         style={{ width: 40, height: 40 }}
-                                        source={{uri: server.ip + '/photo' + item.image}}
+                                        source={{ uri: server.ip + '/photo' + item.image }}
+                                        avatarStyle={{ borderRadius: 25 }}
                                     />
                                 </View>
                                 <View>
@@ -186,7 +190,8 @@ export default class chatRoom extends Component {
                                 <Avatar
                                     rounded
                                     style={{ width: 40, height: 40 }}
-                                    source={{uri: server.ip + '/photo' + item.image}}
+                                    source={{ uri: server.ip + '/photo' + item.image }}
+                                    avatarStyle={{ borderRadius: 25 }}
                                 />
                             </View>
                             <View>
@@ -199,7 +204,7 @@ export default class chatRoom extends Component {
                         <View style={{ width: 20, height: 20, borderRadius: 20, backgroundColor: '#00255A', alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: 'white', fontSize: 12 }}>나</Text></View>
                         :
                         <View></View>}
-                    {item.uID == ruID && this.state.chatInfo[0].onetoone == 0  ?
+                    {item.uID == ruID && this.state.chatInfo[0].onetoone == 0 ?
                         <View style={{ alignItems: 'flex-end', flex: 1, marginRight: 20 }}>
                             <Text>방장</Text>
                         </View>
@@ -225,7 +230,7 @@ export default class chatRoom extends Component {
                     backdropColor={'black'}
                 >
                     <View style={styles.centerView}>
-                        <View style={this.state.chatMember.length <= 2 ? styles.twoModalView 
+                        <View style={this.state.chatMember.length <= 2 ? styles.twoModalView
                             :
                             this.state.chatMember.length == 3 ? styles.threeModalView : styles.longModalView}>
                             <View style={{ flexDirection: 'row', alignItems: "center", height: 50 }}>
@@ -312,7 +317,7 @@ export default class chatRoom extends Component {
                             source={require('../../../image/back.png')} style={{ height: 50, width: 50, resizeMode: 'contain' }}
                         />
                     </TouchableOpacity>
-                    <View style={{marginLeft: 15}}>
+                    <View style={{ marginLeft: 15 }}>
                         <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{this.state.chatName}</Text>
                     </View>
                     <TouchableOpacity
@@ -322,7 +327,6 @@ export default class chatRoom extends Component {
                         <Image
                             source={require('../../../image/room.png')} style={{ height: 70, width: 70, resizeMode: 'contain' }}
                         />
-                        {/* <Text style={{ fontWeight: "bold", fontSize: 17 }}>관리</Text> */}
                     </TouchableOpacity>
                 </View>
 
@@ -341,7 +345,7 @@ export default class chatRoom extends Component {
                     <View style={{ alignItems: "center", justifyContent: "center", marginTop: 10 }}>
                         <View style={styles.inputText}>
                             <TextInput
-                                style={{ height: 50, width: '80%', fontSize: 20}}
+                                style={{ height: 50, width: '80%', fontSize: 20 }}
                                 value={this.state.chatMessage}
                                 onChangeText={chatMessage => {
                                     this.setState({ chatMessage });

@@ -6,7 +6,7 @@ import server from '../../../../server.json';
 import { Avatar } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 const url = server.chatIP;
-let userID;
+let userID; //ASyncStorage에서 불러온 uID
 
 export default class ChatHome extends Component {
     constructor(props) {
@@ -14,11 +14,9 @@ export default class ChatHome extends Component {
         this.socket = SocketIOClient(url, { jsonp: false });
         this.state = {
             chatList: [], //채팅방 목록
-            modalVisible: false,
-            bannedModalVisible: false, //입장 불가 모달
+            modalVisible: false, //채팅방 나가기 모달
             chatID: 0, //나갈 채팅방
             ruID: 0, //채팅방 방장
-            banCheck: []
         }
 
         //채팅리스트 불러오기
@@ -26,8 +24,8 @@ export default class ChatHome extends Component {
     }
 
     componentDidMount() {
-        this.socket.on('return chatList', (data) => {
-            this.setState({ chatList: data }); //채팅방 목록 불러오기
+        this.socket.on('return chatList', (data) => { //불러온 채팅방 목록 저장
+            this.setState({ chatList: data }); 
             //console.log(data);
         })
     }
@@ -56,7 +54,7 @@ export default class ChatHome extends Component {
 
             return (
                 <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('chatRoom', { roomTitle: item.chatName, roomID: item.chatID })}
+                onPress={() => this.props.navigation.navigate('chatRoom', { roomTitle: item.onetoone == 1 ? item.userName : item.chatName, roomID: item.chatID })}
                 onLongPress={() => {
                     this.setState({ modalVisible: true });
                     this.setState({ chatID: item.chatID });
@@ -64,17 +62,18 @@ export default class ChatHome extends Component {
                 }}
                 >
                     <View style={styles.item}>
-                        <View style={{ width: 60, justifyContent: 'center' }}>
+                        <View style={{ width: 60, alignItems: 'center', justifyContent: 'center' }}>
                             {item.onetoone == 1 ?
-                                <View style={{ height: 60, width: 60, alignItems: 'center', justifyContent: 'center' }}>
+                                <View style={{ height: 50, width: 50, alignItems: 'center', justifyContent: 'center' }}>
                                     <Avatar
                                         rounded
                                         style={{ width: '100%', height: '100%', }}
-                                        source={require('../../../image/my.png')}
+                                        source={{uri: server.ip + '/photo' + item.image}}
+                                        avatarStyle={{borderRadius: 25}}
                                     />
                                 </View>
                                 :
-                                <View style={{ height: 60, width: 60, alignItems: 'center', justifyContent: 'center' }}>
+                                <View style={{ height: 65, width: 65, alignItems: 'center', justifyContent: 'center' }}>
                                     <Avatar
                                         rounded
                                         style={{ width: '110%', height: '110%', }}
@@ -85,7 +84,7 @@ export default class ChatHome extends Component {
 
                         </View>
                         <View style={{ flexDirection: 'column', justifyContent: 'space-evenly', width: "65%", marginLeft: 10 }}>
-                            <Text style={{ fontSize: 17, fontWeight: "bold" }}>{item.chatName}</Text>
+                            <Text style={{ fontSize: 17, fontWeight: "bold" }}>{item.onetoone == 1? item.userName : item.chatName}</Text>
                             <Text style={{ fontSize: 13 }}>{item.message}</Text>
                         </View>
                         <View style={{ justifyContent: 'flex-end', width: "30%", marginBottom: 5, marginLeft: 20 }}>
@@ -131,7 +130,7 @@ export default class ChatHome extends Component {
                                             onPress={() => {
                                                 this.exitRoom(this.state.chatID);
                                                 this.setState({ modalVisible: false });
-                                                this.socket.emit('exit Room', this.state.chatID, userID); //userID =1
+                                                this.socket.emit('exit Room', this.state.chatID, userID);
                                             }}
                                         >
                                             <View style={{ width: 150, alignItems: 'center', justifyContent: 'center', height: 50, marginTop: 5 }}>
