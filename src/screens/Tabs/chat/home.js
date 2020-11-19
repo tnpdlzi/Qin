@@ -25,7 +25,7 @@ export default class ChatHome extends Component {
 
     componentDidMount() {
         this.socket.on('return chatList', (data) => { //불러온 채팅방 목록 저장
-            this.setState({ chatList: data }); 
+            this.setState({ chatList: data });
             //console.log(data);
         })
     }
@@ -54,12 +54,12 @@ export default class ChatHome extends Component {
 
             return (
                 <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('chatRoom', { roomTitle: item.onetoone == 1 ? item.userName : item.chatName, roomID: item.chatID })}
-                onLongPress={() => {
-                    this.setState({ modalVisible: true });
-                    this.setState({ chatID: item.chatID });
-                    this.setState({ ruID: item.ruID });
-                }}
+                    onPress={() => this.props.navigation.navigate('chatRoom', { roomTitle: item.onetoone == 1 ? item.userName : item.chatName, roomID: item.chatID })}
+                    onLongPress={() => {
+                        this.setState({ modalVisible: true });
+                        this.setState({ chatID: item.chatID });
+                        this.setState({ ruID: item.ruID });
+                    }}
                 >
                     <View style={styles.item}>
                         <View style={{ width: 60, alignItems: 'center', justifyContent: 'center' }}>
@@ -68,15 +68,15 @@ export default class ChatHome extends Component {
                                     <Avatar
                                         rounded
                                         style={{ width: '100%', height: '100%', }}
-                                        source={{uri: server.ip + '/photo' + item.image}}
-                                        avatarStyle={{borderRadius: 25}}
+                                        source={{ uri: server.ip + '/photo' + item.image }}
+                                        avatarStyle={{ borderRadius: 25 }}
                                     />
                                 </View>
                                 :
-                                <View style={{ height: 65, width: 65, alignItems: 'center', justifyContent: 'center' }}>
+                                <View style={{ height: 50, width: 50, alignItems: 'center', justifyContent: 'center' }}>
                                     <Avatar
                                         rounded
-                                        style={{ width: '110%', height: '110%', }}
+                                        style={{ width: '140%', height: '140%', }}
                                         source={require('../../../image/tag_profile.png')}
                                     />
                                 </View>
@@ -84,7 +84,7 @@ export default class ChatHome extends Component {
 
                         </View>
                         <View style={{ flexDirection: 'column', justifyContent: 'space-evenly', width: "65%", marginLeft: 10 }}>
-                            <Text style={{ fontSize: 17, fontWeight: "bold" }}>{item.onetoone == 1? item.userName : item.chatName}</Text>
+                            <Text style={{ fontSize: 17, fontWeight: "bold" }}>{item.onetoone == 1 ? item.userName : item.chatName}</Text>
                             <Text style={{ fontSize: 13 }}>{item.message}</Text>
                         </View>
                         <View style={{ justifyContent: 'flex-end', width: "30%", marginBottom: 5, marginLeft: 20 }}>
