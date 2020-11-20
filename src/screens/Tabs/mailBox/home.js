@@ -112,8 +112,8 @@ function MailHome({ navigation, route }) {
                                                 <Avatar
                                                     rounded
                                                     style={{width: '70%', height:'70%', }}
-                                                    source={require('../../../image/profile.png')}
-                                                />
+                                                    source={{uri: server.ip + '/photo' + data.image}}
+                                                    />
                                             </View>
 
 
@@ -197,7 +197,7 @@ function MailHome({ navigation, route }) {
                                                     <Avatar
                                                         rounded
                                                         style={{ width: '70%', height: '70%'}}
-                                                        source={require('../../../image/profile.png')}
+                                                        source={{uri: server.ip + '/photo' + data.image}}
                                                     />
                                                 </View>
                                             </View>
