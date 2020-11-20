@@ -220,6 +220,7 @@ function LoginHome({ navigation }) {
                         await AsyncStorage.setItem('good', JSON.stringify(userDatas.good))
                         await AsyncStorage.setItem('bad', JSON.stringify(userDatas.bad))
                         await AsyncStorage.setItem('intro', userDatas.intro)
+                        await AsyncStorage.setItem('image', userDatas.image)
 
                         console.log("이것은 uID입니다..." + await AsyncStorage.getItem('uID'))
                         console.log("이것은 userID입니다..." + await AsyncStorage.getItem('userID'))
@@ -227,6 +228,7 @@ function LoginHome({ navigation }) {
                         console.log("이것은 good입니다..." + await AsyncStorage.getItem('good'))
                         console.log("이것은 bad입니다..." + await AsyncStorage.getItem('bad'))
                         console.log("이것은 intro입니다..." + await AsyncStorage.getItem('intro'))
+                        console.log("이것은 image입니다..." + await AsyncStorage.getItem('image'))
 
                         navigation.navigate(CategoryScreen)
                     }
