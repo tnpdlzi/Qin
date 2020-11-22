@@ -15,6 +15,7 @@ import Modal from 'react-native-modal';
 import server from '../../../../server.json';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+const qs = require('qs');
 
 let uID;
 
@@ -27,6 +28,24 @@ let getDatas = async (url) => await axios.get(url)
         console.log('error : ' + error);
     });
 
+let postCreateChatList = async () => await axios({
+    method: 'post',
+    url: server.ip + '/friend/createChatList',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+        uID: uID.replace('\"', '').replace('\"', ''),
+    })
+});
+
+let postCreateChatMember = async (uID, chatID) => await axios({
+    method: 'post',
+    url: server.ip + '/friend/createChatMember',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+        uID: uID,
+        chatID: chatID,
+    })
+});
 
 function MemoryHome({ navigation }) {
 
@@ -344,24 +363,28 @@ function MemoryHome({ navigation }) {
                                         onPress={async() => {
                                             //채팅방 존재하는지 확인하기 위해서 내 uID와 친구 uID의 chatID를 가져와 비교
                                             uID = await AsyncStorage.getItem('uID')
-                                            let uID2 = uID.replace('\"', '').replace('\"', '')
-                                            // setChatID1(await getDatas(server.ip + '/friend/checkChatList?uID=' + uID2));
-                                            // setChatID2(await getDatas(server.ip + '/friend/checkChatList?uID=' + item.uID));
+                                            let uID1 = uID.replace('\"', '').replace('\"', '')
 
-                                            let tmp_arr1 = await getDatas(server.ip + '/friend/checkChatList?uID=' + uID2);
-                                            let tmp_arr2 = await getDatas(server.ip + '/friend/checkChatList?uID=' + item.uID);
-                                            console.log(tmp_arr1);
-                                            console.log(tmp_arr2);
+                                            console.log(uID1);
+                                            console.log(item.uID);
 
-                                            let intersection = tmp_arr1.filter(x => tmp_arr2.includes(x));
-                                            console.log(intersection);
+                                            let tmp_arr = await getDatas(server.ip + '/friend/checkChatList?uID1=' + uID1 + '&uID2=' + item.uID);
+                                            console.log(tmp_arr);
 
-                                            // let sum = chatID1.concat(chatID2);
-                                            // var union = sum.filter((item, index) => sum.indexOf(item) === index);
-                                            // var intersection = sum.filter((item, index) => sum.indexOf(item) !== index);
+                                            if(tmp_arr.length==0){
+                                                console.log("채팅방 없음")
+                                                postCreateChatList();
+                                                let tmp_arr2 = await getDatas(server.ip + '/friend/getChatID?uID=' + uID1);
 
-                                            // console.log(sum);
-                                            // console.log(union);
+                                                console.log(tmp_arr2[0].chatID)
+                                                postCreateChatMember(uID1, tmp_arr2[0].chatID)
+                                                postCreateChatMember(item.uID, tmp_arr2[0].chatID)
+                                                navigation.navigate('chatRoom', { roomTitle: item.userName, roomID: tmp_arr2[0].chatID })
+                                            }
+                                            else{
+                                                console.log("채팅방 있음")
+                                                navigation.navigate('chatRoom', { roomTitle: item.userName, roomID: tmp_arr[0].chatID })
+                                            }
                                             
 
                                             //채팅방 존재하면 열기
