@@ -28,8 +28,15 @@ export default class ChatHome extends Component {
             this.setState({ chatList: data });
             //console.log(data);
         })
+        this.refresh(); //채팅 탭 접속시 자동새로고침
     }
-
+    
+    //자동 새로고침
+    refresh() {
+        this.props.navigation.addListener('focus', () => {
+            this.socket.emit('load chatList', userID);
+        })
+    }
     //퇴장 버튼을 눌렀을 때 실행될 함수
     exitRoom(chatID) {
         //클라이언트에서 채팅방 목록 바로 삭제
