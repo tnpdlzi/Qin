@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {View, Text, Button, StyleSheet, TouchableOpacity, Image, ActivityIndicator, Platform} from 'react-native';
 import { Avatar} from 'react-native-elements';
 import server from '../../../../server.json';
@@ -6,6 +6,7 @@ import axios from 'axios';
 import LoginHome from '../../login/home'
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker'
+import { useIsDrawerOpen } from '@react-navigation/drawer'
 
 const uploadPhoto = async (uID, photo) =>{
     const data = new FormData();
@@ -32,7 +33,37 @@ function DrawerScreen({ navigation }) {
     const [photo, setPhoto] = useState(require('../../../../src/image/lol_bg.png'));
     const [avatar, setAvatar] = useState(require('../../../../src/image/profile.png'));
     const [title, setTitle] = useState('Profile Photo');
+    const isOpen = useIsDrawerOpen()
 
+    const [userName, setUserName] = useState()
+    const [intro, setIntro] = useState()
+    const [image, setImage] = useState()
+    const [email, setEmail] = useState()
+    const [good, setGood] = useState()
+    const [bad, setBad] = useState()
+
+
+    useEffect(() => {
+        if (isOpen) {
+            console.log('drawer is opened.............' + isOpen)
+
+            console.log(userName + intro + image + email + good + bad)
+
+            const id = setInterval(async() => {
+                setUserName(await (await AsyncStorage.getItem('userName')).replace('\"', '').replace('\"', ''))
+                setIntro(await (await AsyncStorage.getItem('intro')).replace('\"', '').replace('\"', ''))
+                setAvatar({uri: server.ip + '/photo' + await (await AsyncStorage.getItem('image')).replace('\"', '').replace('\"', '')})
+                setEmail(await (await AsyncStorage.getItem('userID')).replace('\"', '').replace('\"', ''))
+                setGood(await (await AsyncStorage.getItem('good')).replace('\"', '').replace('\"', ''))
+                setBad(await (await AsyncStorage.getItem('bad')).replace('\"', '').replace('\"', ''))
+
+                console.log(userName + intro + image + email + good + bad)
+              }, 1000);
+
+              console.log(id)
+              return () => clearInterval(id);
+        }
+    }, [isOpen])
 
     const handlePicker = () => {
         ImagePicker.showImagePicker({}, async (response) => {
@@ -92,33 +123,6 @@ function DrawerScreen({ navigation }) {
                         </TouchableOpacity>
                     </View>
 
-                    {/* <TouchableOpacity>
-                        <Avatar
-                            rounded
-                            source={require('../../../../src/image/lol_bg.png')}
-                            size='large'
-                        />
-                    </TouchableOpacity> */}
-                    {/* <TouchableOpacity
-                        onPress={() => {
-                            const options = {
-                              height: 300,
-                              width: 300
-                            }
-                            ImagePicker.launchImageLibrary(options, async (response) => {
-                              if (response.uri) {
-                                await uploadPhoto(await AsyncStorage.getItem('uID'), response)
-                              }
-                            })
-                          }}>
-
-
-                        <Avatar
-                            rounded
-                            source={photo}
-                            size='large'
-                        />
-                    </TouchableOpacity> */}
                     <TouchableOpacity
                     onPress={() => handlePicker()}>
                         <Avatar
@@ -139,15 +143,15 @@ function DrawerScreen({ navigation }) {
                 }}>
 
                     <Text  style={{fontSize: 30, color: '#000000', paddingVertical: 10}}>
-                        닉네임
+                        {userName}
                     </Text>
 
                     <Text  style={{fontSize: 14, color: '#000000', paddingVertical: 5}}>
-                        email@naver.com
+                        {email}
                     </Text>
 
                     <Text  style={{fontSize: 14, color: '#A5A5A5', paddingVertical: 5}}>
-                        자기소개를 등록해주세요.
+                        {intro}
                     </Text>
 
                     <View style={{paddingVertical: 25}}>
@@ -174,7 +178,7 @@ function DrawerScreen({ navigation }) {
                                 매너 지수
                             </Text>
                             <Text style={{ marginLeft: '5%' }}>
-                                20
+                                {good}
                             </Text>
                         </View>
 
@@ -189,7 +193,7 @@ function DrawerScreen({ navigation }) {
                                 비매너 지수
                             </Text>
                             <Text style={{ marginLeft: '5%' }}>
-                                7
+                                {bad}
                             </Text>
                         </View>
 
