@@ -37,7 +37,6 @@ function DrawerScreen({ navigation }) {
 
     const [userName, setUserName] = useState()
     const [intro, setIntro] = useState()
-    const [image, setImage] = useState()
     const [email, setEmail] = useState()
     const [good, setGood] = useState()
     const [bad, setBad] = useState()
@@ -47,7 +46,7 @@ function DrawerScreen({ navigation }) {
         if (isOpen) {
             console.log('drawer is opened.............' + isOpen)
 
-            console.log(userName + intro + image + email + good + bad)
+            console.log(userName + intro + email + good + bad)
 
             const id = setInterval(async() => {
                 setUserName(await (await AsyncStorage.getItem('userName')).replace('\"', '').replace('\"', ''))
@@ -57,7 +56,7 @@ function DrawerScreen({ navigation }) {
                 setGood(await (await AsyncStorage.getItem('good')).replace('\"', '').replace('\"', ''))
                 setBad(await (await AsyncStorage.getItem('bad')).replace('\"', '').replace('\"', ''))
 
-                console.log(userName + intro + image + email + good + bad)
+                console.log(userName + intro + email + good + bad)
               }, 1000);
 
               console.log(id)
