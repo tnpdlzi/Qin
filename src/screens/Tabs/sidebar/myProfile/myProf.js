@@ -89,6 +89,7 @@ function myProf({ navigation }) {
 
         return unfetched;
     }, [navigation]);
+    
 
     return (
         <View style={{ height:'100%', backgroundColor: "#F7F7F7", paddingLeft: '10%', paddingRight: '10%', paddingTop: '10%' }}>

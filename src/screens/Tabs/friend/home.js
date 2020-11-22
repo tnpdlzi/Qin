@@ -50,6 +50,9 @@ function MemoryHome({ navigation }) {
     const [friendProfileGame, setFriendProfileGame] = useState([]);
     const [friendProfileGenre, setFriendProfileGenre] = useState([]);
 
+    const [chatID1, setChatID1] = useState([]);
+    const [chatID2, setChatID2] = useState([]);
+
     let arr = new Array(modalVisible.length).fill(false);
 
 
@@ -338,7 +341,33 @@ function MemoryHome({ navigation }) {
                                             width: '45%', height: 40, backgroundColor: "#00255A", alignSelf: 'center'
                                             , borderRadius: 20, elevation: 2, justifyContent: 'center'
                                         }}
-                                        onPress={() => { }}>
+                                        onPress={async() => {
+                                            //채팅방 존재하는지 확인하기 위해서 내 uID와 친구 uID의 chatID를 가져와 비교
+                                            uID = await AsyncStorage.getItem('uID')
+                                            let uID2 = uID.replace('\"', '').replace('\"', '')
+                                            // setChatID1(await getDatas(server.ip + '/friend/checkChatList?uID=' + uID2));
+                                            // setChatID2(await getDatas(server.ip + '/friend/checkChatList?uID=' + item.uID));
+
+                                            let tmp_arr1 = await getDatas(server.ip + '/friend/checkChatList?uID=' + uID2);
+                                            let tmp_arr2 = await getDatas(server.ip + '/friend/checkChatList?uID=' + item.uID);
+                                            console.log(tmp_arr1);
+                                            console.log(tmp_arr2);
+
+                                            let intersection = tmp_arr1.filter(x => tmp_arr2.includes(x));
+                                            console.log(intersection);
+
+                                            // let sum = chatID1.concat(chatID2);
+                                            // var union = sum.filter((item, index) => sum.indexOf(item) === index);
+                                            // var intersection = sum.filter((item, index) => sum.indexOf(item) !== index);
+
+                                            // console.log(sum);
+                                            // console.log(union);
+                                            
+
+                                            //채팅방 존재하면 열기
+
+                                            //채팅방 없으면 새로 만들기
+                                         }}>
                                         <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>1:1 채팅</Text>
                                     </TouchableHighlight>
                                 </View>

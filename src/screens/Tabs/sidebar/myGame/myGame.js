@@ -346,16 +346,10 @@ function myGame({ navigation }) {
                                         arr_gameList[1]=true
                                         setgameListModalVisible(arr_gameList)
                                         arr2=[]
-                                        console.log("selectedValue.game 로그입니다 삐비빅")
-                                        console.log(selectedValue.game)
                                         arr = await getDatas(server.ip + '/friend/tierData?game=' + selectedValue.game) 
-                                        console.log("arr 로그입니다 삐빅")
-                                        console.log(arr)
                                         arr.forEach(function (e) {
                                             arr2.push({ label: e.tier, value: e.tier })
                                         })
-                                        console.log("arr2 로그입니다 삐빅")
-                                        console.log(arr2)                   
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>확인</Text>
                                     </TouchableOpacity>
@@ -539,8 +533,6 @@ function myGame({ navigation }) {
                                     <TouchableOpacity onPress={async() => {
                                         arr_genre[1]=true
                                         setgenreModalVisible(arr_genre)
-                                        console.log("selectedValue.genre 로그입니다 삐비빅")
-                                        console.log(selectedValue.genre)
                                     }}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>확인</Text>
                                     </TouchableOpacity>
