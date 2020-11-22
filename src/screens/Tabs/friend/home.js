@@ -15,6 +15,7 @@ import Modal from 'react-native-modal';
 import server from '../../../../server.json';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+const qs = require('qs');
 
 let uID;
 
@@ -27,6 +28,24 @@ let getDatas = async (url) => await axios.get(url)
         console.log('error : ' + error);
     });
 
+let postCreateChatList = async () => await axios({
+    method: 'post',
+    url: server.ip + '/friend/createChatList',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+        uID: uID.replace('\"', '').replace('\"', ''),
+    })
+});
+
+let postCreateChatMember = async (uID, chatID) => await axios({
+    method: 'post',
+    url: server.ip + '/friend/createChatMember',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify({
+        uID: uID,
+        chatID: chatID,
+    })
+});
 
 function MemoryHome({ navigation }) {
 
@@ -49,6 +68,9 @@ function MemoryHome({ navigation }) {
     const [friendProfile, setFriendProfile] = useState([]);
     const [friendProfileGame, setFriendProfileGame] = useState([]);
     const [friendProfileGenre, setFriendProfileGenre] = useState([]);
+
+    const [chatID1, setChatID1] = useState([]);
+    const [chatID2, setChatID2] = useState([]);
 
     let arr = new Array(modalVisible.length).fill(false);
 
@@ -338,7 +360,37 @@ function MemoryHome({ navigation }) {
                                             width: '45%', height: 40, backgroundColor: "#00255A", alignSelf: 'center'
                                             , borderRadius: 20, elevation: 2, justifyContent: 'center'
                                         }}
-                                        onPress={() => { }}>
+                                        onPress={async() => {
+                                            //채팅방 존재하는지 확인하기 위해서 내 uID와 친구 uID의 chatID를 가져와 비교
+                                            uID = await AsyncStorage.getItem('uID')
+                                            let uID1 = uID.replace('\"', '').replace('\"', '')
+
+                                            console.log(uID1);
+                                            console.log(item.uID);
+
+                                            let tmp_arr = await getDatas(server.ip + '/friend/checkChatList?uID1=' + uID1 + '&uID2=' + item.uID);
+                                            console.log(tmp_arr);
+
+                                            if(tmp_arr.length==0){
+                                                console.log("채팅방 없음")
+                                                postCreateChatList();
+                                                let tmp_arr2 = await getDatas(server.ip + '/friend/getChatID?uID=' + uID1);
+
+                                                console.log(tmp_arr2[0].chatID)
+                                                postCreateChatMember(uID1, tmp_arr2[0].chatID)
+                                                postCreateChatMember(item.uID, tmp_arr2[0].chatID)
+                                                navigation.navigate('chatRoom', { roomTitle: item.userName, roomID: tmp_arr2[0].chatID })
+                                            }
+                                            else{
+                                                console.log("채팅방 있음")
+                                                navigation.navigate('chatRoom', { roomTitle: item.userName, roomID: tmp_arr[0].chatID })
+                                            }
+                                            
+
+                                            //채팅방 존재하면 열기
+
+                                            //채팅방 없으면 새로 만들기
+                                         }}>
                                         <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>1:1 채팅</Text>
                                     </TouchableHighlight>
                                 </View>
