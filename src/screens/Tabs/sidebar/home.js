@@ -38,8 +38,8 @@ function DrawerScreen({ navigation }) {
     const [userName, setUserName] = useState()
     const [intro, setIntro] = useState()
     const [email, setEmail] = useState()
-    const [good, setGood] = useState()
-    const [bad, setBad] = useState()
+    const [good, setGood] = useState(0)
+    const [bad, setBad] = useState(0)
 
 
     useEffect(() => {
@@ -182,7 +182,7 @@ function DrawerScreen({ navigation }) {
                         </View>
 
                         <View style={{ width: '50%', height: 8, alignItems: 'flex-start', borderWidth: 1, borderColor: '#E2E2E2' }}>
-                            <View style={{ width: '20%', height: '100%', backgroundColor: '#FFC81A' }} />
+                            <View style={{ width: good.toString() + '%', height: '100%', backgroundColor: '#FFC81A' }} />
                         </View>
                     </View>
 
@@ -197,7 +197,7 @@ function DrawerScreen({ navigation }) {
                         </View>
 
                         <View style={{ width: '50%', height: 8, alignItems: 'flex-start', borderWidth: 1, borderColor: '#E2E2E2' }}>
-                            <View style={{ width: '20%', height: '100%', backgroundColor: '#00255A' }} />
+                            <View style={{ width: bad.toString() + '%', height: '100%', backgroundColor: '#00255A' }} />
                         </View>
                     </View>
 
