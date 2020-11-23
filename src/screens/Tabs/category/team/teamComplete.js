@@ -117,7 +117,7 @@ function teamComplete({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('joined' + game, {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + roomID + '&game=' + game), await getDatas(server.ip + '/category/title?roomID=' + roomID)]})}>
+                        onPress={async () => navigation.navigate('joined' + game, {memtitle: [await getDatas(server.ip + '/category/member?roomID=' + roomID + '&game=' + game), await getDatas(server.ip + '/category/title?roomID=' + roomID)], uID: uID})}>
 
                         <Text style={{color: '#ffffff', fontSize: 15, fontWeight: 'bold'}}>
                             게시글 확인
@@ -142,7 +142,7 @@ function teamComplete({ navigation, route }) {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={async () => navigation.navigate('rooms' + game, {dataroom: [await getDatas(server.ip + '/category/roomlist?tier=' + tier + '&game=' + game), await getDatas(server.ip + '/category/myroom?tier=' + tier + '&game=' + game + '&uID=' + uID), tier]})}>
+                        onPress={async () => navigation.navigate('rooms' + game, {dataroom: [tier, uID]})}>
 
                         <Text style={{color: '#00255A', fontSize: 15, fontWeight: 'bold'}}>
                             게시판 돌아가기
