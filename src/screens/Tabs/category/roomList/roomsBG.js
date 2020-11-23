@@ -29,7 +29,7 @@ let postDatas = async (tier) => await axios.get(server.ip + '/category/getRooms?
     url: server.ip + '/category/updateRooms',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify({
-      results: [response.data]
+      results: response.data
     })
   }))
   .catch(function (error) {
