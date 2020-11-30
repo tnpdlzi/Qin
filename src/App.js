@@ -19,14 +19,13 @@ const Drawer = createDrawerNavigator();
 
 // 드로워에 대한 선언
 export default function MyDrawer() {
-
+    
     useEffect(() => {
+        
         SplashScreen.hide();
       }, [])
-
-    const [userID, setUserID] = useState('');
-
-    AsyncStorage.getItem('loginCheck', (err, result) => {
+      const [userID, setUserID] = useState('');
+      AsyncStorage.getItem('loginCheck', (err, result) => {
         //setUserID(result)
         if(result == null){setUserID(0)
 
@@ -36,9 +35,6 @@ export default function MyDrawer() {
         }
 
     });
-
-
-
 
     if(userID == 1){
         return (
@@ -81,7 +77,7 @@ export default function MyDrawer() {
                     >
 
                         {/*드로워에 대한 스크린 선언*/}
-                        <Drawer.Screen name="screens" component={MyScreens} />
+                        <Drawer.Screen name="MyScreens" component={MyScreens} />
                         <Drawer.Screen name="tabs" component={MyTabs} />
                         <Drawer.Screen name="myProfile" component={myProfile}/>
                         <Drawer.Screen name="myGame" component={myGame} />

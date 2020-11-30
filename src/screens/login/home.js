@@ -3,7 +3,7 @@ import {View, Text, Button, TouchableOpacity, Image, StyleSheet, TextInput, Scro
 import AsyncStorage from '@react-native-community/async-storage';
 
 import join from './join/join';
-import find_id from './find_id/find_id';
+import find_id from '../login/find_id/find_id';
 import find_pw from './find_pw/find_pw';
 import server from '../../../server.json';
 import axios from 'axios';
@@ -230,7 +230,7 @@ function LoginHome({ navigation }) {
                         console.log("이것은 intro입니다..." + await AsyncStorage.getItem('intro'))
                         console.log("이것은 image입니다..." + await AsyncStorage.getItem('image'))
 
-                        navigation.navigate(CategoryScreen)
+                        navigation.navigate("MyTabs")
                     }
 
                     }}>
@@ -266,17 +266,17 @@ function LoginHome({ navigation }) {
                 paddingBottom: 50,
                 justifyContent:'center'
             }}>
-                <TouchableOpacity onPress={() => navigation.navigate(find_id)}>
+                <TouchableOpacity onPress={() => navigation.navigate("find_id")}>
                     <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: '5%',}}>
                         아이디  l
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate(find_pw)}>
+                <TouchableOpacity onPress={() => navigation.navigate("find_pw")}>
                     <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: '1%',}}>
                         비밀번호 찾기
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate(join)}>
+                <TouchableOpacity onPress={() => navigation.navigate("join")}>
                     <Text  style={{fontSize: 13, color: 'black', paddingVertical: 5,paddingLeft: '15%'}}>
                         회원가입
                     </Text>

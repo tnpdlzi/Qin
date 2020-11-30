@@ -71,8 +71,8 @@ function SecondScreens() {
             <Stack.Screen options={{
                 headerShown: false,
             }}
-                          name="LoginHome"
-                          component={LoginHome}
+                          name="LoginScreen"
+                          component={LoginScreen}
 
             />
             <Stack.Screen options={

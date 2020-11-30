@@ -65,7 +65,7 @@ function join_final({ navigation, route }) {
 
             <View>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Loginhome')}>
+            <TouchableOpacity onPress={() => navigation.navigate('LoginHome')}>
                 <Text  style={{fontSize: 15, color: '#f8f6f6', paddingVertical: 5,paddingLeft: 40, paddingRight: 40, backgroundColor: '#0b4072',borderStyle: 'solid',paddingTop: 10, paddingBottom: 10,
                     borderRadius: 30,
                     borderColor: '#0b4072',

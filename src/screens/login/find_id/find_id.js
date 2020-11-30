@@ -15,7 +15,7 @@ import find_id_final from './find_id_final';
 import Modal from 'react-native-modal';
 import axios from 'axios';
 import server from '../../../../server.json';
-
+import LoginHome from '../home';
 
 // 10월21일부
 function find_id({ navigation }) {

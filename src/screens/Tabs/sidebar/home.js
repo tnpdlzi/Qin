@@ -86,7 +86,7 @@ function DrawerScreen({ navigation }) {
 
     {
         AsyncStorage.clear();
-        navigation.navigate(LoginHome);
+        navigation.navigate("LoginScreen");
     }
 
     return (
