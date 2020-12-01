@@ -1,5 +1,5 @@
 import React, {Component, useState, useEffect} from 'react';
-import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import {ScrollView, View, StyleSheet, Image, Text, TouchableOpacity, ToastAndroid} from 'react-native';
 import server from '../../../../../server.json'
 import axios from 'axios';
 
@@ -14,6 +14,10 @@ const tiers = [
     {id: 'DIAMOND'},
     {id: 'MASTER'},
 ];
+
+const showToast = () => {
+    ToastAndroid.show("아이디를 먼저 등록해주세요.", ToastAndroid.SHORT);
+  };
 
 // url로부터 데이터 get
 let getDatas = async (url) => await axios.get(url)
@@ -87,9 +91,11 @@ function tiersLOL({ navigation, route }) {
                                             width: '100%',
                                         }}
                                         onPress={
+                                            gameID.length > 0 ? 
                                             // data.id를 이용해서 선택된 tier를 roomsLOL에 파라미터로 넘겨준다.
                                             async () => navigation.navigate('roomsLOL', {dataroom: [data.id, uID]})
-
+                                            :
+                                            async () => showToast()
                                         }>
                                         <View
                                             style={{
