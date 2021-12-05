@@ -1,4 +1,5 @@
 # Qin
+server : https://github.com/tnpdlzi/QinServer
 
 1. 제목 : 
 
